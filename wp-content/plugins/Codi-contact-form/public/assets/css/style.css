@@ -1,0 +1,92 @@
+.codi__contact__form {
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 80px;
+}
+.codi__contact__form .form-group {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.codi__contact__form h3 {
+  font-size: clamp(1.5rem, 1.0435rem + 1.7391vw, 2.5rem);
+  margin: 0 0 30px;
+}
+
+.codi__contact__form .form-group .form-control {
+  display: block;
+  width: 100%;
+  font-size: clamp(1.125rem, 0.9375rem + 0.7143vw, 1.5625rem);
+  padding: 10px 0 20px 0;
+  background-color: #fff;
+  color: #282828;
+  border: 0; 
+  border-bottom: 1px solid #282828;
+}
+
+.codi__contact__form .form-group .line {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 2.5px;
+  display: block;
+  background-color: #282828;
+  transition: width 0.3s;
+}
+
+.codi__contact__form .form-group .form-control:focus ~ .line {
+  width: 25px;
+}
+
+.codi__contact__form .form-group .form-control::placeholder {
+  color: #9E9E9E;
+}
+
+.codi__contact__form .mtk__btn {
+  margin: 60px auto 0;
+}
+
+.codi__contact__form span.error {
+  color: #FF1E26;
+  font-size: 14px;
+  display: block;
+  margin: 5px 0 0;
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+}
+
+.form-result.error,
+.form-result.success {
+  color: #fff;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.form-result.error {
+  background-color: #FF1E26;
+}
+
+.form-result.success {
+  background-color: green;
+}
+
+textarea.form-control {
+  resize: none;
+  overflow: hidden;
+  height: auto;
+  outline: none;
+}
+
+@media screen and (max-width: 991px) {
+  .codi__contact__form {
+    padding-top: 30px;
+  }
+  .codi__contact__form .mtk__btn {
+    margin: 40px auto 0;
+  }
+}
+ 

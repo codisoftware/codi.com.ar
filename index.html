@@ -118,7 +118,7 @@ your business</p>
 <div class="is-layout-flex wp-container-5 wp-block-columns">
 <div class="is-layout-flow wp-block-column mtk__col__solution">
 <h3><a href="index.html?p=15">Nearshore - Boost your team , love your code</a></h3>
-<p>We have what you need to catapult your e-commerce. Expert business development teams ready to integrate and optimize your platform from day one, ensuring cost-effective solutions and seamless collaboration. 
+<p>We have what you need to catapult your e-commerce. Expert business development teams ready to integrate and optimize your platform from day one, ensuring cost-effective solutions and seamless collaboration.
 <br></p>
 </div>
 
@@ -285,8 +285,11 @@ your business</p>
       <div class="line"></div>
     </div>
     <div class="form-group">
-      <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" class="form-control">
-      <button type="submit" id="submit" class="mtk__btn">Send</button>
+		<div id="recaptcha" class="g-recaptcha"
+			 data-sitekey="6LcdgIApAAAAAPdEgZR0Nq1QFIqkR1pzXjPZymDR"
+			 data-callback="onSubmit"
+			 data-size="invisible"></div>
+      <button id="submit" type="submit" class="mtk__btn">Send</button>
     </div>
     <div class="form-result"></div>
   </form>
@@ -347,10 +350,12 @@ your business</p>
 var jsVars = {"baseUrl":"https:\/\/codi.com.ar","ajax_url":"https:\/\/codi.com.ar\/wp-admin\/admin-ajax.php","nonce":"c0b135fbaf","theme_root":"https:\/\/codi.com.ar\/wp-content\/themes\/theme-Codi"};
 /* ]]> */
 </script>
-<script type="text/javascript" src="wp-content/themes/theme-Codi/assets/js/script.7048fb.js" defer id="script-se"></script><script type="text/javascript" src="wp-content/themes/theme-Codi/assets/js/banner-principal.26f70c.js" defer id="block-banner-principal"></script><script type='text/javascript' id='Codi-recaptcha-js-extra'>
-/* <![CDATA[ */
-var jsRecaptcha = {"site_key":"6LcoK9wmAAAAAI7XaQyXXMjLbPvO4AQp6IYKn42Y"};
-/* ]]> */
+<script type="text/javascript" src="wp-content/themes/theme-Codi/assets/js/script.7048fb.js" defer id="script-se"></script><script type="text/javascript" src="wp-content/themes/theme-Codi/assets/js/banner-principal.26f70c.js" defer id="block-banner-principal"></script>
+	<script type='text/javascript' id='Codi-recaptcha-js-extra'>
+
+
 </script>
-<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=6LcoK9wmAAAAAI7XaQyXXMjLbPvO4AQp6IYKn42Y" defer id="Codi-recaptcha"></script><script type="text/javascript" src="wp-content/plugins/Codi-contact-form/public/assets/js/validate.js" defer id="Codi-contact-form-validate"></script><script type="text/javascript" src="wp-content/plugins/Codi-contact-form/public/assets/js/script.js" defer id="Codi-contact-form-js"></script>	</body>
+<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=6LcdgIApAAAAAPdEgZR0Nq1QFIqkR1pzXjPZymDR" async defer id="Codi-recaptcha"></script>
+	<script type="text/javascript" src="wp-content/plugins/Codi-contact-form/public/assets/js/validate.js" defer id="Codi-contact-form-validate"></script>
+	<script type="text/javascript" src="wp-content/plugins/Codi-contact-form/public/assets/js/script.js" defer id="Codi-contact-form-js"></script>	</body>
 </html>

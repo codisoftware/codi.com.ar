@@ -3,6 +3,6 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://codi.com.ar/sitemap_index.xml
+Sitemap: https://codi.com.ar/sitemap.xml
 # ---------------------------
 # END YOAST BLOCK

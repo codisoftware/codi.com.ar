@@ -941,6 +941,15 @@ h1, h2, h3, h4 {
   color: var(--brand-cian);
 }
 
+.footer__phone span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 2px;
+}
+
 .footer__bottom {
   margin-top: 64px;
   padding-top: 24px;

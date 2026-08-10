@@ -1,4 +1,4 @@
 User-agent: *
-Disallow:
+Disallow: /demo/
 
 Sitemap: https://codi.com.ar/sitemap.xml

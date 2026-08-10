@@ -41,7 +41,48 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   initProductMock();
+  initVideoDemo();
 });
+
+function initVideoDemo() {
+  var videos = document.querySelectorAll('[data-video-demo]');
+  if (!videos.length) return;
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  videos.forEach(function (video) {
+    var swapToPoster = function () {
+      var img = document.createElement('img');
+      img.src = video.getAttribute('poster');
+      img.alt = video.getAttribute('aria-label') || '';
+      video.replaceWith(img);
+    };
+
+    video.addEventListener('error', swapToPoster, true);
+
+    if (reduced) {
+      video.pause();
+      return;
+    }
+
+    if ('IntersectionObserver' in window) {
+      var vObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var p = video.play();
+            if (p && p.catch) p.catch(function () {});
+          } else {
+            video.pause();
+          }
+        });
+      }, { threshold: 0.25 });
+      vObserver.observe(video);
+    } else {
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+  });
+}
 
 function initProductMock() {
   var mock = document.querySelector('[data-product-mock]');

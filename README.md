@@ -15,8 +15,10 @@ Hosting: GitHub Pages (CNAME `codi.com.ar`). Deploy: push a `main`.
 - `industrias/` — Banca, Telecom, Salud, Energía, Seguros, Retail
 - `nosotros/`, `contacto/`
 - `assets/css/main.css` — sistema de diseño (paleta: `#37a4dc`, `#282828`, blanco)
-- `assets/js/main.js` — menú mobile y animaciones on-scroll
+- `assets/js/main.js` — menú mobile, animaciones on-scroll, mockup animado del hero, handler del video
 - `assets/img/` — logo, favicons, íconos
+- `assets/video/` — video de la sección "La plataforma en acción" (`plataforma-16x9.mp4` + `.webm` + `plataforma-poster.png`). Si el video no existe, se muestra el poster.
+- `demo/storyboard.html` — storyboard de los 5 frames del video (referencia para Figma/Jitter). Abrir con `?clean` para exportar frames sin etiquetas.
 
 ## Contacto
 

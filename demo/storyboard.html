@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="robots" content="noindex, nofollow"/>
+	<title>Storyboard — Video Plataforma Codi</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			--bg: #1a1a1a;
+			--card: #222222;
+			--border: #333333;
+			--text: #ffffff;
+			--text-sec: #a8a8a8;
+			--muted: #6e6e6e;
+			--cyan: #37a4dc;
+		}
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+		body { font-family: 'Inter', sans-serif; background: #000; color: var(--text); }
+
+		.frame {
+			width: 1920px;
+			height: 1080px;
+			background: var(--bg);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 8px;
+		}
+
+		.window {
+			width: 1400px;
+			height: 800px;
+			background: var(--card);
+			border: 1px solid var(--border);
+			border-radius: 14px;
+			box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.chrome {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			padding: 18px 24px;
+			background: #141414;
+			border-bottom: 1px solid var(--border);
+			flex-shrink: 0;
+		}
+
+		.dot { width: 14px; height: 14px; border-radius: 50%; background: #3d3d3d; }
+		.url { margin-left: 14px; color: var(--muted); font-size: 18px; }
+
+		.content { flex: 1; padding: 48px 56px; display: flex; flex-direction: column; }
+
+		/* ---------- FRAME 1: CHAT ---------- */
+		.chat { flex: 1; display: flex; flex-direction: column; gap: 22px; justify-content: center; }
+		.bubble {
+			max-width: 62%;
+			padding: 20px 26px;
+			border-radius: 16px;
+			font-size: 21px;
+			line-height: 1.5;
+			color: var(--text);
+		}
+		.bubble .sender {
+			display: block;
+			font-size: 14px;
+			font-weight: 600;
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+			margin-bottom: 6px;
+			color: var(--muted);
+		}
+		.bubble--in {
+			align-self: flex-start;
+			background: var(--bg);
+			border: 1px solid var(--border);
+			border-bottom-left-radius: 5px;
+		}
+		.bubble--out {
+			align-self: flex-end;
+			background: rgba(55, 164, 220, 0.15);
+			border: 1px solid var(--cyan);
+			border-bottom-right-radius: 5px;
+		}
+		.bubble--out .sender { color: var(--cyan); }
+
+		/* ---------- FRAME 2: INTEGRACIONES ---------- */
+		.scene-title { font-size: 30px; font-weight: 700; margin-bottom: 40px; letter-spacing: -0.01em; }
+		.int-list { display: flex; flex-direction: column; gap: 18px; }
+		.int-row {
+			display: flex;
+			align-items: center;
+			gap: 22px;
+			background: var(--bg);
+			border: 1px solid var(--border);
+			border-radius: 12px;
+			padding: 24px 28px;
+			font-size: 21px;
+			font-weight: 500;
+		}
+		.int-icon {
+			width: 44px;
+			height: 44px;
+			border-radius: 10px;
+			background: var(--card);
+			border: 1px solid var(--border);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 20px;
+			font-weight: 700;
+			color: var(--cyan);
+			flex-shrink: 0;
+		}
+		.int-pill {
+			margin-left: auto;
+			font-size: 15px;
+			font-weight: 600;
+			padding: 8px 18px;
+			border-radius: 999px;
+			color: #0d0d0d;
+			background: var(--cyan);
+		}
+		.int-pill--pending { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+		.int-more { text-align: center; color: var(--muted); font-size: 19px; margin-top: 28px; }
+
+		/* ---------- FRAME 3: MULTICANAL ---------- */
+		.inbox { display: flex; flex-direction: column; gap: 18px; }
+		.inbox-row {
+			display: flex;
+			align-items: center;
+			gap: 22px;
+			background: var(--bg);
+			border: 1px solid var(--border);
+			border-radius: 12px;
+			padding: 22px 28px;
+		}
+		.inbox-avatar {
+			width: 52px;
+			height: 52px;
+			border-radius: 50%;
+			background: var(--card);
+			border: 1px solid var(--border);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 20px;
+			font-weight: 700;
+			color: var(--text-sec);
+			flex-shrink: 0;
+		}
+		.inbox-body { flex: 1; min-width: 0; }
+		.inbox-name { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+		.inbox-preview { font-size: 17px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+		.inbox-channel {
+			font-size: 14px;
+			font-weight: 600;
+			padding: 7px 16px;
+			border-radius: 999px;
+			border: 1px solid var(--border);
+			color: var(--text-sec);
+			flex-shrink: 0;
+		}
+		.inbox-channel--wa { color: var(--cyan); border-color: var(--cyan); }
+		.inbox-agent {
+			font-size: 14px;
+			font-weight: 600;
+			color: var(--cyan);
+			flex-shrink: 0;
+		}
+
+		/* ---------- FRAME 4: DASHBOARD ---------- */
+		.metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 36px; }
+		.metric {
+			background: var(--bg);
+			border: 1px solid var(--border);
+			border-radius: 12px;
+			padding: 30px 28px;
+		}
+		.metric strong { display: block; color: var(--cyan); font-size: 52px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
+		.metric span { color: var(--muted); font-size: 17px; }
+		.chart {
+			flex: 1;
+			background: var(--bg);
+			border: 1px solid var(--border);
+			border-radius: 12px;
+			padding: 30px;
+			display: flex;
+			flex-direction: column;
+		}
+		.chart-title { font-size: 17px; color: var(--muted); margin-bottom: 18px; }
+
+		/* ---------- FRAME 5: CIERRE ---------- */
+		.outro { flex-direction: column; text-align: center; gap: 36px; }
+		.outro img { height: 130px; }
+		.outro p { color: var(--text-sec); font-size: 30px; }
+
+		.frame-label {
+			position: absolute;
+			top: 24px;
+			left: 32px;
+			color: var(--muted);
+			font-size: 16px;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+		}
+		.frame { position: relative; }
+	</style>
+	<script>
+		if (location.search.indexOf('clean') !== -1) {
+			document.addEventListener('DOMContentLoaded', function () {
+				document.querySelectorAll('.frame-label').forEach(function (el) { el.remove(); });
+			});
+		}
+	</script>
+</head>
+<body>
+
+	<!-- FRAME 1 — CHAT (0:00–0:04) -->
+	<section class="frame" id="frame-1">
+		<span class="frame-label">Frame 1 · Chat — cobranza por WhatsApp</span>
+		<div class="window">
+			<div class="chrome">
+				<span class="dot"></span><span class="dot"></span><span class="dot"></span>
+				<span class="url">app.codi.com.ar/conversaciones</span>
+			</div>
+			<div class="content">
+				<div class="chat">
+					<div class="bubble bubble--in">
+						<span class="sender">María · WhatsApp</span>
+						Hola, quería saber el saldo de mi factura.
+					</div>
+					<div class="bubble bubble--out">
+						<span class="sender">Agente Codi</span>
+						Hola María. Tu saldo es $18.450 y vence el 15. ¿Querés abonarlo ahora?
+					</div>
+					<div class="bubble bubble--in">
+						<span class="sender">María · WhatsApp</span>
+						Sí, y agendame el recordatorio del próximo mes.
+					</div>
+					<div class="bubble bubble--out">
+						<span class="sender">Agente Codi</span>
+						Listo: pago recibido y recordatorio agendado. Quedó registrado en tu cuenta.
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- FRAME 2 — INTEGRACIONES (0:04–0:08) -->
+	<section class="frame" id="frame-2">
+		<span class="frame-label">Frame 2 · Integraciones</span>
+		<div class="window">
+			<div class="chrome">
+				<span class="dot"></span><span class="dot"></span><span class="dot"></span>
+				<span class="url">app.codi.com.ar/conectores</span>
+			</div>
+			<div class="content">
+				<p class="scene-title">Conectores del agente</p>
+				<div class="int-list">
+					<div class="int-row">
+						<span class="int-icon">W</span>
+						WhatsApp Business
+						<span class="int-pill">Conectado</span>
+					</div>
+					<div class="int-row">
+						<span class="int-icon">H</span>
+						HubSpot CRM
+						<span class="int-pill">Conectado</span>
+					</div>
+					<div class="int-row">
+						<span class="int-icon">C</span>
+						Calendly
+						<span class="int-pill">Conectado</span>
+					</div>
+					<div class="int-row">
+						<span class="int-icon">M</span>
+						Mercado Pago
+						<span class="int-pill int-pill--pending">Conectando…</span>
+					</div>
+				</div>
+				<p class="int-more">+ 596 herramientas más disponibles</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- FRAME 3 — MULTICANAL (0:08–0:12) -->
+	<section class="frame" id="frame-3">
+		<span class="frame-label">Frame 3 · Bandeja multicanal</span>
+		<div class="window">
+			<div class="chrome">
+				<span class="dot"></span><span class="dot"></span><span class="dot"></span>
+				<span class="url">app.codi.com.ar/bandeja</span>
+			</div>
+			<div class="content">
+				<p class="scene-title">Todas las conversaciones, un solo agente</p>
+				<div class="inbox">
+					<div class="inbox-row">
+						<span class="inbox-avatar">M</span>
+						<div class="inbox-body">
+							<p class="inbox-name">María González</p>
+							<p class="inbox-preview">Sí, y agendame el recordatorio del próximo mes.</p>
+						</div>
+						<span class="inbox-channel inbox-channel--wa">WhatsApp</span>
+						<span class="inbox-agent">→ Agente Codi</span>
+					</div>
+					<div class="inbox-row">
+						<span class="inbox-avatar">J</span>
+						<div class="inbox-body">
+							<p class="inbox-name">Julián P.</p>
+							<p class="inbox-preview">¿Tienen stock del modelo nuevo?</p>
+						</div>
+						<span class="inbox-channel">Instagram</span>
+						<span class="inbox-agent">→ Agente Codi</span>
+					</div>
+					<div class="inbox-row">
+						<span class="inbox-avatar">L</span>
+						<div class="inbox-body">
+							<p class="inbox-name">Laura Fernández</p>
+							<p class="inbox-preview">Necesito reprogramar mi turno del jueves.</p>
+						</div>
+						<span class="inbox-channel">Web</span>
+						<span class="inbox-agent">→ Agente Codi</span>
+					</div>
+					<div class="inbox-row">
+						<span class="inbox-avatar">R</span>
+						<div class="inbox-body">
+							<p class="inbox-name">Rodrigo M.</p>
+							<p class="inbox-preview">¿Me reenvían la factura de junio?</p>
+						</div>
+						<span class="inbox-channel">Email</span>
+						<span class="inbox-agent">→ Agente Codi</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- FRAME 4 — DASHBOARD (0:12–0:17) -->
+	<section class="frame" id="frame-4">
+		<span class="frame-label">Frame 4 · Dashboard del operador</span>
+		<div class="window">
+			<div class="chrome">
+				<span class="dot"></span><span class="dot"></span><span class="dot"></span>
+				<span class="url">app.codi.com.ar/metricas</span>
+			</div>
+			<div class="content">
+				<div class="metrics">
+					<div class="metric">
+						<strong>1.284</strong>
+						<span>Conversaciones este mes</span>
+					</div>
+					<div class="metric">
+						<strong>92%</strong>
+						<span>Resueltas sin humano</span>
+					</div>
+					<div class="metric">
+						<strong>$18.4K</strong>
+						<span>Cobrado por el agente</span>
+					</div>
+				</div>
+				<div class="chart">
+					<p class="chart-title">Conversaciones resueltas — últimos 30 días</p>
+					<svg viewBox="0 0 1200 260" width="100%" height="100%" preserveAspectRatio="none">
+						<line x1="0" y1="65" x2="1200" y2="65" stroke="#333" stroke-width="1"/>
+						<line x1="0" y1="130" x2="1200" y2="130" stroke="#333" stroke-width="1"/>
+						<line x1="0" y1="195" x2="1200" y2="195" stroke="#333" stroke-width="1"/>
+						<polyline points="0,220 100,205 200,210 300,185 400,190 500,160 600,150 700,135 800,120 900,95 1000,80 1100,60 1200,40"
+							fill="none" stroke="#37a4dc" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+						<circle cx="1200" cy="40" r="8" fill="#37a4dc"/>
+					</svg>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- FRAME 5 — CIERRE (0:17–0:20) -->
+	<section class="frame outro" id="frame-5">
+		<span class="frame-label">Frame 5 · Cierre de marca</span>
+		<img src="/assets/img/Codi-dark.svg" alt="Codi">
+		<p>IA aplicada a las operaciones de tu empresa.</p>
+	</section>
+
+</body>
+</html>

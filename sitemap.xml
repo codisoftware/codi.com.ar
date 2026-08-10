@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://codi.com.ar/</loc>
-  </url>
-  <url>
-    <loc>https://codi.com.ar/content-moderation/</loc>
-  </url>
-  <url>
-    <loc>https://codi.com.ar/customer-experience/</loc>
-  </url>
-  <url>
-    <loc>https://codi.com.ar/fraud-prevention/</loc>
-  </url>
-  <url>
-    <loc>https://codi.com.ar/marketing/</loc>
-  </url>
+	<url><loc>https://codi.com.ar/</loc></url>
+	<url><loc>https://codi.com.ar/plataforma/</loc></url>
+	<url><loc>https://codi.com.ar/estudio/</loc></url>
+	<url><loc>https://codi.com.ar/apps/</loc></url>
+	<url><loc>https://codi.com.ar/implementacion/</loc></url>
+	<url><loc>https://codi.com.ar/transformacion/</loc></url>
+	<url><loc>https://codi.com.ar/industrias/</loc></url>
+	<url><loc>https://codi.com.ar/industrias/banca/</loc></url>
+	<url><loc>https://codi.com.ar/industrias/telecom/</loc></url>
+	<url><loc>https://codi.com.ar/industrias/salud/</loc></url>
+	<url><loc>https://codi.com.ar/industrias/energia/</loc></url>
+	<url><loc>https://codi.com.ar/industrias/seguros/</loc></url>
+	<url><loc>https://codi.com.ar/industrias/retail/</loc></url>
+	<url><loc>https://codi.com.ar/nosotros/</loc></url>
+	<url><loc>https://codi.com.ar/contacto/</loc></url>
 </urlset>

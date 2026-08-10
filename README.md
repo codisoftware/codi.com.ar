@@ -1,12 +1,24 @@
-## Checklist
+# codi.com.ar
 
-### TODO
-- [x] Corregir el funcionamiento del formulario.
-- [x] Ajustar el color del hover sobre los enlaces "Our Solutions" a `#37a4dc`.
-- [x] Agregar nuevamente el menú superior "Our Solutions" y eliminar los enlaces a las páginas particulares que no funcionan.
-- [x] Solucionar los problemas con Google reCAPTCHA.
-- [x] Revisar y corregir nuevamente los textos.
+Sitio institucional estático de Codi — IA aplicada a las operaciones de la empresa.
 
-### TODO 2
-- [ ] Resolver los problemas de las páginas particulares que no están funcionando.
-- [ ] Revisar y corregir nuevamente los textos mas cortos para rescribirlos
+Hosting: GitHub Pages (CNAME `codi.com.ar`). Deploy: push a `main`.
+
+## Estructura
+
+- `index.html` — Home
+- `plataforma/` — Overview de la plataforma
+- `estudio/` — Codi Studio
+- `apps/` — Apps a medida
+- `implementacion/` — Modelo de implementación
+- `transformacion/` — Transformación AI
+- `industrias/` — Banca, Telecom, Salud, Energía, Seguros, Retail
+- `nosotros/`, `contacto/`
+- `assets/css/main.css` — sistema de diseño (paleta: `#37a4dc`, `#282828`, blanco)
+- `assets/js/main.js` — menú mobile y animaciones on-scroll
+- `assets/img/` — logo, favicons, íconos
+
+## Contacto
+
+El formulario de `/contacto/` compone un `mailto:info@codi.com.ar`.
+Para migrarlo a Formspree: cambiar el handler `data-contact-form` en `assets/js/main.js` por un POST al endpoint.

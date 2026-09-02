@@ -383,48 +383,35 @@
 		linea.style.strokeDasharray = (largo * trazoActual).toFixed(2) + ' 99999';
 	}
 
-	/* Lleva la línea de un punto a otro, con arranque y frenada. */
-	function tramo(desde, hasta, dur) {
-		return new Promise(function (listo) {
-			var t0 = performance.now();
-			requestAnimationFrame(function paso(ahora) {
-				var k = Math.min(1, (ahora - t0) / dur);
-				var e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
-				trazoActual = desde + (hasta - desde) * e;
-				pintarLinea();
-				if (k < 1) requestAnimationFrame(paso);
-				else listo();
-			});
-		});
-	}
-
-	var pausa = function (ms) {
-		return new Promise(function (listo) { setTimeout(listo, ms); });
-	};
-
-	function encender(i) {
-		if (!hitos[i]) return 0;
-		hitos[i].classList.add('encendido');
-		if (nodos[i]) nodos[i].classList.add('vivo');
-		var p = hitos[i].querySelector('[data-escribir]');
-		escribir(p);
-		// lo que tarda en escribirse: 3 letras cada 16 ms
-		return p ? (p.textContent.length / 3) * 16 : 400;
-	}
-
+	/* Un solo barrido, sin frenar en cada fase: la línea sale y no para
+	   hasta el final. Cada fase se prende cuando la línea le pasa por
+	   encima, así el movimiento se lee continuo y los puntos van
+	   apareciendo solos mientras scrolleás. */
 	function correrEscena() {
 		if (escenaViva || !linea || !largo) return;
 		escenaViva = true;
 
-		var destinos = [enNodo[1], enNodo[2], 1];
+		var DURACION = 3000;
+		var prendidas = [];
 
-		(function fase(i) {
-			var tarda = encender(i);
-			pausa(tarda + 520).then(function () {
-				if (i >= destinos.length) return;
-				tramo(trazoActual, destinos[i], 1150).then(function () { fase(i + 1); });
+		var t0 = performance.now();
+		requestAnimationFrame(function paso(ahora) {
+			var k = Math.min(1, (ahora - t0) / DURACION);
+
+			// arranca enseguida y afloja al final: sin frenada al medio
+			trazoActual = 1 - Math.pow(1 - k, 2.2);
+			pintarLinea();
+
+			hitos.forEach(function (h, i) {
+				if (prendidas[i] || trazoActual < enNodo[i]) return;
+				prendidas[i] = true;
+				h.classList.add('encendido');
+				if (nodos[i]) nodos[i].classList.add('vivo');
+				escribir(h.querySelector('[data-escribir]'));
 			});
-		})(0);
+
+			if (k < 1) requestAnimationFrame(paso);
+		});
 	}
 
 	function medirRuta() {
@@ -532,8 +519,8 @@
 
 			var dx = t.x - pos.x;
 			var dy = t.y - pos.y;
-			pos.x += dx * 0.078;
-			pos.y += dy * 0.078;
+			pos.x += dx * 0.125;
+			pos.y += dy * 0.125;
 
 			// se inclina hacia donde va, como si se tirara para adelante
 			var giro = Math.max(-15, Math.min(15, dx * 0.11));

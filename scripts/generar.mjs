@@ -36,12 +36,13 @@ function molde({ titulo, descripcion, ruta, cuerpo, jsonld }) {
 	<meta property="og:description" content="${esc(descripcion)}" />
 	<meta property="og:url" content="${CODI}${ruta}" />
 	<meta property="og:site_name" content="Codi" />
-	<meta name="theme-color" content="#0A0C0F">
+	<meta name="theme-color" content="#FFFFFF">
 	<link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="/assets/css/main.css">
+	<script>(function(){try{if(localStorage.getItem("codi-tema")==="oscuro")document.documentElement.setAttribute("data-tema","oscuro")}catch(e){}})()</script>
 ${jsonld || ''}</head>
 <body>
 
@@ -74,7 +75,7 @@ function menu() {
 	return `<header class="nav">
 	<div class="nav__inner">
 		<a href="/" class="nav__logo" aria-label="Codi, inicio">
-			<img src="/assets/img/Codi-dark.svg" alt="Codi" class="marca" width="96" height="24">
+			<img src="/assets/img/Codi.svg" alt="Codi" class="marca marca--claro" width="96" height="24"><img src="/assets/img/Codi-dark.svg" alt="" aria-hidden="true" class="marca marca--oscuro" width="96" height="24">
 		</a>
 		<ul class="nav__links">
 			<li><a href="/#trabajo">Qué hacemos</a></li>
@@ -83,7 +84,15 @@ function menu() {
 			<li><a href="/#industrias">Industrias</a></li>
 			<li><a href="/#plataforma">Plataforma</a></li>
 		</ul>
-		<a href="/#hablemos" class="btn btn--sm nav__cta">Hablemos</a>
+		<button class="tema" data-tema-boton aria-label="Pasar al modo oscuro" aria-pressed="false">
+				<svg class="tema__px" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+					<rect class="rayo" x="8" y="0" width="2" height="3"/><rect class="rayo" x="8" y="15" width="2" height="3"/>
+					<rect class="rayo" x="0" y="8" width="3" height="2"/><rect class="rayo" x="15" y="8" width="3" height="2"/>
+					<rect x="5" y="5" width="8" height="8"/>
+					<rect class="muesca" x="2" y="2" width="7" height="7"/>
+				</svg>
+			</button>
+			<a href="/#hablemos" class="btn btn--sm nav__cta">Hablemos</a>
 		<button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
 	</div>
 </header>`;
@@ -94,7 +103,7 @@ function pie() {
 	return `<footer class="pie">
 	<div class="wrap pie__grid">
 		<div class="pie__marca">
-			<img src="/assets/img/Codi-dark.svg" alt="Codi" class="marca marca--pie" width="110" height="28">
+			<img src="/assets/img/Codi.svg" alt="Codi" class="marca marca--pie marca--claro" width="110" height="28"><img src="/assets/img/Codi-dark.svg" alt="" aria-hidden="true" class="marca marca--pie marca--oscuro" width="110" height="28">
 			<p>IA aplicada a las operaciones de las empresas. Construido en Argentina, operando a nivel global.</p>
 		</div>
 		<div class="pie__col">

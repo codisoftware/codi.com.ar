@@ -224,6 +224,67 @@
 		nodo.appendChild(dibujar(mapa, parseInt(nodo.dataset.escala, 10) || 4));
 	});
 
+	/* ═══════════ claro y oscuro ═══════════ */
+
+	var GUARDADO = 'codi-tema';
+	var botonTema = document.querySelector('[data-tema-boton]');
+
+	function ponerTema(t) {
+		if (t === 'oscuro') document.documentElement.setAttribute('data-tema', 'oscuro');
+		else document.documentElement.removeAttribute('data-tema');
+		try { localStorage.setItem(GUARDADO, t); } catch (e) {}
+		if (botonTema) {
+			botonTema.setAttribute('aria-label', t === 'oscuro' ? 'Pasar al modo claro' : 'Pasar al modo oscuro');
+			botonTema.setAttribute('aria-pressed', t === 'oscuro' ? 'true' : 'false');
+		}
+	}
+
+	/* El telón: una grilla de cuadraditos que entra en diagonal, tapa, y sale. */
+	function telon(alTapar) {
+		if (quieto) { alTapar(); return; }
+
+		var cols = Math.ceil(window.innerWidth / 90);
+		var filas = Math.ceil(window.innerHeight / 90);
+		var caja = document.createElement('div');
+		caja.className = 'telon';
+		caja.style.gridTemplateColumns = 'repeat(' + cols + ', 1fr)';
+		caja.style.gridTemplateRows = 'repeat(' + filas + ', 1fr)';
+
+		// el color del telón es el fondo AL QUE vamos
+		var yendoAOscuro = !document.documentElement.hasAttribute('data-tema');
+		caja.style.setProperty('--telon-color', yendoAOscuro ? '#0A0C0F' : '#FFFFFF');
+
+		var ultimo = 0;
+		for (var f = 0; f < filas; f++) {
+			for (var x = 0; x < cols; x++) {
+				var s = document.createElement('span');
+				var d = (x + f) * 26;
+				ultimo = Math.max(ultimo, d);
+				s.style.animationDelay = d + 'ms';
+				caja.appendChild(s);
+			}
+		}
+
+		document.body.appendChild(caja);
+		requestAnimationFrame(function () { caja.classList.add('entra'); });
+
+		setTimeout(function () {
+			alTapar();
+			caja.classList.remove('entra');
+			caja.classList.add('sale');
+			setTimeout(function () { caja.remove(); }, ultimo + 500);
+		}, ultimo + 430);
+	}
+
+	if (botonTema) {
+		botonTema.addEventListener('click', function () {
+			var oscuroAhora = document.documentElement.hasAttribute('data-tema');
+			telon(function () { ponerTema(oscuroAhora ? 'claro' : 'oscuro'); });
+		});
+		// deja el aria al día con lo que ya aplicó el script del <head>
+		ponerTema(document.documentElement.hasAttribute('data-tema') ? 'oscuro' : 'claro');
+	}
+
 	/* ───────── nav ───────── */
 
 	var nav = document.querySelector('.nav');

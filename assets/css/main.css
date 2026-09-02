@@ -4,6 +4,41 @@
    ═══════════════════════════════════════════════════════════ */
 
 :root {
+	/* Claro por defecto. Los valores están medidos contra blanco: el gris de
+	   apoyo llega a 4.6:1 y el cian a 4.9:1, que es lo mínimo para texto. */
+	--suelo:      #FFFFFF;
+	--suelo-2:    #F5F7F9;
+	--panel:      #FFFFFF;
+	--panel-alto: #EEF2F5;
+	--linea:      #E3E8ED;
+	--linea-viva: #C6D0D9;
+
+	--tinta:      #0B1015;
+	--tinta-2:    #47535F;
+	--tinta-3:    #6A7681;
+
+	--cian:       #0B76A8;
+	--cian-alto:  #085C83;
+	--cian-hondo: #7FC5E8;
+	--cian-humo:  rgba(11, 118, 168, .10);
+
+	/* el texto que va ENCIMA del cian, que no puede salir de la misma escala */
+	--sobre-cian: #FFFFFF;
+	--nav-fondo:  rgba(255, 255, 255, .78);
+	--nav-pegado: rgba(255, 255, 255, .95);
+	--sombra:     rgba(15, 30, 45, .18);
+
+	--sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	--mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	--ancho: 1200px;
+	--radio: 4px;
+
+	--curva: cubic-bezier(.22, 1, .36, 1);
+}
+
+/* El oscuro es una elección, no el default. Se guarda en el navegador. */
+[data-tema="oscuro"] {
 	--suelo:      #0A0C0F;
 	--suelo-2:    #0E1116;
 	--panel:      #12161D;
@@ -20,13 +55,10 @@
 	--cian-hondo: #1D6E99;
 	--cian-humo:  rgba(55, 164, 220, .13);
 
-	--sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-	--mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-
-	--ancho: 1200px;
-	--radio: 4px;
-
-	--curva: cubic-bezier(.22, 1, .36, 1);
+	--sobre-cian: #06121A;
+	--nav-fondo:  rgba(10, 12, 15, .72);
+	--nav-pegado: rgba(10, 12, 15, .92);
+	--sombra:     rgba(0, 0, 0, .55);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -106,7 +138,7 @@ p { margin: 0; }
 	border: 1px solid var(--cian);
 	border-radius: var(--radio);
 	background: var(--cian);
-	color: #06121A;
+	color: var(--sobre-cian);
 	font-size: .94rem;
 	font-weight: 600;
 	text-decoration: none;
@@ -136,12 +168,12 @@ p { margin: 0; }
 	position: fixed;
 	inset: 0 0 auto 0;
 	z-index: 60;
-	background: rgba(10, 12, 15, .72);
+	background: var(--nav-fondo);
 	backdrop-filter: blur(14px);
 	border-bottom: 1px solid transparent;
 	transition: border-color .3s ease, background .3s ease;
 }
-.nav.pegado { border-bottom-color: var(--linea); background: rgba(10, 12, 15, .92); }
+.nav.pegado { border-bottom-color: var(--linea); background: var(--nav-pegado); }
 
 .nav__inner {
 	max-width: var(--ancho);
@@ -734,7 +766,7 @@ body.js .hito.encendido .hito__num { color: var(--cian); }
 	height: 48px;
 	pointer-events: none;
 	color: var(--tinta);
-	filter: drop-shadow(0 3px 7px rgba(0, 0, 0, .55));
+	filter: drop-shadow(0 3px 7px var(--sombra));
 	will-change: transform;
 }
 .viajero .cuadro { position: absolute; inset: 0; }
@@ -1393,3 +1425,64 @@ body.js .enlace--info { cursor: none; }
 .enlace.activa .enlace__ir { transform: translateX(4px); }
 
 .enlace--info .enlace__ir { display: none; }
+
+/* ═══════════ claro y oscuro ═══════════
+   El cambio no es un corte seco: pasa en píxeles, como todo lo demás acá.
+   Un telón de cuadraditos barre la pantalla en diagonal, el tema cambia
+   cuando está tapado, y el telón se retira mostrando el tema nuevo.
+   ══════════════════════════════════════════════════════════════════ */
+
+html { background: var(--suelo); }
+body { transition: background .35s ease, color .35s ease; }
+
+.tema {
+	display: grid;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	padding: 0;
+	border: 1px solid var(--linea-viva);
+	border-radius: var(--radio);
+	background: transparent;
+	color: var(--tinta-2);
+	cursor: pointer;
+	transition: border-color .25s ease, color .25s ease, background .25s ease;
+}
+.tema:hover { border-color: var(--cian); color: var(--cian); background: var(--cian-humo); }
+body.js .tema { cursor: none; }
+
+.tema__px { display: block; }
+.tema__px rect { fill: currentColor; }
+/* el sol pierde los rayos y queda la luna */
+[data-tema="oscuro"] .tema__px .rayo { opacity: 0; }
+.tema__px .rayo { transition: opacity .3s ease; }
+.tema__px .muesca { fill: var(--suelo); opacity: 0; transition: opacity .3s ease; }
+[data-tema="oscuro"] .tema__px .muesca { opacity: 1; }
+
+.telon {
+	position: fixed;
+	inset: 0;
+	z-index: 200;
+	display: grid;
+	pointer-events: none;
+}
+.telon span {
+	background: var(--telon-color, #000);
+	transform: scale(0);
+	will-change: transform;
+}
+.telon.entra span { animation: telonEntra .42s cubic-bezier(.4, 0, .2, 1) forwards; }
+.telon.sale span  { animation: telonSale .42s cubic-bezier(.4, 0, .2, 1) forwards; }
+
+@keyframes telonEntra { to { transform: scale(1.03); } }
+@keyframes telonSale  { from { transform: scale(1.03); } to { transform: scale(0); } }
+
+@media (prefers-reduced-motion: reduce) {
+	.telon { display: none; }
+	body { transition: none; }
+}
+
+/* la marca tiene una version por fondo: la clara desaparece sobre blanco */
+.marca--oscuro { display: none; }
+[data-tema="oscuro"] .marca--claro { display: none; }
+[data-tema="oscuro"] .marca--oscuro { display: block; }

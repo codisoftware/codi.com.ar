@@ -238,27 +238,30 @@
 			botonTema.setAttribute('aria-pressed', t === 'oscuro' ? 'true' : 'false');
 		}
 	}
+	/* El telón: una grilla de cuadraditos que ya está tapando y se retira.
+	   El orden importa. Antes tapaba, se cambiaba el tema y se destapaba, y
+	   entre medio quedaba un frame con el tema viejo a la vista: eso era el
+	   titileo. Ahora el cambio pasa DEBAJO del telón, y lo que se ve es el
+	   contenido real apareciendo con el tema nuevo, cuadrado por cuadrado. */
+	function telon(cambiar) {
+		if (quieto) { cambiar(); return; }
 
-	/* El telón: una grilla de cuadraditos que entra en diagonal, tapa, y sale. */
-	function telon(alTapar) {
-		if (quieto) { alTapar(); return; }
+		var fondoViejo = getComputedStyle(document.documentElement)
+			.getPropertyValue('--suelo').trim() || '#FFFFFF';
 
-		var cols = Math.ceil(window.innerWidth / 90);
-		var filas = Math.ceil(window.innerHeight / 90);
+		var cols = Math.ceil(window.innerWidth / 84);
+		var filas = Math.ceil(window.innerHeight / 84);
 		var caja = document.createElement('div');
 		caja.className = 'telon';
 		caja.style.gridTemplateColumns = 'repeat(' + cols + ', 1fr)';
 		caja.style.gridTemplateRows = 'repeat(' + filas + ', 1fr)';
-
-		// el color del telón es el fondo AL QUE vamos
-		var yendoAOscuro = !document.documentElement.hasAttribute('data-tema');
-		caja.style.setProperty('--telon-color', yendoAOscuro ? '#0A0C0F' : '#FFFFFF');
+		caja.style.setProperty('--telon-color', fondoViejo);
 
 		var ultimo = 0;
 		for (var f = 0; f < filas; f++) {
 			for (var x = 0; x < cols; x++) {
 				var s = document.createElement('span');
-				var d = (x + f) * 26;
+				var d = (x + f) * 30;
 				ultimo = Math.max(ultimo, d);
 				s.style.animationDelay = d + 'ms';
 				caja.appendChild(s);
@@ -266,14 +269,15 @@
 		}
 
 		document.body.appendChild(caja);
-		requestAnimationFrame(function () { caja.classList.add('entra'); });
 
-		setTimeout(function () {
-			alTapar();
-			caja.classList.remove('entra');
-			caja.classList.add('sale');
-			setTimeout(function () { caja.remove(); }, ultimo + 500);
-		}, ultimo + 430);
+		// el telón ya tapa con el color de antes: cambiar acá no se ve
+		requestAnimationFrame(function () {
+			cambiar();
+			requestAnimationFrame(function () {
+				caja.classList.add('sale');
+				setTimeout(function () { caja.remove(); }, ultimo + 700);
+			});
+		});
 	}
 
 	if (botonTema) {

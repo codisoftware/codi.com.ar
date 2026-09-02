@@ -17,13 +17,17 @@
 	--tinta-2:    #47535F;
 	--tinta-3:    #6A7681;
 
-	--cian:       #0B76A8;
-	--cian-alto:  #085C83;
+	/* el celeste de marca se queda igual en los dos temas: es la marca.
+	   Lo único que cambia es el cian de TEXTO, que sobre blanco tiene que
+	   ser más oscuro para poder leerse. */
+	--cian:       #37A4DC;
+	--cian-txt:   #0A6E9E;
+	--cian-alto:  #0A6E9E;
 	--cian-hondo: #7FC5E8;
-	--cian-humo:  rgba(11, 118, 168, .10);
+	--cian-humo:  rgba(55, 164, 220, .12);
 
 	/* el texto que va ENCIMA del cian, que no puede salir de la misma escala */
-	--sobre-cian: #FFFFFF;
+	--sobre-cian: #06121A;
 	--nav-fondo:  rgba(255, 255, 255, .78);
 	--nav-pegado: rgba(255, 255, 255, .95);
 	--sombra:     rgba(15, 30, 45, .18);
@@ -51,6 +55,7 @@
 	--tinta-3:    #5D6B7B;
 
 	--cian:       #37A4DC;
+	--cian-txt:   #6FD2FF;
 	--cian-alto:  #6FD2FF;
 	--cian-hondo: #1D6E99;
 	--cian-humo:  rgba(55, 164, 220, .13);
@@ -104,7 +109,7 @@ h1 {
 }
 h1 em {
 	font-style: normal;
-	color: var(--cian-alto);
+	color: var(--cian-txt);
 }
 h2 { font-size: clamp(1.9rem, 3.6vw, 2.9rem); }
 h3 { font-size: 1.18rem; letter-spacing: -.018em; line-height: 1.25; }
@@ -117,7 +122,7 @@ p { margin: 0; }
 	font-weight: 500;
 	letter-spacing: .16em;
 	text-transform: uppercase;
-	color: var(--cian);
+	color: var(--cian-txt);
 	margin-bottom: 22px;
 }
 
@@ -144,14 +149,14 @@ p { margin: 0; }
 	text-decoration: none;
 	transition: background .2s var(--curva), border-color .2s var(--curva), transform .2s var(--curva);
 }
-.btn:hover { background: var(--cian-alto); border-color: var(--cian-alto); transform: translateY(-1px); }
+.btn:hover { background: var(--cian-alto); border-color: var(--cian-txt); transform: translateY(-1px); }
 
 .btn--fantasma {
 	background: transparent;
 	color: var(--tinta);
 	border-color: var(--linea-viva);
 }
-.btn--fantasma:hover { background: var(--cian-humo); border-color: var(--cian); color: var(--tinta); }
+.btn--fantasma:hover { background: var(--cian-humo); border-color: var(--cian-txt); color: var(--tinta); }
 
 .btn--sm { padding: 9px 18px; font-size: .86rem; }
 .btn--grande { padding: 17px 38px; font-size: 1.02rem; }
@@ -352,7 +357,7 @@ p { margin: 0; }
 	opacity: 0;
 }
 .item i { font-style: normal; }
-.item__ok { display: none; color: var(--cian-alto); }
+.item__ok { display: none; color: var(--cian-txt); }
 
 .item__caja {
 	flex: none;
@@ -386,7 +391,7 @@ body.js .item__ok {
 }
 @keyframes llenarCaja {
 	0%, 48%   { background: var(--suelo); border-color: var(--tinta-3); }
-	52%, 100% { background: var(--cian); border-color: var(--cian-alto); }
+	52%, 100% { background: var(--cian); border-color: var(--cian-txt); }
 }
 @keyframes apagar  { 0%, 48% { opacity: 1; } 52%, 100% { opacity: 0; } }
 @keyframes prender { 0%, 48% { opacity: 0; } 52%, 100% { opacity: 1; } }
@@ -510,7 +515,7 @@ body.js .cola__puerta { animation: latir 3s ease-in-out infinite; }
 	border-top: 2px solid var(--linea-viva);
 	transition: border-color .3s ease;
 }
-.caso:hover { border-top-color: var(--cian); }
+.caso:hover { border-top-color: var(--cian-txt); }
 
 .caso__tag {
 	font-family: var(--mono);
@@ -525,10 +530,10 @@ body.js .cola__puerta { animation: latir 3s ease-in-out infinite; }
 	font-weight: 700;
 	line-height: 1;
 	letter-spacing: -.05em;
-	color: var(--cian-alto);
+	color: var(--cian-txt);
 	margin: 14px 0 18px;
 }
-.caso__dato span { font-size: .5em; color: var(--cian); margin-left: 1px; }
+.caso__dato span { font-size: .5em; color: var(--cian-txt); margin-left: 1px; }
 
 /* .caso p es más específico que .caso__dato y le pisaba el tamaño */
 .caso p.caso__dato { font-size: clamp(2.8rem, 5.4vw, 3.9rem); line-height: 1; margin: 14px 0 12px; color: var(--tinta); }
@@ -608,7 +613,7 @@ body.js .hito {
 	transition: opacity .55s var(--curva), transform .55s var(--curva);
 }
 body.js .hito.encendido { opacity: 1; transform: none; }
-body.js .hito.encendido .hito__num { color: var(--cian); }
+body.js .hito.encendido .hito__num { color: var(--cian-txt); }
 
 /* ───────── enlaces de plataforma ───────── */
 
@@ -626,11 +631,11 @@ body.js .hito.encendido .hito__num { color: var(--cian); }
 	text-decoration: none;
 	transition: border-color .25s ease, transform .25s var(--curva);
 }
-.enlace:hover { border-color: var(--cian); transform: translateY(-3px); }
+.enlace:hover { border-color: var(--cian-txt); transform: translateY(-3px); }
 .enlace__num {
 	font-family: var(--mono);
 	font-size: .72rem;
-	color: var(--cian);
+	color: var(--cian-txt);
 	letter-spacing: .1em;
 }
 .enlace h3 { margin: 14px 0 8px; }
@@ -663,7 +668,7 @@ body.js .hito.encendido .hito__num { color: var(--cian); }
 	color: var(--tinta-3);
 }
 .cierre__pie a { color: var(--tinta-2); text-decoration: none; }
-.cierre__pie a:hover { color: var(--cian); }
+.cierre__pie a:hover { color: var(--cian-txt); }
 
 /* ───────── pie ───────── */
 
@@ -695,7 +700,7 @@ body.js .hito.encendido .hito__num { color: var(--cian); }
 	color: var(--tinta-2);
 	text-decoration: none;
 }
-.pie__col a:hover { color: var(--cian); }
+.pie__col a:hover { color: var(--cian-txt); }
 
 .pie__base {
 	border-top: 1px solid var(--linea);
@@ -917,7 +922,7 @@ body.js .tarjeta.activa .tarjeta__piso { background: var(--cian); }
 	font-family: var(--mono);
 	font-size: .74rem;
 	letter-spacing: .06em;
-	color: var(--cian);
+	color: var(--cian-txt);
 	transition: transform .3s var(--curva);
 }
 .tarjeta__ir::after { content: " →"; }
@@ -1024,7 +1029,7 @@ body.js .enlace.entro::before { transform: scaleX(1); }
 .campo input:focus,
 .campo textarea:focus {
 	outline: none;
-	border-color: var(--cian);
+	border-color: var(--cian-txt);
 	background: var(--panel);
 }
 .campo.mal input,
@@ -1051,7 +1056,7 @@ body.js .enlace.entro::before { transform: scaleX(1); }
 	font-size: .8rem;
 	color: var(--tinta-3);
 }
-.form__aviso.bien { color: var(--cian-alto); }
+.form__aviso.bien { color: var(--cian-txt); }
 .form__aviso.mal { color: #E08C82; }
 
 .cierre .cierre__pie { margin-top: 30px; }
@@ -1085,7 +1090,7 @@ body.js .enlace.entro::before { transform: scaleX(1); }
 }
 .rubro:hover,
 .rubro:focus-visible {
-	border-color: var(--cian);
+	border-color: var(--cian-txt);
 	background: var(--panel);
 	transform: translateY(-3px);
 	outline: none;
@@ -1108,7 +1113,7 @@ body.js .enlace.entro::before { transform: scaleX(1); }
 	font-family: var(--mono);
 	font-size: .74rem;
 	letter-spacing: .06em;
-	color: var(--cian);
+	color: var(--cian-txt);
 	transition: transform .3s var(--curva);
 }
 .rubro:hover .rubro__ir,
@@ -1212,9 +1217,9 @@ body.js .enlace.entro::before { transform: scaleX(1); }
 	height: 34px;
 }
 
-.enlace.activa { border-color: var(--cian); transform: translateY(-3px); }
+.enlace.activa { border-color: var(--cian-txt); transform: translateY(-3px); }
 
-.enlace.activa .enlace__num { color: var(--cian-alto); }
+.enlace.activa .enlace__num { color: var(--cian-txt); }
 
 /* ───────── menú: la sección en la que estás ───────── */
 
@@ -1242,7 +1247,7 @@ body.js .enlace.entro::before { transform: scaleX(1); }
 
 .kicker__volver { color: inherit; text-decoration: none; }
 
-.kicker__volver:hover { color: var(--cian-alto); }
+.kicker__volver:hover { color: var(--cian-txt); }
 
 .enlaces--cuatro { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
@@ -1350,9 +1355,9 @@ body.js .tarjeta .letra.puesta { opacity: 1; }
 	height: 34px;
 }
 
-.enlace.activa { border-color: var(--cian); transform: translateY(-3px); }
+.enlace.activa { border-color: var(--cian-txt); transform: translateY(-3px); }
 
-.enlace.activa .enlace__num { color: var(--cian-alto); }
+.enlace.activa .enlace__num { color: var(--cian-txt); }
 
 /* ───────── menú: la sección en la que estás ───────── */
 
@@ -1380,7 +1385,7 @@ body.js .tarjeta .letra.puesta { opacity: 1; }
 
 .kicker__volver { color: inherit; text-decoration: none; }
 
-.kicker__volver:hover { color: var(--cian-alto); }
+.kicker__volver:hover { color: var(--cian-txt); }
 
 .enlaces--cuatro { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
@@ -1414,7 +1419,7 @@ body.js .enlace--info { cursor: none; }
 	font-family: var(--mono);
 	font-size: .74rem;
 	letter-spacing: .06em;
-	color: var(--cian);
+	color: var(--cian-txt);
 	transition: transform .3s var(--curva);
 }
 
@@ -1448,16 +1453,18 @@ body { transition: background .35s ease, color .35s ease; }
 	cursor: pointer;
 	transition: border-color .25s ease, color .25s ease, background .25s ease;
 }
-.tema:hover { border-color: var(--cian); color: var(--cian); background: var(--cian-humo); }
+.tema:hover { border-color: var(--cian-txt); color: var(--cian-txt); background: var(--cian-humo); }
 body.js .tema { cursor: none; }
 
-.tema__px { display: block; }
-.tema__px rect { fill: currentColor; }
-/* el sol pierde los rayos y queda la luna */
-[data-tema="oscuro"] .tema__px .rayo { opacity: 0; }
-.tema__px .rayo { transition: opacity .3s ease; }
-.tema__px .muesca { fill: var(--suelo); opacity: 0; transition: opacity .3s ease; }
-[data-tema="oscuro"] .tema__px .muesca { opacity: 1; }
+/* Dos iconos enteros, no uno que se transforma: a 20px un sol que muta en
+   luna no se entiende, y lo que importa es que se lea de un vistazo. */
+.tema__ico { display: none; }
+.tema__ico rect, .tema__ico path { fill: currentColor; }
+.tema__ico--luna { display: block; }
+[data-tema="oscuro"] .tema__ico--luna { display: none; }
+[data-tema="oscuro"] .tema__ico--sol { display: block; }
+
+.tema { width: 38px; height: 34px; }
 
 .telon {
 	position: fixed;
@@ -1468,14 +1475,12 @@ body.js .tema { cursor: none; }
 }
 .telon span {
 	background: var(--telon-color, #000);
-	transform: scale(0);
+	transform: scale(1.04);
 	will-change: transform;
 }
-.telon.entra span { animation: telonEntra .42s cubic-bezier(.4, 0, .2, 1) forwards; }
-.telon.sale span  { animation: telonSale .42s cubic-bezier(.4, 0, .2, 1) forwards; }
+.telon.sale span { animation: telonSale .5s cubic-bezier(.4, 0, .2, 1) forwards; }
 
-@keyframes telonEntra { to { transform: scale(1.03); } }
-@keyframes telonSale  { from { transform: scale(1.03); } to { transform: scale(0); } }
+@keyframes telonSale { to { transform: scale(0); } }
 
 @media (prefers-reduced-motion: reduce) {
 	.telon { display: none; }

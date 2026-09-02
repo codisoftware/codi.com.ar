@@ -270,7 +270,16 @@
 	function telon(cambiar) {
 		if (quieto || !document.startViewTransition) { cambiar(); return; }
 
+		/* El tema recorta la raíz entera. Con el header y el cuerpo nombrados
+		   quedarían fuera de ese grupo y el recorte no los tocaría, así que
+		   les soltamos el nombre mientras dura y se los devolvemos después. */
+		var partes = [document.querySelector('.nav'), document.querySelector('main')];
+		partes.forEach(function (el) { if (el) el.style.viewTransitionName = 'none'; });
+
 		var paso = document.startViewTransition(cambiar);
+		paso.finished.finally(function () {
+			partes.forEach(function (el) { if (el) el.style.viewTransitionName = ''; });
+		});
 
 		paso.ready.then(function () {
 			var barras = Math.max(12, Math.round(window.innerWidth / 70));

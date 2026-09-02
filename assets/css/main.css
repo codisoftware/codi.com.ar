@@ -1532,3 +1532,47 @@ body.js .gracias__codi { animation: saludar 2.6s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) {
 	body.js .gracias__codi { animation: none; }
 }
+
+/* ═══════════ pasar de una página a otra ═══════════
+   El navegador toma una foto de la página que dejás y otra de la que viene, y
+   nosotros sólo decimos cómo se reemplazan. El header queda marcado aparte:
+   como es el mismo en las dos, no tiene por qué parpadear ni moverse.
+   ══════════════════════════════════════════════════════════════════════ */
+
+@view-transition { navigation: auto; }
+
+/* Los nombres van en el CSS, no en JS: pagereveal dispara antes de que corra
+   el script del body, asi que puestos desde ahi nunca llegaban a tiempo. */
+.nav { view-transition-name: cabecera; }
+main { view-transition-name: cuerpo; }
+
+/* el porcentaje tiene que estar declarado para poder animarse */
+@property --pix {
+	syntax: "<percentage>";
+	inherits: false;
+	initial-value: 0%;
+}
+
+/* el header no se toca */
+::view-transition-group(cabecera) { animation: none; }
+::view-transition-old(cabecera),
+::view-transition-new(cabecera) { animation: none; mix-blend-mode: normal; }
+
+/* el cuerpo aparece por píxeles: una grilla de 14px donde cada celda va
+   creciendo desde el centro, en diez pasos, así se ve el escalón */
+::view-transition-old(cuerpo) { animation: none; }
+::view-transition-new(cuerpo) {
+	--pix: 0%;
+	mask-image: radial-gradient(circle at center, #000 var(--pix), transparent calc(var(--pix) + 1%));
+	mask-size: 14px 14px;
+	mask-repeat: repeat;
+	-webkit-mask-image: radial-gradient(circle at center, #000 var(--pix), transparent calc(var(--pix) + 1%));
+	-webkit-mask-size: 14px 14px;
+	-webkit-mask-repeat: repeat;
+	animation: pixelar .5s steps(10, end) both;
+}
+@keyframes pixelar { to { --pix: 80%; } }
+
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-new(cuerpo) { animation: none; mask-image: none; -webkit-mask-image: none; }
+}

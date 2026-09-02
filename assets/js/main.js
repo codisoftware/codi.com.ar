@@ -1,188 +1,810 @@
-document.addEventListener('DOMContentLoaded', function () {
-  var toggle = document.querySelector('.nav__toggle');
-  var links = document.querySelector('.nav__links');
-  if (toggle && links) {
-    toggle.addEventListener('click', function () {
-      links.classList.toggle('nav__links--open');
-    });
-  }
+/* ═══════════════════════════════════════════════════════════
+   CODI · el agente que viaja por la página
+   Todo el contenido se sirve visible. El JS realza, no revela.
+   ═══════════════════════════════════════════════════════════ */
 
-  var revealEls = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window && revealEls.length) {
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('reveal--visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    revealEls.forEach(function (el) { observer.observe(el); });
-  } else {
-    revealEls.forEach(function (el) { el.classList.add('reveal--visible'); });
-  }
+(function () {
+	'use strict';
 
-  var form = document.querySelector('[data-contact-form]');
-  if (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var nombre = form.querySelector('[name="nombre"]').value;
-      var empresa = form.querySelector('[name="empresa"]').value;
-      var email = form.querySelector('[name="email"]').value;
-      var mensaje = form.querySelector('[name="mensaje"]').value;
-      var subject = encodeURIComponent('Consulta desde codi.com.ar — ' + nombre + (empresa ? ' (' + empresa + ')' : ''));
-      var body = encodeURIComponent('Nombre: ' + nombre + '\nEmpresa: ' + empresa + '\nEmail: ' + email + '\n\n' + mensaje);
-      window.location.href = 'mailto:info@codi.com.ar?subject=' + subject + '&body=' + body;
-      var status = form.querySelector('.form__status');
-      if (status) {
-        status.textContent = 'Se abrió tu cliente de correo con el mensaje listo para enviar. También podés escribirnos directo a info@codi.com.ar';
-      }
-    });
-  }
+	document.body.classList.add('js');
 
-  initProductMock();
-  initVideoDemo();
-});
+	var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-function initVideoDemo() {
-  var videos = document.querySelectorAll('[data-video-demo]');
-  if (!videos.length) return;
+	/* ───────── el elenco · pocos píxeles, bien grandes ───────── */
 
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	var ELENCO = {
+		/* dos fotogramas del que viaja: el visor late y los pies alternan */
+		viaja1: [
+			'.#....#.',
+			'.######.',
+			'########',
+			'#oooooo#',
+			'########',
+			'##.##.##',
+			'.#....#.',
+			'##....##'
+		],
+		viaja2: [
+			'.#....#.',
+			'.######.',
+			'########',
+			'#.oooo.#',
+			'########',
+			'##.##.##',
+			'..#..#..',
+			'.##..##.'
+		],
+		/* los iconos de cada industria */
+		banca: [
+			'...##...',
+			'..####..',
+			'.oooooo.',
+			'########',
+			'.#.##.#.',
+			'.#.##.#.',
+			'.#.##.#.',
+			'########'
+		],
+		antena: [
+			'#o....o#',
+			'.#o..o#.',
+			'..#..#..',
+			'...##...',
+			'...##...',
+			'..####..',
+			'.######.',
+			'.######.'
+		],
+		cruz: [
+			'.######.',
+			'.##oo##.',
+			'.##oo##.',
+			'.oooooo.',
+			'.oooooo.',
+			'.##oo##.',
+			'.##oo##.',
+			'.######.'
+		],
+		rayo: [
+			'....###.',
+			'...###..',
+			'..###...',
+			'.oooooo.',
+			'...###..',
+			'..###...',
+			'.###....',
+			'##......'
+		],
+		escudo: [
+			'.######.',
+			'########',
+			'##oooo##',
+			'##oooo##',
+			'########',
+			'.######.',
+			'..####..',
+			'...##...'
+		],
+		bolsa: [
+			'..#..#..',
+			'.#....#.',
+			'########',
+			'#......#',
+			'#.o..o.#',
+			'#......#',
+			'#......#',
+			'########'
+		],
 
-  videos.forEach(function (video) {
-    var swapToPoster = function () {
-      var img = document.createElement('img');
-      img.src = video.getAttribute('poster');
-      img.alt = video.getAttribute('aria-label') || '';
-      video.replaceWith(img);
-    };
+		/* los objetos de cada forma de trabajo */
+		pila: [
+			'########',
+			'#.....o#',
+			'########',
+			'........',
+			'########',
+			'#.....o#',
+			'########',
+			'........'
+		],
+		cimiento: [
+			'..oooo..',
+			'..oooo..',
+			'........',
+			'.######.',
+			'.######.',
+			'........',
+			'########',
+			'########'
+		],
+		ventana: [
+			'########',
+			'#oo....#',
+			'########',
+			'#......#',
+			'#.####.#',
+			'#.####.#',
+			'#......#',
+			'########'
+		],
+		grafico: [
+			'........',
+			'......oo',
+			'......oo',
+			'...##.oo',
+			'...##.oo',
+			'##.##.oo',
+			'##.##.oo',
+			'########'
+		],
+		operador: [
+			'..####..',
+			'.######.',
+			'##o##o##',
+			'########',
+			'##.##.##',
+			'.######.',
+			'.#....#.',
+			'##....##'
+		],
+		constructor: [
+			'.#....#.',
+			'.######.',
+			'########',
+			'#oooooo#',
+			'########',
+			'##.##.##',
+			'.#....#.',
+			'##....##'
+		],
+		lente: [
+			'...#....',
+			'..####..',
+			'.######.',
+			'.#oooo#.',
+			'.#oooo#.',
+			'.######.',
+			'..#..#..',
+			'.##..##.'
+		],
+		medidor: [
+			'.#....#.',
+			'.######.',
+			'########',
+			'#o#oo#o#',
+			'########',
+			'#.#..#.#',
+			'.######.',
+			'##....##'
+		],
+		c: [
+			'..oooo..',
+			'.oo..oo.',
+			'oo....oo',
+			'oo......',
+			'oo......',
+			'oo....oo',
+			'.oo..oo.',
+			'..oooo..'
+		]
+	};
 
-    video.addEventListener('error', swapToPoster, true);
+	var SVG_NS = 'http://www.w3.org/2000/svg';
 
-    if (reduced) {
-      video.pause();
-      return;
-    }
+	function dibujar(mapa, escala) {
+		var filas = mapa.length, cols = mapa[0].length;
+		var hueco = escala >= 6 ? 1 : 0;
+		var lado = escala - hueco;
 
-    if ('IntersectionObserver' in window) {
-      var vObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            var p = video.play();
-            if (p && p.catch) p.catch(function () {});
-          } else {
-            video.pause();
-          }
-        });
-      }, { threshold: 0.25 });
-      vObserver.observe(video);
-    } else {
-      var p = video.play();
-      if (p && p.catch) p.catch(function () {});
-    }
-  });
-}
+		var svg = document.createElementNS(SVG_NS, 'svg');
+		svg.setAttribute('class', 'px-agente');
+		svg.setAttribute('width', cols * escala);
+		svg.setAttribute('height', filas * escala);
+		svg.setAttribute('viewBox', '0 0 ' + cols * escala + ' ' + filas * escala);
 
-function initProductMock() {
-  var mock = document.querySelector('[data-product-mock]');
-  if (!mock) return;
+		for (var y = 0; y < filas; y++) {
+			for (var x = 0; x < cols; x++) {
+				var ch = mapa[y][x];
+				if (ch === '.') continue;
+				var r = document.createElementNS(SVG_NS, 'rect');
+				r.setAttribute('x', x * escala);
+				r.setAttribute('y', y * escala);
+				r.setAttribute('width', lado);
+				r.setAttribute('height', lado);
+				if (ch === 'o') r.setAttribute('class', 'acc');
+				svg.appendChild(r);
+			}
+		}
+		return svg;
+	}
 
-  var chat = mock.querySelector('[data-pm-chat]');
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	document.querySelectorAll('[data-agente]').forEach(function (nodo) {
+		var mapa = ELENCO[nodo.dataset.agente];
+		if (!mapa) return;
+		nodo.appendChild(dibujar(mapa, parseInt(nodo.dataset.escala, 10) || 4));
+	});
 
-  var script = [
-    { who: 'in', sender: 'María · WhatsApp', text: 'Hola, quería saber el saldo de mi factura.' },
-    { who: 'out', sender: 'Agente Codi', text: 'Hola María. Tu saldo es $18.450 y vence el 15. ¿Querés abonarlo ahora?' },
-    { who: 'in', sender: 'María · WhatsApp', text: 'Sí, y agendame el recordatorio del próximo mes.' },
-    { who: 'out', sender: 'Agente Codi', text: 'Listo: pago recibido y recordatorio agendado. Quedó registrado en tu cuenta.' }
-  ];
+	/* ───────── nav ───────── */
 
-  function msgNode(m) {
-    var div = document.createElement('div');
-    div.className = 'pm-msg pm-msg--' + m.who;
-    var sender = document.createElement('span');
-    sender.className = 'pm-msg__sender';
-    sender.textContent = m.sender;
-    div.appendChild(sender);
-    div.appendChild(document.createTextNode(m.text));
-    return div;
-  }
+	var nav = document.querySelector('.nav');
+	var toggle = document.querySelector('.nav__toggle');
+	var links = document.querySelector('.nav__links');
 
-  function typingNode(agent) {
-    var div = document.createElement('div');
-    div.className = 'pm-typing' + (agent ? ' pm-typing--agent' : '');
-    for (var i = 0; i < 3; i++) div.appendChild(document.createElement('span'));
-    return div;
-  }
+	if (toggle && links) {
+		toggle.addEventListener('click', function () {
+			var abierto = links.classList.toggle('abierto');
+			toggle.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+		});
+	}
 
-  function renderStatic() {
-    chat.innerHTML = '';
-    script.forEach(function (m) { chat.appendChild(msgNode(m)); });
-  }
+	if (nav) {
+		var sombra = function () { nav.classList.toggle('pegado', window.scrollY > 12); };
+		sombra();
+		window.addEventListener('scroll', sombra, { passive: true });
+	}
 
-  if (reduced) {
-    renderStatic();
-    return;
-  }
+	/* ───────── el viaje a una sección, con curva propia ─────────
+	   El scroll suave del navegador es lineal y se nota. Este arranca
+	   despacio, corre por el medio y frena antes de llegar.
+	   ═══════════════════════════════════════════════════════════ */
 
-  var cycleId = 0;
-  var timers = [];
-  var running = false;
+	document.documentElement.style.scrollBehavior = 'auto';
 
-  function schedule(fn, ms) {
-    var id = cycleId;
-    timers.push(setTimeout(function () {
-      if (id === cycleId && running) fn();
-    }, ms));
-  }
+	function irA(destinoY) {
+		var inicio = window.scrollY;
+		var salto = destinoY - inicio;
+		if (Math.abs(salto) < 2) return;
 
-  function clearTimers() {
-    timers.forEach(clearTimeout);
-    timers = [];
-  }
+		var dur = Math.min(1500, 560 + Math.abs(salto) * 0.24);
+		var t0 = performance.now();
 
-  function runCycle() {
-    cycleId++;
-    clearTimers();
-    chat.innerHTML = '';
-    var t = 600;
+		requestAnimationFrame(function paso(ahora) {
+			var k = Math.min(1, (ahora - t0) / dur);
+			var e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+			window.scrollTo(0, inicio + salto * e);
+			if (k < 1) requestAnimationFrame(paso);
+		});
+	}
 
-    script.forEach(function (m, i) {
-      var typing = typingNode(m.who === 'out');
-      schedule(function () {
-        chat.appendChild(typing);
-        typing.classList.add('pm-typing--visible');
-      }, t);
-      t += i === 0 ? 1200 : 1500;
-      schedule(function () {
-        typing.remove();
-        chat.appendChild(msgNode(m));
-      }, t);
-      t += 1100;
-    });
+	document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+		a.addEventListener('click', function (e) {
+			var destino = document.querySelector(a.getAttribute('href'));
+			if (!destino) return;
+			e.preventDefault();
 
-    schedule(function () {
-      }, t);
-    schedule(runCycle, t + 3200);
-  }
+			if (links) links.classList.remove('abierto');
+			if (toggle) toggle.setAttribute('aria-expanded', 'false');
 
-  if ('IntersectionObserver' in window) {
-    var heroObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting && !running) {
-          running = true;
-          runCycle();
-        } else if (!entry.isIntersecting && running) {
-          running = false;
-          cycleId++;
-          clearTimers();
-        }
-      });
-    }, { threshold: 0.25 });
-    heroObserver.observe(mock);
-  } else {
-    running = true;
-    runCycle();
-  }
-}
+			var y = destino.getBoundingClientRect().top + window.scrollY - 64;
+			if (quieto) window.scrollTo(0, y);
+			else irA(y);
+		});
+	});
+
+	/* ───────── el efecto de escritura ─────────
+	   El texto vive entero en el HTML y recién se parte en letras al
+	   activarse, así el prerender y quien no tenga JS lo leen igual.
+	   ═══════════════════════════════════════════════════════════ */
+
+	function partir(p) {
+		if (!p || p.dataset.partido) return;
+		p.dataset.partido = '1';
+
+		var texto = p.textContent;
+		p.textContent = '';
+		texto.split('').forEach(function (ch) {
+			var s = document.createElement('span');
+			s.className = 'letra';
+			s.textContent = ch;
+			p.appendChild(s);
+		});
+	}
+
+	function escribir(p, demora) {
+		if (!p || p.dataset.escrito) return;
+		p.dataset.escrito = '1';
+		partir(p);
+
+		var letras = p.querySelectorAll('.letra');
+		if (demora) {
+			setTimeout(function () { correr(p, letras); }, demora);
+			return;
+		}
+		correr(p, letras);
+	}
+
+	function correr(p, letras) {
+		p.classList.add('tipeando');
+
+		var i = 0;
+		var reloj = setInterval(function () {
+			if (i > 0) letras[i - 1].classList.remove('cursor');
+
+			for (var k = 0; k < 3 && i < letras.length; k++, i++) {
+				letras[i].classList.add('puesta');
+			}
+
+			if (i >= letras.length) {
+				clearInterval(reloj);
+				p.classList.remove('tipeando');
+			} else {
+				// el cursor acompaña a la letra que se acaba de escribir
+				letras[i - 1].classList.add('cursor');
+			}
+		}, 16);
+	}
+
+	function reescribir(p, demora) {
+		if (!p) return;
+		delete p.dataset.escrito;
+		p.querySelectorAll('.letra').forEach(function (l) { l.classList.remove('puesta', 'cursor'); });
+		escribir(p, demora);
+	}
+
+	/* ───────── la ruta: la línea se forma con el agente ───────── */
+
+	var ruta = document.querySelector('[data-ruta]');
+	var linea = document.querySelector('[data-linea]');
+	var svgRuta = document.querySelector('.ruta__svg');
+	var hitos = Array.prototype.slice.call(document.querySelectorAll('[data-hito]'));
+	var nodos = Array.prototype.slice.call(document.querySelectorAll('[data-nodo]'));
+
+	var pista = { arriba: 0, alto: 1 };
+	var largo = 0;
+	var pinneado = false;
+	var trazoActual = 0;
+	var enNodo = [0, 0, 0];   // en qué punto del camino cae cada fase
+
+	/* El scroll no avanza la línea de forma pareja: corre hasta el punto de
+	   una fase, se queda ahí mientras el texto se escribe, y recién después
+	   sale para la siguiente. */
+	var TRAMOS = [
+		[0.00, 0.16, 0, 0],   // el camino ARRANCA en la fase 1: nada dibujado
+		[0.16, 0.42, 0, 1],
+		[0.42, 0.62, 1, 1],   // parado en la 2 mientras escribe
+		[0.62, 0.84, 1, 2],
+		[0.84, 1.00, 2, 3]    // de la 3 hasta el final
+	];
+
+	function largoDe(i) {
+		return i >= enNodo.length ? 1 : enNodo[i];
+	}
+
+	function trazoSegun(p) {
+		for (var i = 0; i < TRAMOS.length; i++) {
+			var t = TRAMOS[i];
+			if (p <= t[1] || i === TRAMOS.length - 1) {
+				var k = (p - t[0]) / (t[1] - t[0]);
+				k = k < 0 ? 0 : k > 1 ? 1 : k;
+				var a0 = largoDe(t[2]), a1 = largoDe(t[3]);
+				return a0 + (a1 - a0) * k;
+			}
+		}
+		return 1;
+	}
+
+	/* Dónde cae cada nodo sobre el camino, buscando el punto más cercano. */
+	function ubicarNodos() {
+		if (!linea || !largo) return;
+		nodos.forEach(function (n, i) {
+			var cx = parseFloat(n.getAttribute('x')) + parseFloat(n.getAttribute('width')) / 2;
+			var cy = parseFloat(n.getAttribute('y')) + parseFloat(n.getAttribute('height')) / 2;
+			var mejor = 0, dist = Infinity;
+			for (var l = 0; l <= largo; l += 2) {
+				var pt = linea.getPointAtLength(l);
+				var d = (pt.x - cx) * (pt.x - cx) + (pt.y - cy) * (pt.y - cy);
+				if (d < dist) { dist = d; mejor = l; }
+			}
+			enNodo[i] = mejor / largo;
+		});
+	}
+
+	function medir() {
+		if (!ruta || !linea) return;
+		pinneado = window.innerWidth >= 900 && !quieto;
+		var caja = ruta.getBoundingClientRect();
+		pista.arriba = caja.top + window.scrollY;
+		pista.alto = Math.max(1, ruta.offsetHeight - window.innerHeight);
+		largo = linea.getTotalLength();
+		ubicarNodos();
+		pintar();
+	}
+
+	function pintar() {
+		if (!ruta || !linea || !largo) return;
+
+		if (!pinneado) {
+			trazoActual = 1;
+			linea.style.strokeDasharray = 'none';
+			hitos.forEach(function (h) { h.classList.add('encendido'); });
+			nodos.forEach(function (n) { n.classList.add('vivo'); });
+			return;
+		}
+
+		var p = (window.scrollY - pista.arriba) / pista.alto;
+		p = p < 0 ? 0 : p > 1 ? 1 : p;
+
+		var trazo = trazoSegun(p);
+		trazoActual = trazo;
+
+		/* Sólo el tramo recorrido. El hueco es enorme a propósito: con un
+		   hueco del largo del camino, el patrón alcanzaba a repetirse y
+		   dejaba un pedazo de línea suelto a la derecha. */
+		linea.style.strokeDasharray = (largo * trazo).toFixed(2) + ' 99999';
+
+		hitos.forEach(function (h, i) {
+			var on = p >= parseFloat(h.dataset.en);
+			h.classList.toggle('encendido', on);
+			if (nodos[i]) nodos[i].classList.toggle('vivo', on);
+			if (on) escribir(h.querySelector('[data-escribir]'));
+		});
+	}
+
+	if (ruta && linea) {
+		var pendiente = false;
+		window.addEventListener('scroll', function () {
+			if (pendiente) return;
+			pendiente = true;
+			requestAnimationFrame(function () { pintar(); pendiente = false; });
+		}, { passive: true });
+
+		window.addEventListener('resize', medir);
+		window.addEventListener('load', medir);
+		// la primera medición va en un rAF: antes, el alto todavía no es el real
+		requestAnimationFrame(medir);
+	}
+
+	/* ═══════════ el agente viaja de posta en posta ═══════════ */
+
+	var viajero = document.querySelector('[data-viajero]');
+	var postas = Array.prototype.slice.call(document.querySelectorAll('[data-posta]'));
+
+	if (viajero && postas.length && !quieto) {
+		var f1 = dibujar(ELENCO.viaja1, 6);
+		var f2 = dibujar(ELENCO.viaja2, 6);
+		f1.setAttribute('class', 'px-agente cuadro cuadro--a');
+		f2.setAttribute('class', 'px-agente cuadro cuadro--b');
+		viajero.appendChild(f1);
+		viajero.appendChild(f2);
+
+		var MEDIO = 24; // la mitad del bicho: 8 píxeles × escala 6
+
+		// los fotogramas
+		setInterval(function () { viajero.classList.toggle('cuadroB'); }, 240);
+
+		var pos = { x: 0, y: 0 };
+		var arrancado = false;
+
+		var objetivo = function () {
+			var vh = window.innerHeight;
+
+			// la escena de la ruta manda mientras está en pantalla
+			if (linea && svgRuta && pinneado && largo) {
+				var c = svgRuta.getBoundingClientRect();
+				if (c.top < vh * 0.92 && c.bottom > vh * 0.08) {
+					var esc = c.width / 1000;   // ahora escala parejo en los dos ejes
+					var pt = linea.getPointAtLength(largo * trazoActual);
+					return {
+						x: c.left + pt.x * esc,
+						y: c.top + pt.y * esc - 22   // parado arriba de la línea, no encima
+					};
+				}
+			}
+
+			// la forma que estás mirando manda: el bicho se para en su tarima
+			var tarima = document.querySelector('.activa .posta');
+			if (tarima) {
+				var rt = tarima.getBoundingClientRect();
+				if (rt.width && rt.top > 8 && rt.bottom < vh - 8) {
+					return { x: rt.left + rt.width / 2, y: rt.top + rt.height / 2 };
+				}
+			}
+
+			// si no, la última posta que ya cruzó el 62% de la pantalla
+			var elegida = postas[0];
+			postas.forEach(function (p) {
+				if (p.getBoundingClientRect().top < vh * 0.62) elegida = p;
+			});
+
+			var r = elegida.getBoundingClientRect();
+			var cy = r.top + r.height / 2;
+			var clavado = Math.max(96, Math.min(vh - 96, cy));
+
+			// Si la posta quedó fuera de pantalla el bicho espera en el borde,
+			// pero corrido al margen: si no, se sienta encima de un texto.
+			var afuera = Math.abs(clavado - cy) > 4;
+			return {
+				x: afuera ? window.innerWidth - 66 : r.left + r.width / 2,
+				y: clavado
+			};
+		};
+
+		requestAnimationFrame(function marco() {
+			var t = objetivo();
+
+			if (!arrancado) { pos.x = t.x; pos.y = t.y; arrancado = true; }
+
+			var dx = t.x - pos.x;
+			var dy = t.y - pos.y;
+			pos.x += dx * 0.078;
+			pos.y += dy * 0.078;
+
+			// se inclina hacia donde va, como si se tirara para adelante
+			var giro = Math.max(-15, Math.min(15, dx * 0.11));
+			var apuro = Math.abs(dx) + Math.abs(dy);
+
+			viajero.style.transform =
+				'translate3d(' + (pos.x - MEDIO).toFixed(1) + 'px,' + (pos.y - MEDIO).toFixed(1) + 'px, 0) rotate(' + giro.toFixed(2) + 'deg)';
+			viajero.classList.toggle('apurado', apuro > 30);
+
+			requestAnimationFrame(marco);
+		});
+	}
+
+	/* ───────── el puntero propio ───────── */
+
+	var puntero = document.querySelector('[data-puntero]');
+	if (puntero && window.matchMedia('(hover: hover) and (pointer: fine)').matches && !quieto) {
+		var raton = { x: -100, y: -100 };
+		var TOCABLE = 'a, button, [data-tarjeta], [data-rubro], label';
+
+		document.addEventListener('mousemove', function (e) {
+			raton.x = e.clientX;
+			raton.y = e.clientY;
+			puntero.classList.add('visible');
+
+			var bajo = e.target;
+			puntero.classList.toggle('tocable', !!(bajo.closest && bajo.closest(TOCABLE)));
+			puntero.classList.toggle('texto', !!(bajo.closest && bajo.closest('input, textarea')));
+		}, { passive: true });
+
+		document.addEventListener('mouseleave', function () { puntero.classList.remove('visible'); });
+		document.addEventListener('mouseenter', function () { puntero.classList.add('visible'); });
+
+		requestAnimationFrame(function tic() {
+			// la punta de la flecha cae justo donde está el mouse
+			puntero.style.transform = 'translate3d(' + (raton.x - 2) + 'px,' + (raton.y - 2) + 'px,0)';
+			requestAnimationFrame(tic);
+		});
+	}
+
+	/* ───────── el menú marca dónde estás ───────── */
+
+	var deMenu = Array.prototype.slice.call(document.querySelectorAll('.nav__links a[href^="#"]'));
+	if (deMenu.length) {
+		var mirarSeccion = new IntersectionObserver(function (entradas) {
+			entradas.forEach(function (e) {
+				if (!e.isIntersecting) return;
+				deMenu.forEach(function (l) {
+					l.classList.toggle('actual', l.getAttribute('href') === '#' + e.target.id);
+				});
+			});
+		}, { rootMargin: '-45% 0px -50% 0px' });
+
+		deMenu.forEach(function (l) {
+			var s = document.querySelector(l.getAttribute('href'));
+			if (s) mirarSeccion.observe(s);
+		});
+	}
+
+	/* ───────── industrias: el bicho se acerca al que mirás ───────── */
+
+	var rubros = Array.prototype.slice.call(document.querySelectorAll('[data-rubro]'));
+	if (rubros.length && !quieto) {
+		rubros.forEach(function (r) {
+			['mouseenter', 'focus'].forEach(function (ev) {
+				r.addEventListener(ev, function () {
+					rubros.forEach(function (x) { x.classList.remove('activa'); });
+					r.classList.add('activa');
+				});
+			});
+		});
+
+		// al salir de la grilla el bicho vuelve a lo suyo
+		var grilla = document.querySelector('.rubros');
+		if (grilla) {
+			grilla.addEventListener('mouseleave', function () {
+				rubros.forEach(function (x) { x.classList.remove('activa'); });
+			});
+		}
+	}
+
+	/* ───────── los números de casos suben desde cero ───────── */
+
+	var numeros = Array.prototype.slice.call(document.querySelectorAll('[data-contar]'));
+	if (numeros.length && !quieto) {
+		numeros.forEach(function (n) { n.textContent = '0'; });
+
+		var mirarNumero = new IntersectionObserver(function (entradas, obs) {
+			entradas.forEach(function (e) {
+				if (!e.isIntersecting) return;
+				obs.unobserve(e.target);
+
+				var meta = parseInt(e.target.dataset.contar, 10);
+				var t0 = performance.now();
+				var dur = 1100;
+
+				requestAnimationFrame(function paso(ahora) {
+					var k = Math.min(1, (ahora - t0) / dur);
+					var e2 = 1 - Math.pow(1 - k, 3);   // frena al llegar
+					e.target.textContent = Math.round(meta * e2);
+					if (k < 1) requestAnimationFrame(paso);
+					else e.target.textContent = meta;
+				});
+			});
+		}, { threshold: 0.6 });
+
+		numeros.forEach(function (n) { mirarNumero.observe(n); });
+	}
+
+	/* ───────── la plataforma entra escalonada ───────── */
+
+	var enlaces = Array.prototype.slice.call(document.querySelectorAll('.enlace'));
+	if (enlaces.length) {
+		if (quieto) {
+			enlaces.forEach(function (l) { l.classList.add('entro'); });
+		} else {
+			var mirarEnlace = new IntersectionObserver(function (entradas, obs) {
+				entradas.forEach(function (e) {
+					if (!e.isIntersecting) return;
+					obs.unobserve(e.target);
+					setTimeout(function () {
+						e.target.classList.add('entro');
+					}, enlaces.indexOf(e.target) * 130);
+				});
+			}, { threshold: 0.3 });
+
+			enlaces.forEach(function (l) { mirarEnlace.observe(l); });
+		}
+	}
+
+	/* ═══════════ las cuatro formas ═══════════
+	   Una sola está activa. El bicho se para en su tarima y el texto se
+	   escribe. El texto vive entero en el HTML: sólo se parte al activarse,
+	   así el prerender y quien no tenga JS lo leen igual.
+	   ══════════════════════════════════════════════════════════════════ */
+
+	var zonaTrabajo = document.querySelector('#trabajo');
+	var formas = Array.prototype.slice.call(document.querySelectorAll('[data-tarjeta]'));
+
+	var formaActiva = null;
+
+	function activar(t) {
+		if (formaActiva === t) return;
+		formas.forEach(function (x) {
+			x.classList.remove('activa');
+			// la que dejás de mirar vuelve a quedar fantasma
+			x.querySelectorAll('.letra').forEach(function (l) { l.classList.remove('puesta', 'cursor'); });
+			x.querySelectorAll('[data-escribir], .tarjeta__meta').forEach(function (n) { delete n.dataset.escrito; });
+		});
+		t.classList.add('activa');
+		formaActiva = t;
+
+		if (quieto) return;
+		var p = t.querySelector('[data-escribir]');
+		reescribir(p);
+		// la línea de abajo arranca cuando la de arriba va por la mitad
+		reescribir(t.querySelector('.tarjeta__meta'), p ? p.textContent.length * 4 : 400);
+	}
+
+	if (formas.length) {
+		if (quieto) {
+			formas.forEach(function (t) { t.classList.add('activa'); });
+		} else {
+			formas.forEach(function (t) {
+				partir(t.querySelector('[data-escribir]'));
+				partir(t.querySelector('.tarjeta__meta'));
+
+				['mouseenter', 'focus', 'click'].forEach(function (ev) {
+					t.addEventListener(ev, function () { activar(t); });
+				});
+			});
+
+			if (zonaTrabajo) {
+				new IntersectionObserver(function (entradas) {
+					entradas.forEach(function (e) {
+						if (e.isIntersecting && !formaActiva) activar(formas[0]);
+					});
+				}, { threshold: 0.25 }).observe(zonaTrabajo);
+			}
+		}
+	}
+	/* ═══════════ el formulario ═══════════
+	   Del lado del navegador sólo entran dos capas: el tarro de miel y el
+	   control de tiempo. Rate limit, filtro de contenido, tope de gasto y
+	   registro del origen van del lado del servidor cuando exista el endpoint.
+	   ═══════════════════════════════════════════════════════════════════ */
+
+	/* Para que el formulario mande el mail solo, sin servidor propio, hay que
+	   pegar acá una clave de Web3Forms (web3forms.com, gratis). El alta pide
+	   una casilla de destino y manda un mail de confirmación: tiene que
+	   hacerlo alguien que lea info@codi.com.ar. Con la clave puesta el
+	   formulario postea y el mail llega solo; sin clave, cae en el mailto,
+	   que es lo que hace hoy el sitio publicado. */
+	var CLAVE_ENVIO = '00d04800-138c-4cd8-be25-e87859834a99';
+	var URL_ENVIO = 'https://api.web3forms.com/submit';
+
+	var form = document.querySelector('[data-form]');
+	if (form) {
+		var aviso = form.querySelector('[data-aviso]');
+		var abierto = Date.now();
+
+		var decir = function (texto, clase) {
+			if (!aviso) return;
+			aviso.textContent = texto;
+			aviso.className = 'form__aviso' + (clase ? ' ' + clase : '');
+		};
+
+		form.addEventListener('submit', function (e) {
+			e.preventDefault();
+
+			var datos = {
+				nombre: form.nombre.value.trim(),
+				email: form.email.value.trim(),
+				mensaje: form.mensaje.value.trim(),
+				empresa: form.empresa ? form.empresa.value.trim() : '',
+				origen: form.dataset.origen || 'Home',
+				url: window.location.pathname
+			};
+
+			// campos vacíos: marcamos cuál falta en vez de un aviso genérico
+			var falta = false;
+			['nombre', 'email', 'mensaje'].forEach(function (k) {
+				var campo = form[k].closest('.campo');
+				var vacio = !datos[k];
+				campo.classList.toggle('mal', vacio);
+				if (vacio) falta = true;
+			});
+			if (falta) { decir('Falta completar algo.', 'mal'); return; }
+
+			if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(datos.email)) {
+				form.email.closest('.campo').classList.add('mal');
+				decir('Ese mail no parece válido.', 'mal');
+				return;
+			}
+
+			/* Capa 1 del front: el tarro de miel. Capa 2: nadie completa esto en
+			   menos de tres segundos. En los dos casos contestamos como si hubiera
+			   salido bien: decirle a un bot que lo detectaste es regalarle la
+			   pista para ajustar el patrón. */
+			var sospechoso = form.empresa_web.value !== '' || (Date.now() - abierto) < 3000;
+			if (sospechoso) { decir('Listo, te escribimos.', 'bien'); form.reset(); return; }
+
+			if (!CLAVE_ENVIO) {
+				// Todavía no hay a dónde mandarlo: abrimos el mail ya redactado.
+				var cuerpo = datos.mensaje
+					+ '\n\n' + datos.nombre
+					+ (datos.empresa ? '\n' + datos.empresa : '')
+					+ '\n' + datos.email
+					+ '\n\nLlegó desde: ' + datos.origen + ' (' + datos.url + ')';
+				window.location.href = 'mailto:info@codi.com.ar'
+					+ '?subject=' + encodeURIComponent('Consulta desde ' + datos.origen + ' · ' + datos.nombre)
+					+ '&body=' + encodeURIComponent(cuerpo);
+				decir('Te abrimos el mail con todo cargado.', 'bien');
+				return;
+			}
+
+			decir('Enviando…');
+			fetch(URL_ENVIO, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+				body: JSON.stringify({
+					access_key: CLAVE_ENVIO,
+					subject: 'Consulta desde ' + datos.origen + ' · ' + datos.nombre,
+					from_name: datos.nombre + (datos.empresa ? ' (' + datos.empresa + ')' : ''),
+					email: datos.email,
+					empresa: datos.empresa,
+					origen: datos.origen,
+					pagina: datos.url,
+					message: datos.mensaje
+				})
+			}).then(function (r) { return r.json(); }).then(function (r) {
+				if (!r.success) throw new Error('rechazado');
+				decir('Listo, te escribimos.', 'bien');
+				form.reset();
+			}).catch(function () {
+				decir('No salió. Escribinos a info@codi.com.ar.', 'mal');
+			});
+		});
+	}
+})();

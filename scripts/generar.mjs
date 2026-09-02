@@ -13,6 +13,7 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { INDUSTRIAS } from '../contenido/industrias.mjs';
 import { PRODUCTO } from '../contenido/plataforma.mjs';
+import { EMPRESA } from '../contenido/empresa.mjs';
 
 const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CODI = 'https://codi.com.ar';
@@ -344,8 +345,8 @@ function bloque(b, n) {
 	return `\t<section class="seccion${fondo}" data-zona="${esc(b.kicker)}">\n\t\t<div class="wrap">\n${cab}\n${cuerpo}\n\t\t</div>\n\t</section>`;
 }
 
-function paginaProducto(p) {
-	const otras = PRODUCTO.filter(o => o.slug !== p.slug).map(o =>
+function paginaProducto(p, familia, volverA, rotuloOtras) {
+	const otras = familia.filter(o => o.slug !== p.slug).map(o =>
 		`\t\t\t\t<a href="/${o.slug}/" class="rubro" data-rubro>
 					<span class="rubro__icono" data-agente="${o.icono}" data-escala="6" aria-hidden="true"></span>
 					<span class="posta posta--rubro" aria-hidden="true"></span>
@@ -357,7 +358,7 @@ function paginaProducto(p) {
 	const cuerpo = `	<section class="hero hero--interna">
 		<div class="hero__campo" aria-hidden="true"></div>
 		<div class="wrap">
-			<p class="kicker kicker--vivo"><span class="kicker__pulso"></span><a href="/#plataforma" class="kicker__volver">${esc(p.kicker)}</a></p>
+			<p class="kicker kicker--vivo"><span class="kicker__pulso"></span><a href="${volverA}" class="kicker__volver">${esc(p.kicker)}</a></p>
 			<h1>${esc(p.h1)}</h1>
 			<p class="lead">${esc(p.lead)}</p>
 			<div class="hero__cta">
@@ -375,7 +376,7 @@ ${p.bloques.map((b, i) => bloque(b, i)).join('\n\n')}
 		<div class="wrap">
 			<header class="seccion__cab seccion__cab--posta">
 				<span class="posta posta--seccion" data-posta="otras"></span>
-				<p class="kicker">El resto de la plataforma</p>
+				<p class="kicker">${esc(rotuloOtras)}</p>
 				<h2>Las piezas se usan juntas.</h2>
 			</header>
 			<div class="rubros">
@@ -451,8 +452,74 @@ hechas++;
 for (const p of PRODUCTO) {
 	const carpeta = join(RAIZ, p.slug);
 	mkdirSync(carpeta, { recursive: true });
-	writeFileSync(join(carpeta, 'index.html'), paginaProducto(p));
+	writeFileSync(join(carpeta, 'index.html'), paginaProducto(p, PRODUCTO, '/#plataforma', 'El resto de la plataforma'));
 	console.log('·', `/${p.slug}/`);
 	hechas++;
 }
+for (const p of EMPRESA) {
+	const carpeta = join(RAIZ, p.slug);
+	mkdirSync(carpeta, { recursive: true });
+	writeFileSync(join(carpeta, 'index.html'), paginaProducto(p, EMPRESA, '/', 'Seguir leyendo'));
+	console.log('·', `/${p.slug}/`);
+	hechas++;
+}
+
+/* El índice de industrias: la puerta de entrada a las seis. */
+{
+	const tarjetas = INDUSTRIAS.map(o => `\t\t\t\t<a href="/industrias/${o.slug}/" class="rubro" data-rubro>
+					<span class="rubro__icono" data-agente="${o.icono}" data-escala="6" aria-hidden="true"></span>
+					<span class="posta posta--rubro" aria-hidden="true"></span>
+					<h3>${esc(o.nombre)}</h3>
+					<p>${esc(o.lead)}</p>
+					<span class="rubro__ir">Ver ${esc(o.nombre.toLowerCase())}</span>
+				</a>`).join('\n');
+
+	const cuerpo = `	<section class="hero hero--interna">
+		<div class="hero__campo" aria-hidden="true"></div>
+		<div class="wrap">
+			<p class="kicker kicker--vivo"><span class="kicker__pulso"></span><a href="/" class="kicker__volver">Industrias</a></p>
+			<h1>Donde ya corren nuestros agentes.</h1>
+			<p class="lead">Seis industrias donde un error no se perdona. En todas, el agente toca sistemas de verdad: lee, decide y ejecuta.</p>
+			<div class="hero__cta">
+				<a href="#hablemos" class="btn">Contanos tu operación</a>
+				<a href="/#ruta" class="btn btn--fantasma">Cómo lo implementamos</a>
+			</div>
+			<span class="posta posta--hero" data-posta="hero"></span>
+		</div>
+	</section>
+
+	<section class="seccion seccion--panel" data-zona="Industrias">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="lista"></span>
+				<p class="kicker">Las seis</p>
+				<h2>Cada una con sus workflows.</h2>
+			</header>
+			<div class="rubros">
+${tarjetas}
+			</div>
+		</div>
+	</section>
+
+	<section class="cierre" id="hablemos" data-zona="Hablemos">
+		<div class="wrap">
+			<span class="posta posta--cierre" data-posta="cierre"></span>
+			<h2>Contanos qué parte de tu operación te está comiendo el día.</h2>
+			<p class="lead">Te decimos si un agente lo resuelve, cuánto sale y en cuánto tiempo. Si no lo resuelve, también te lo decimos.</p>
+			${formulario('Industrias')}
+			<p class="cierre__pie">O escribinos directo: <a href="mailto:info@codi.com.ar">info@codi.com.ar</a> · <a href="https://wa.me/5491168383333">+54 9 11 6838 3333</a></p>
+		</div>
+	</section>`;
+
+	mkdirSync(join(RAIZ, 'industrias'), { recursive: true });
+	writeFileSync(join(RAIZ, 'industrias', 'index.html'), molde({
+		titulo: 'Industrias · Codi',
+		descripcion: 'Seis industrias donde ya corren agentes de Codi: banca, telecom, salud, energía, seguros y retail.',
+		ruta: '/industrias/',
+		cuerpo
+	}));
+	console.log('·', '/industrias/');
+	hechas++;
+}
+
 console.log(`\n${hechas} páginas generadas.`);

@@ -1,164 +1,296 @@
 <!DOCTYPE html>
 <html lang="es-AR">
 <head>
-	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-	})(window,document,'script','dataLayer','GTM-NN89WD6C');</script>
 	<meta charset="UTF-8"/>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-	<title>Nosotros — Codi</title>
-	<meta name="description" content="Más de una década llevando inteligencia artificial a producción en empresas de tres continentes. Conocé al equipo detrás de Codi." />
+	<title>Nosotros · Codi</title>
+	<meta name="description" content="Codi nació aplicando inteligencia artificial a problemas reales de negocio: recomendación personalizada, e-commerce y fintech. Hoy esa experiencia corre sobre una sola plataforma." />
 	<link rel="canonical" href="https://codi.com.ar/nosotros/" />
 	<meta property="og:locale" content="es_AR" />
 	<meta property="og:type" content="website" />
-	<meta property="og:title" content="Nosotros — Codi" />
-	<meta property="og:description" content="El equipo que construye el futuro de la IA aplicada." />
+	<meta property="og:title" content="Nosotros · Codi" />
+	<meta property="og:description" content="Codi nació aplicando inteligencia artificial a problemas reales de negocio: recomendación personalizada, e-commerce y fintech. Hoy esa experiencia corre sobre una sola plataforma." />
 	<meta property="og:url" content="https://codi.com.ar/nosotros/" />
 	<meta property="og:site_name" content="Codi" />
-	<meta name="theme-color" content="#1a1a1a">
-	<link rel="icon" type="image/png" href="/assets/img/favicon.png">
-	<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+	<meta name="theme-color" content="#FFFFFF">
+	<link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="/assets/css/legado.css">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/css/main.css">
+	<script>(function(){try{if(localStorage.getItem("codi-tema")==="oscuro")document.documentElement.setAttribute("data-tema","oscuro")}catch(e){}})()</script>
 </head>
 <body>
-	<header class="nav">
-		<div class="nav__inner">
-			<a href="/" class="nav__logo" aria-label="Codi — inicio"><img src="/assets/img/Codi-dark.svg" alt="Codi"></a>
-			<ul class="nav__links">
-				<li>
-					<a href="/plataforma/">Plataforma</a>
-					<ul class="nav__dropdown">
-						<li><a href="/plataforma/">Overview<span>La plataforma completa</span></a></li>
-						<li><a href="/estudio/">Codi Studio<span>Construí agentes de IA</span></a></li>
-						<li><a href="/apps/">Apps a medida<span>Interfaces por caso de uso</span></a></li>
-					</ul>
-				</li>
-				<li><a href="/implementacion/">Implementación</a></li>
-				<li><a href="/transformacion/">Transformación</a></li>
-				<li>
-					<a href="/industrias/">Industrias</a>
-					<ul class="nav__dropdown">
-						<li><a href="/industrias/banca/">Banca</a></li>
-						<li><a href="/industrias/telecom/">Telecom</a></li>
-						<li><a href="/industrias/salud/">Salud</a></li>
-						<li><a href="/industrias/energia/">Energía y utilities</a></li>
-						<li><a href="/industrias/seguros/">Seguros</a></li>
-						<li><a href="/industrias/retail/">Retail</a></li>
-					</ul>
-				</li>
-				<li><a href="/nosotros/">Nosotros</a></li>
-				<li><a href="/contacto/">Contacto</a></li>
+
+<div class="puntero" data-puntero aria-hidden="true">
+	<svg class="puntero__flecha" width="22" height="28" viewBox="0 0 22 28">
+		<polygon points="2,2 2,21 7,16.5 10.5,24 14,22.4 10.6,15.6 17.4,15.6"/>
+	</svg>
+	<svg class="puntero__mano" width="26" height="30" viewBox="0 0 26 30">
+		<polygon points="7,3 10,3 10,13 12,13 12,11 15,11 15,13 17,13 17,12 20,12 20,21 17,26 10,26 7,22 7,17 4,14 4,11 7,11"/>
+	</svg>
+</div>
+
+<div class="viajero" data-viajero aria-hidden="true"></div>
+
+<header class="nav">
+	<div class="nav__inner">
+		<a href="/" class="nav__logo" aria-label="Codi, inicio">
+			<img src="/assets/img/Codi.svg" alt="Codi" class="marca marca--claro" width="96" height="24"><img src="/assets/img/Codi-dark.svg" alt="" aria-hidden="true" class="marca marca--oscuro" width="96" height="24">
+		</a>
+		<ul class="nav__links">
+			<li><a href="/#trabajo">Qué hacemos</a></li>
+			<li><a href="/#casos">Casos</a></li>
+			<li><a href="/#ruta">Cómo trabajamos</a></li>
+			<li><a href="/#industrias">Industrias</a></li>
+			<li><a href="/#plataforma">Plataforma</a></li>
+		</ul>
+		<button class="tema" data-tema-boton aria-label="Pasar al modo oscuro" aria-pressed="false">
+				<svg class="tema__ico tema__ico--luna" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M17 12.4A7.6 7.6 0 1 1 7.6 3a6 6 0 0 0 9.4 9.4z"/></svg><svg class="tema__ico tema__ico--sol" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><rect x="8" y="0" width="4" height="3"/><rect x="8" y="17" width="4" height="3"/><rect x="0" y="8" width="3" height="4"/><rect x="17" y="8" width="3" height="4"/><rect x="6" y="6" width="8" height="8"/></svg>
+			</button>
+			<a href="/#hablemos" class="btn btn--sm nav__cta">Hablemos</a>
+		<button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+	</div>
+</header>
+
+<main>
+	<section class="hero hero--interna">
+		<div class="hero__campo" aria-hidden="true"></div>
+		<div class="wrap">
+			<p class="kicker kicker--vivo"><span class="kicker__pulso"></span><a href="/" class="kicker__volver">Nosotros</a></p>
+			<h1>El equipo que lleva la IA a donde se trabaja.</h1>
+			<p class="lead">Codi nació aplicando inteligencia artificial a problemas reales de negocio: recomendación personalizada, e-commerce y fintech. Hoy esa experiencia corre sobre una sola plataforma.</p>
+			<div class="hero__cta">
+				<a href="#hablemos" class="btn">Contanos tu operación</a>
+				<a href="/#ruta" class="btn btn--fantasma">Cómo lo implementamos</a>
+			</div>
+			<div class="hero__marca" data-agente="operador" data-escala="14" aria-hidden="true"></div>
+			<span class="posta posta--hero" data-posta="hero"></span>
+		</div>
+	</section>
+
+	<section class="seccion seccion--panel" data-zona="La historia">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="b0"></span>
+				<p class="kicker">La historia</p>
+				<h2>Más de una década llevando IA a producción.</h2>
+				<p class="lead">Diez años de trabajo y más de 50 proyectos entregados. Nuestro equipo está repartido en tres continentes, y esa mezcla de culturas y recorridos es la que termina apareciendo en las soluciones.</p>
+			</header>
+			<div class="casos">
+				<article class="caso">
+					<p class="caso__tag">01</p>
+					<h3>+50 proyectos</h3>
+					<p>Entregados y andando, no pilotos que quedaron en una presentación.</p>
+				</article>
+				<article class="caso">
+					<p class="caso__tag">02</p>
+					<h3>10 años</h3>
+					<p>Llevando modelos a producción, desde antes de que fuera una categoría.</p>
+				</article>
+				<article class="caso">
+					<p class="caso__tag">03</p>
+					<h3>3 continentes</h3>
+					<p>Un equipo diverso, con perspectivas que se traducen en soluciones distintas.</p>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<section class="seccion" data-zona="Lo que nos define">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="b1"></span>
+				<p class="kicker">Lo que nos define</p>
+				<h2>Seis cosas que no negociamos.</h2>
+				
+			</header>
+			<div class="trabajo">
+				<article class="tarjeta" data-tarjeta tabindex="0">
+					<div class="tarjeta__tarima">
+						<div class="tarjeta__objeto" data-agente="pila" data-escala="7" aria-hidden="true"></div>
+						<span class="tarjeta__piso"></span>
+						<span class="posta posta--tarima" data-posta="b1-0"></span>
+					</div>
+					<h3>Impacto primero</h3>
+					<p class="tarjeta__texto" data-escribir>Medimos el éxito por resultados, no por entregables. Cientos de millones de datos puestos al servicio del negocio.</p>
+				</article>
+				<article class="tarjeta" data-tarjeta tabindex="0">
+					<div class="tarjeta__tarima">
+						<div class="tarjeta__objeto" data-agente="cimiento" data-escala="7" aria-hidden="true"></div>
+						<span class="tarjeta__piso"></span>
+						<span class="posta posta--tarima" data-posta="b1-1"></span>
+					</div>
+					<h3>Integración sin fricción</h3>
+					<p class="tarjeta__texto" data-escribir>Soluciones que piden un esfuerzo mínimo de integración para empezar a generar valor.</p>
+				</article>
+				<article class="tarjeta" data-tarjeta tabindex="0">
+					<div class="tarjeta__tarima">
+						<div class="tarjeta__objeto" data-agente="ventana" data-escala="7" aria-hidden="true"></div>
+						<span class="tarjeta__piso"></span>
+						<span class="posta posta--tarima" data-posta="b1-2"></span>
+					</div>
+					<h3>Tiempo real</h3>
+					<p class="tarjeta__texto" data-escribir>Respuestas en milisegundos, para interacciones que no pueden esperar.</p>
+				</article>
+				<article class="tarjeta" data-tarjeta tabindex="0">
+					<div class="tarjeta__tarima">
+						<div class="tarjeta__objeto" data-agente="grafico" data-escala="7" aria-hidden="true"></div>
+						<span class="tarjeta__piso"></span>
+						<span class="posta posta--tarima" data-posta="b1-3"></span>
+					</div>
+					<h3>Tus datos, tus reglas</h3>
+					<p class="tarjeta__texto" data-escribir>Todo el procesamiento puede ocurrir dentro de tu propia nube.</p>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<section class="seccion seccion--panel" data-zona="Cómo encaja">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="b2"></span>
+				<p class="kicker">Cómo encaja</p>
+				<h2>A medida, de verdad.</h2>
+				
+			</header>
+			<div class="enlaces enlaces--cuatro">
+				<article class="enlace enlace--info">
+					<span class="enlace__num">01</span>
+					<h3>End to end o modular</h3>
+					<p>Elegís el encaje según tu operación, no según lo que nos conviene vender.</p>
+				</article>
+				<article class="enlace enlace--info">
+					<span class="enlace__num">02</span>
+					<h3>Entrenado sobre volumen</h3>
+					<p>Grandes cantidades de datos detrás de cada resultado, para que sea confiable.</p>
+				</article>
+				<article class="enlace enlace--info">
+					<span class="enlace__num">03</span>
+					<h3>Dentro de tu nube</h3>
+					<p>Si el dato no puede salir de tu organización, no sale.</p>
+				</article>
+				<article class="enlace enlace--info">
+					<span class="enlace__num">04</span>
+					<h3>Con tu equipo adentro</h3>
+					<p>Trabajamos con tu gente, no en paralelo a tu gente.</p>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<section class="seccion seccion--panel" data-zona="El resto">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="otras"></span>
+				<p class="kicker">Seguir leyendo</p>
+				<h2>Las piezas se usan juntas.</h2>
+			</header>
+			<div class="rubros">
+				<a href="/implementacion/" class="rubro" data-rubro>
+					<span class="rubro__icono" data-agente="pila" data-escala="6" aria-hidden="true"></span>
+					<span class="posta posta--rubro" aria-hidden="true"></span>
+					<h3>Implementación</h3>
+					<p>Ponemos equipos dentro de tu operación: llevan la IA a producción, entregan impacto rápido y después te dan las llaves.</p>
+					<span class="rubro__ir">Ver implementación</span>
+				</a>
+				<a href="/transformacion/" class="rubro" data-rubro>
+					<span class="rubro__icono" data-agente="medidor" data-escala="6" aria-hidden="true"></span>
+					<span class="posta posta--rubro" aria-hidden="true"></span>
+					<h3>Transformación</h3>
+					<p>El ERP, el CRM, la nube: cada ola tuvo su fecha de go-live. La IA no tiene fecha de go-live, tiene un punto de partida. No coordina personas, ejecuta trabajo.</p>
+					<span class="rubro__ir">Ver transformación</span>
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="cierre" id="hablemos" data-zona="Hablemos">
+		<div class="wrap">
+			<span class="posta posta--cierre" data-posta="cierre"></span>
+			<h2>Contanos qué parte de tu operación te está comiendo el día.</h2>
+			<p class="lead">Te decimos si un agente lo resuelve, cuánto sale y en cuánto tiempo. Si no lo resuelve, también te lo decimos.</p>
+			<form class="form" data-form data-origen="Nosotros" novalidate>
+				<div class="form__fila">
+					<label class="campo">
+						<span class="campo__rotulo">Nombre</span>
+						<input type="text" name="nombre" autocomplete="name" required>
+					</label>
+					<label class="campo">
+						<span class="campo__rotulo">Mail de trabajo</span>
+						<input type="email" name="email" autocomplete="email" required>
+					</label>
+				</div>
+				<label class="campo">
+					<span class="campo__rotulo">Empresa <i>opcional</i></span>
+					<input type="text" name="empresa" autocomplete="organization">
+				</label>
+				<label class="campo">
+					<span class="campo__rotulo">Qué parte de tu operación querés resolver</span>
+					<textarea name="mensaje" rows="3" required></textarea>
+				</label>
+
+				<div class="tarro" aria-hidden="true">
+					<label>No completes esto<input type="text" name="empresa_web" tabindex="-1" autocomplete="off"></label>
+				</div>
+
+				<div class="form__pie">
+					<button type="submit" class="btn btn--grande">Contanos</button>
+					<p class="form__aviso" data-aviso role="status"></p>
+				</div>
+			</form>
+
+			<div class="gracias" data-gracias hidden>
+				<div class="gracias__codi" data-agente="viaja1" data-escala="8" aria-hidden="true"></div>
+				<div>
+					<p class="gracias__titulo">Listo, lo tenemos.</p>
+					<p class="gracias__texto">Te escribimos a <b data-gracias-mail></b>. Si es urgente, WhatsApp al <a href="https://wa.me/5491168383333">+54 9 11 6838 3333</a>.</p>
+				</div>
+			</div>
+			<p class="cierre__pie">O escribinos directo: <a href="mailto:info@codi.com.ar">info@codi.com.ar</a> · <a href="https://wa.me/5491168383333">+54 9 11 6838 3333</a></p>
+		</div>
+	</section>
+</main>
+
+<footer class="pie">
+	<div class="wrap pie__grid">
+		<div class="pie__marca">
+			<img src="/assets/img/Codi.svg" alt="Codi" class="marca marca--pie marca--claro" width="110" height="28"><img src="/assets/img/Codi-dark.svg" alt="" aria-hidden="true" class="marca marca--pie marca--oscuro" width="110" height="28">
+			<p>IA aplicada a las operaciones de las empresas. Construido en Argentina, operando a nivel global.</p>
+		</div>
+		<div class="pie__col">
+			<h5>Industrias</h5>
+			<ul>
+				<li><a href="/industrias/banca/">Banca</a></li>
+				<li><a href="/industrias/telecom/">Telecom</a></li>
+				<li><a href="/industrias/salud/">Salud</a></li>
+				<li><a href="/industrias/energia/">Energía y utilities</a></li>
+				<li><a href="/industrias/seguros/">Seguros</a></li>
+				<li><a href="/industrias/retail/">Retail</a></li>
 			</ul>
-			<a href="/contacto/" class="btn btn--small nav__cta">Contactanos</a>
-			<button class="nav__toggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
 		</div>
-	</header>
-
-	<main>
-		<section class="hero">
-			<div class="container">
-				<p class="eyebrow reveal">Nosotros</p>
-				<h1 class="h-hero reveal">El equipo que construye el futuro de la IA aplicada.</h1>
-				<p class="lead reveal">Codi nació aplicando inteligencia artificial a problemas reales de negocio: recomendación personalizada, e-commerce y fintech. Hoy ponemos esa experiencia al servicio de un sistema unificado que multiplica la inteligencia y la ejecución de toda una organización.</p>
-			</div>
-		</section>
-
-		<section class="section section--border">
-			<div class="container">
-				<p class="eyebrow reveal">Quiénes somos</p>
-				<h2 class="h-section reveal">Más de una década llevando IA a producción.</h2>
-				<p class="lead reveal">Con más de diez años de trabajo y más de 50 proyectos exitosos, nuestra especialidad es transformar operaciones con soluciones de inteligencia artificial y machine learning. Entendemos que cada desafío de negocio es único, por eso adaptamos cada proyecto a necesidades específicas. Nuestro equipo, con culturas y backgrounds diversos repartidos en tres continentes, aporta una amplitud de perspectivas que se traduce en soluciones creativas y pragmáticas.</p>
-			</div>
-		</section>
-
-		<section class="section section--dark section--border">
-			<div class="container">
-				<p class="eyebrow reveal">Cómo trabajamos</p>
-				<h2 class="h-section reveal">Lo que nos define.</h2>
-				<div class="features">
-					<div class="feature reveal">
-						<h3 class="feature__title">Impacto primero</h3>
-						<p class="feature__text">Cientos de millones de datos puestos al servicio del negocio. Medimos el éxito por resultados, no por entregables.</p>
-					</div>
-					<div class="feature reveal">
-						<h3 class="feature__title">Integración sin fricción</h3>
-						<p class="feature__text">Soluciones adaptables que requieren un esfuerzo mínimo de integración para empezar a generar valor.</p>
-					</div>
-					<div class="feature reveal">
-						<h3 class="feature__title">A medida</h3>
-						<p class="feature__text">Elegí el mejor encaje entre una solución end-to-end y una modular, según tu operación.</p>
-					</div>
-					<div class="feature reveal">
-						<h3 class="feature__title">Tiempo real</h3>
-						<p class="feature__text">Respuestas en el rango de los milisegundos, para interacciones que no pueden esperar.</p>
-					</div>
-					<div class="feature reveal">
-						<h3 class="feature__title">Big Data</h3>
-						<p class="feature__text">Entrenado sobre grandes volúmenes de datos para entregar resultados precisos y confiables.</p>
-					</div>
-					<div class="feature reveal">
-						<h3 class="feature__title">Privacidad de datos</h3>
-						<p class="feature__text">Todo el procesamiento puede ocurrir dentro de tu propia nube. Tus datos, tus reglas.</p>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section class="cta-final">
-			<div class="container">
-				<h2 class="reveal">Transformá tu modelo operativo con Codi.</h2>
-				<a href="/contacto/" class="btn reveal">Contactanos</a>
-			</div>
-		</section>
-	</main>
-
-	<footer class="footer">
-		<div class="container">
-			<div class="footer__grid">
-				<div class="footer__brand">
-					<img src="/assets/img/Codi-dark.svg" alt="Codi">
-					<p>IA aplicada a las operaciones de las empresas. Construido en Argentina, operando a nivel global.</p>
-				</div>
-				<div class="footer__col">
-					<h5>Plataforma</h5>
-					<ul>
-						<li><a href="/plataforma/">Overview</a></li>
-						<li><a href="/estudio/">Codi Studio</a></li>
-						<li><a href="/apps/">Apps a medida</a></li>
-					</ul>
-				</div>
-				<div class="footer__col">
-					<h5>Empresa</h5>
-					<ul>
-						<li><a href="/implementacion/">Implementación</a></li>
-						<li><a href="/transformacion/">Transformación</a></li>
-						<li><a href="/industrias/">Industrias</a></li>
-						<li><a href="/nosotros/">Nosotros</a></li>
-						<li><a href="/contacto/">Contacto</a></li>
-					</ul>
-				</div>
-				<div class="footer__col">
-					<h5>Contacto</h5>
-					<ul>
-						<li><a href="mailto:info@codi.com.ar">info@codi.com.ar</a></li>
-						<li class="footer__phone"><span>Argentina</span><a href="tel:+5491168383333">+54 9 11 6838 3333</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="footer__bottom">
-				<p>© 2026 Codi. Todos los derechos reservados.</p>
-				<div class="footer__social">
-					<a href="https://wa.me/5491168383333" aria-label="WhatsApp"><img src="/assets/img/icon-whatsapp.png" alt="WhatsApp"></a>
-				</div>
-			</div>
+		<div class="pie__col">
+			<h5>Codi</h5>
+			<ul>
+				<li><a href="/plataforma/">Plataforma</a></li>
+				<li><a href="/estudio/">Codi Studio</a></li>
+				<li><a href="/apps/">Apps a medida</a></li>
+				<li><a href="/nosotros/">Nosotros</a></li>
+			</ul>
 		</div>
-	</footer>
-	<script src="/assets/js/legado.js"></script>
+		<div class="pie__col">
+			<h5>Contacto</h5>
+			<ul>
+				<li><a href="mailto:info@codi.com.ar">info@codi.com.ar</a></li>
+				<li><a href="tel:+5491168383333">+54 9 11 6838 3333</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="wrap pie__base">
+		<p>© 2026 Codi</p>
+	</div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
 </body>
 </html>

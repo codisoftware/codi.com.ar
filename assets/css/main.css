@@ -875,11 +875,24 @@ body.js .kicker__pulso { animation: pulsar 2.4s ease-out infinite; }
 /* el texto se escribe */
 .tarjeta__texto { min-height: 4.6em; }
 
-/* En las tarjetas el texto queda fantasma en vez de desaparecer: así no
-   hay un hueco vacío esperando, y cada letra se prende al escribirse. */
-body.js .tarjeta .letra { opacity: .15; transition: opacity .18s ease; }
-body.js .tarjeta .letra.puesta { opacity: 1; }
 body.js .tarjeta.activa .tarjeta__piso { background: var(--cian); }
+
+/* la invitación a entrar, siempre visible: si sólo aparece al pasar el
+   cursor, nadie se entera de que la tarjeta es una opción */
+.tarjeta__ir {
+	display: block;
+	margin-top: 18px;
+	font-family: var(--mono);
+	font-size: .74rem;
+	letter-spacing: .06em;
+	color: var(--cian);
+	transition: transform .3s var(--curva);
+}
+.tarjeta__ir::after { content: " →"; }
+.tarjeta:hover .tarjeta__ir,
+.tarjeta.activa .tarjeta__ir { transform: translateX(4px); }
+
+a.tarjeta { display: block; text-decoration: none; color: inherit; }
 body.js .letra { opacity: 0; }
 body.js .letra.puesta { opacity: 1; }
 /* el cursor va pegado a la última letra escrita, no al final de la caja */
@@ -1064,11 +1077,10 @@ body.js .enlace.entro::before { transform: scaleX(1); }
 	font-size: .74rem;
 	letter-spacing: .06em;
 	color: var(--cian);
-	opacity: 0;
-	transform: translateX(-6px);
-	transition: opacity .3s var(--curva), transform .3s var(--curva);
+	transition: transform .3s var(--curva);
 }
-.rubro.activa .rubro__ir { opacity: 1; transform: none; }
+.rubro:hover .rubro__ir,
+.rubro.activa .rubro__ir { transform: translateX(4px); }
 .rubro__ir::after { content: " →"; }
 
 /* donde se para el bicho cuando te acercás */
@@ -2407,3 +2419,18 @@ body.js .enlace--info { cursor: none; }
 	text-transform: none;
 	letter-spacing: 0;
 }
+
+/* las tres de plataforma también avisan que se puede entrar */
+.enlace__ir {
+	display: block;
+	margin-top: 16px;
+	font-family: var(--mono);
+	font-size: .74rem;
+	letter-spacing: .06em;
+	color: var(--cian);
+	transition: transform .3s var(--curva);
+}
+.enlace__ir::after { content: " →"; }
+.enlace:hover .enlace__ir,
+.enlace.activa .enlace__ir { transform: translateX(4px); }
+.enlace--info .enlace__ir { display: none; }

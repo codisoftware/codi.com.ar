@@ -657,27 +657,19 @@
 	   así el prerender y quien no tenga JS lo leen igual.
 	   ══════════════════════════════════════════════════════════════════ */
 
-	var zonaTrabajo = document.querySelector('#trabajo');
+	var zonaTrabajo = document.querySelector('.trabajo');   // vale en la home y en las internas
 	var formas = Array.prototype.slice.call(document.querySelectorAll('[data-tarjeta]'));
 
 	var formaActiva = null;
 
+	/* Marcar cuál mirás mueve al bicho y enciende la tarima. El texto NO se
+	   reescribe: se escribió una vez al llegar a la sección y se queda. Que
+	   se rearme cada vez que pasás el mouse se lee como un parpadeo. */
 	function activar(t) {
 		if (formaActiva === t) return;
-		formas.forEach(function (x) {
-			x.classList.remove('activa');
-			// la que dejás de mirar vuelve a quedar fantasma
-			x.querySelectorAll('.letra').forEach(function (l) { l.classList.remove('puesta', 'cursor'); });
-			x.querySelectorAll('[data-escribir], .tarjeta__meta').forEach(function (n) { delete n.dataset.escrito; });
-		});
+		formas.forEach(function (x) { x.classList.remove('activa'); });
 		t.classList.add('activa');
 		formaActiva = t;
-
-		if (quieto) return;
-		var p = t.querySelector('[data-escribir]');
-		reescribir(p);
-		// la línea de abajo arranca cuando la de arriba va por la mitad
-		reescribir(t.querySelector('.tarjeta__meta'), p ? p.textContent.length * 4 : 400);
 	}
 
 	if (formas.length) {
@@ -685,18 +677,24 @@
 			formas.forEach(function (t) { t.classList.add('activa'); });
 		} else {
 			formas.forEach(function (t) {
-				partir(t.querySelector('[data-escribir]'));
-				partir(t.querySelector('.tarjeta__meta'));
-
-				['mouseenter', 'focus', 'click'].forEach(function (ev) {
+				['mouseenter', 'focus'].forEach(function (ev) {
 					t.addEventListener(ev, function () { activar(t); });
 				});
 			});
 
 			if (zonaTrabajo) {
-				new IntersectionObserver(function (entradas) {
+				new IntersectionObserver(function (entradas, obs) {
 					entradas.forEach(function (e) {
-						if (e.isIntersecting && !formaActiva) activar(formas[0]);
+						if (!e.isIntersecting) return;
+						obs.disconnect();
+						// las cuatro se escriben solas al llegar, una atrás de otra
+						formas.forEach(function (t, n) {
+							setTimeout(function () {
+								escribir(t.querySelector('[data-escribir]'));
+								escribir(t.querySelector('.tarjeta__meta'));
+							}, n * 260);
+						});
+						activar(formas[0]);
 					});
 				}, { threshold: 0.25 }).observe(zonaTrabajo);
 			}

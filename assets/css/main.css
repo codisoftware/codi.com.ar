@@ -1581,3 +1581,44 @@ main { view-transition-name: cuerpo; }
 @media (prefers-reduced-motion: reduce) {
 	::view-transition-new(cuerpo) { animation: none; }
 }
+
+/* ═══════════ móvil ═══════════
+   En una pantalla de 390px el sitio no es el mismo sitio más angosto: hay
+   piezas que en el escritorio explican y acá sólo empujan el contenido real
+   hacia abajo. Grilla y no carrusel: el carrusel compite con el scroll (el
+   dedo hace el mismo gesto), esconde lo que no está en pantalla y necesita
+   un control de pausa, que es más superficie para romperse.
+   ══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 860px) {
+	/* la cinta del hero se va: son 470px de decoración antes del primer texto */
+	.hero__escena { display: none; }
+	.hero { padding: 120px 0 56px; }
+
+	.nav__tema { display: flex; justify-content: flex-start; }
+	.nav__tema .tema { width: 44px; height: 40px; }
+}
+
+@media (min-width: 861px) {
+	.nav__tema { display: flex; align-items: center; margin-left: 8px; }
+}
+
+@media (max-width: 700px) {
+	/* industrias 2×3 y las formas 2×2: ícono y título, que es lo que se
+	   escanea. La explicación vive en la página de cada una. */
+	.rubros { grid-template-columns: 1fr 1fr; gap: 10px; }
+	.rubro { padding: 18px 14px 20px; }
+	.rubro h3 { font-size: 1rem; line-height: 1.2; }
+	.rubro p, .rubro__ir { display: none; }
+
+	.trabajo { grid-template-columns: 1fr 1fr; }
+	.tarjeta { padding: 20px 16px 24px; }
+	.tarjeta h3 { font-size: 1rem; line-height: 1.2; }
+	.tarjeta__texto, .tarjeta__meta { display: none; }
+	.tarjeta__tarima { margin-bottom: 14px; padding-bottom: 0; }
+	.tarjeta__piso { display: none; }
+	.tarjeta__ir { margin-top: 12px; font-size: .68rem; }
+
+	.casos { gap: 26px; }
+	.enlaces, .enlaces--cuatro { grid-template-columns: 1fr; }
+}

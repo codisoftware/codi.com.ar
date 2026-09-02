@@ -525,6 +525,15 @@
 	var viajero = document.querySelector('[data-viajero]');
 	var postas = Array.prototype.slice.call(document.querySelectorAll('[data-posta]'));
 
+	/* A quién está mirando el cursor ahora mismo. Antes esto se leía del DOM
+	   con '.activa .posta', y como la tarjeta de "qué hacemos" queda activa
+	   para siempre y está primera en la página, se quedaba con el bicho: ni
+	   las industrias ni las de plataforma se lo podían llevar. */
+	var enfocada = null;
+
+	function mirar(el) { enfocada = el; }
+	function soltar() { enfocada = null; }
+
 	if (viajero && postas.length && !quieto) {
 		var f1 = dibujar(ELENCO.viaja1, 6);
 		var f2 = dibujar(ELENCO.viaja2, 6);
@@ -557,8 +566,8 @@
 				}
 			}
 
-			// la forma que estás mirando manda: el bicho se para en su tarima
-			var tarima = document.querySelector('.activa .posta');
+			// lo que estás mirando manda: el bicho se para al lado
+			var tarima = enfocada && enfocada.querySelector('.posta');
 			if (tarima) {
 				var rt = tarima.getBoundingClientRect();
 				if (rt.width && rt.top > 8 && rt.bottom < vh - 8) {
@@ -662,17 +671,16 @@
 				r.addEventListener(ev, function () {
 					rubros.forEach(function (x) { x.classList.remove('activa'); });
 					r.classList.add('activa');
+					mirar(r);
+				});
+			});
+			['mouseleave', 'blur'].forEach(function (ev) {
+				r.addEventListener(ev, function () {
+					r.classList.remove('activa');
+					if (enfocada === r) soltar();
 				});
 			});
 		});
-
-		// al salir de la grilla el bicho vuelve a lo suyo
-		var grilla = document.querySelector('.rubros');
-		if (grilla) {
-			grilla.addEventListener('mouseleave', function () {
-				rubros.forEach(function (x) { x.classList.remove('activa'); });
-			});
-		}
 	}
 
 	/* ───────── los números de casos suben desde cero ───────── */
@@ -751,7 +759,10 @@
 		} else {
 			formas.forEach(function (t) {
 				['mouseenter', 'focus'].forEach(function (ev) {
-					t.addEventListener(ev, function () { activar(t); });
+					t.addEventListener(ev, function () { activar(t); mirar(t); });
+				});
+				['mouseleave', 'blur'].forEach(function (ev) {
+					t.addEventListener(ev, function () { if (enfocada === t) soltar(); });
 				});
 			});
 

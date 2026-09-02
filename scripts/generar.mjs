@@ -164,7 +164,15 @@ export function formulario(origen) {
 					<button type="submit" class="btn btn--grande">Contanos</button>
 					<p class="form__aviso" data-aviso role="status"></p>
 				</div>
-			</form>`;
+			</form>
+
+			<div class="gracias" data-gracias hidden>
+				<div class="gracias__codi" data-agente="viaja1" data-escala="8" aria-hidden="true"></div>
+				<div>
+					<p class="gracias__titulo">Listo, lo tenemos.</p>
+					<p class="gracias__texto">Te escribimos a <b data-gracias-mail></b>. Si es urgente, WhatsApp al <a href="https://wa.me/5491168383333">+54 9 11 6838 3333</a>.</p>
+				</div>
+			</div>`;
 }
 
 /* ───────── una página de industria ───────── */

@@ -1487,3 +1487,48 @@ body.js .tema { cursor: none; }
 .marca--oscuro { display: none; }
 [data-tema="oscuro"] .marca--claro { display: none; }
 [data-tema="oscuro"] .marca--oscuro { display: block; }
+
+/* ───────── la confirmación, con Codi al lado ───────── */
+
+.gracias {
+	display: flex;
+	align-items: center;
+	gap: 22px;
+	max-width: 620px;
+	margin: 36px auto 0;
+	padding: 26px 28px;
+	text-align: left;
+	border: 1px solid var(--cian);
+	border-radius: var(--radio);
+	background: var(--cian-humo);
+}
+.gracias[hidden] { display: none; }
+
+.gracias__codi {
+	flex: none;
+	color: var(--tinta);
+	filter: drop-shadow(0 3px 7px var(--sombra));
+}
+body.js .gracias__codi { animation: saludar 2.6s ease-in-out infinite; }
+@keyframes saludar {
+	0%, 100% { transform: translateY(0) rotate(0deg); }
+	40%      { transform: translateY(-4px) rotate(-4deg); }
+	70%      { transform: translateY(-1px) rotate(3deg); }
+}
+
+.gracias__titulo {
+	font-size: 1.14rem;
+	font-weight: 700;
+	letter-spacing: -.02em;
+	margin-bottom: 6px;
+}
+.gracias__texto { font-size: .93rem; color: var(--tinta-2); }
+.gracias__texto b { color: var(--tinta); font-weight: 600; }
+.gracias__texto a { color: var(--cian-txt); }
+
+@media (max-width: 560px) {
+	.gracias { flex-direction: column; align-items: flex-start; gap: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+	body.js .gracias__codi { animation: none; }
+}

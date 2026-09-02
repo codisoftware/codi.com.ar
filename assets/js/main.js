@@ -795,7 +795,19 @@
 	var form = document.querySelector('[data-form]');
 	if (form) {
 		var aviso = form.querySelector('[data-aviso]');
+		var gracias = form.parentNode.querySelector('[data-gracias]');
 		var abierto = Date.now();
+
+		/* Cuando sale bien, el formulario se va y queda Codi con la
+		   confirmación. Dejar los campos vacíos abajo de un "listo" invita a
+		   mandarlo de nuevo, y encima no se ve que haya pasado nada. */
+		function confirmar(mail) {
+			if (!gracias) { decir('Listo, te escribimos.', 'bien'); return; }
+			var donde = gracias.querySelector('[data-gracias-mail]');
+			if (donde) donde.textContent = mail;
+			form.hidden = true;
+			gracias.hidden = false;
+		}
 
 		var decir = function (texto, clase) {
 			if (!aviso) return;
@@ -836,7 +848,7 @@
 			   salido bien: decirle a un bot que lo detectaste es regalarle la
 			   pista para ajustar el patrón. */
 			var sospechoso = form.empresa_web.value !== '' || (Date.now() - abierto) < 3000;
-			if (sospechoso) { decir('Listo, te escribimos.', 'bien'); form.reset(); return; }
+			if (sospechoso) { confirmar(datos.email); return; }
 
 			if (!CLAVE_ENVIO) {
 				// Todavía no hay a dónde mandarlo: abrimos el mail ya redactado.
@@ -848,7 +860,7 @@
 				window.location.href = 'mailto:info@codi.com.ar'
 					+ '?subject=' + encodeURIComponent('Consulta desde ' + datos.origen + ' · ' + datos.nombre)
 					+ '&body=' + encodeURIComponent(cuerpo);
-				decir('Te abrimos el mail con todo cargado.', 'bien');
+				confirmar(datos.email);
 				return;
 			}
 
@@ -870,8 +882,7 @@
 			fetch(URL_ENVIO, { method: 'POST', body: sobre })
 				.then(function (r) { return r.json(); }).then(function (r) {
 				if (!r.success) throw new Error('rechazado');
-				decir('Listo, te escribimos.', 'bien');
-				form.reset();
+				confirmar(datos.email);
 			}).catch(function () {
 				decir('No salió. Escribinos a info@codi.com.ar.', 'mal');
 			});

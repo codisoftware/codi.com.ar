@@ -727,7 +727,7 @@
 	   hacerlo alguien que lea info@codi.com.ar. Con la clave puesta el
 	   formulario postea y el mail llega solo; sin clave, cae en el mailto,
 	   que es lo que hace hoy el sitio publicado. */
-	var CLAVE_ENVIO = '00d04800-138c-4cd8-be25-e87859834a99';
+	var CLAVE_ENVIO = '';   // la de info@codi.com.ar, cuando esté
 	var URL_ENVIO = 'https://api.web3forms.com/submit';
 
 	var form = document.querySelector('[data-form]');

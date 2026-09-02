@@ -341,7 +341,12 @@
 		escribir(p, demora);
 	}
 
-	/* ───────── la ruta: la línea se forma con el agente ───────── */
+	/* ───────── la ruta ─────────
+	   La escena no se scrubbea con el scroll: cuando entra en pantalla corre
+	   sola. Antes había que seguir scrolleando para que pasara algo, y una
+	   animación que depende de que el otro siga moviendo la rueda se lee
+	   como que está trabada.
+	   ═══════════════════════════════════════════════════════════════════ */
 
 	var ruta = document.querySelector('[data-ruta]');
 	var linea = document.querySelector('[data-linea]');
@@ -349,39 +354,10 @@
 	var hitos = Array.prototype.slice.call(document.querySelectorAll('[data-hito]'));
 	var nodos = Array.prototype.slice.call(document.querySelectorAll('[data-nodo]'));
 
-	var pista = { arriba: 0, alto: 1 };
 	var largo = 0;
-	var pinneado = false;
 	var trazoActual = 0;
+	var escenaViva = false;
 	var enNodo = [0, 0, 0];   // en qué punto del camino cae cada fase
-
-	/* El scroll no avanza la línea de forma pareja: corre hasta el punto de
-	   una fase, se queda ahí mientras el texto se escribe, y recién después
-	   sale para la siguiente. */
-	var TRAMOS = [
-		[0.00, 0.16, 0, 0],   // el camino ARRANCA en la fase 1: nada dibujado
-		[0.16, 0.42, 0, 1],
-		[0.42, 0.62, 1, 1],   // parado en la 2 mientras escribe
-		[0.62, 0.84, 1, 2],
-		[0.84, 1.00, 2, 3]    // de la 3 hasta el final
-	];
-
-	function largoDe(i) {
-		return i >= enNodo.length ? 1 : enNodo[i];
-	}
-
-	function trazoSegun(p) {
-		for (var i = 0; i < TRAMOS.length; i++) {
-			var t = TRAMOS[i];
-			if (p <= t[1] || i === TRAMOS.length - 1) {
-				var k = (p - t[0]) / (t[1] - t[0]);
-				k = k < 0 ? 0 : k > 1 ? 1 : k;
-				var a0 = largoDe(t[2]), a1 = largoDe(t[3]);
-				return a0 + (a1 - a0) * k;
-			}
-		}
-		return 1;
-	}
 
 	/* Dónde cae cada nodo sobre el camino, buscando el punto más cercano. */
 	function ubicarNodos() {
@@ -399,59 +375,89 @@
 		});
 	}
 
-	function medir() {
-		if (!ruta || !linea) return;
-		pinneado = window.innerWidth >= 900 && !quieto;
-		var caja = ruta.getBoundingClientRect();
-		pista.arriba = caja.top + window.scrollY;
-		pista.alto = Math.max(1, ruta.offsetHeight - window.innerHeight);
-		largo = linea.getTotalLength();
-		ubicarNodos();
-		pintar();
-	}
-
-	function pintar() {
-		if (!ruta || !linea || !largo) return;
-
-		if (!pinneado) {
-			trazoActual = 1;
-			linea.style.strokeDasharray = 'none';
-			hitos.forEach(function (h) { h.classList.add('encendido'); });
-			nodos.forEach(function (n) { n.classList.add('vivo'); });
-			return;
-		}
-
-		var p = (window.scrollY - pista.arriba) / pista.alto;
-		p = p < 0 ? 0 : p > 1 ? 1 : p;
-
-		var trazo = trazoSegun(p);
-		trazoActual = trazo;
-
+	function pintarLinea() {
+		if (!linea || !largo) return;
 		/* Sólo el tramo recorrido. El hueco es enorme a propósito: con un
 		   hueco del largo del camino, el patrón alcanzaba a repetirse y
 		   dejaba un pedazo de línea suelto a la derecha. */
-		linea.style.strokeDasharray = (largo * trazo).toFixed(2) + ' 99999';
+		linea.style.strokeDasharray = (largo * trazoActual).toFixed(2) + ' 99999';
+	}
 
-		hitos.forEach(function (h, i) {
-			var on = p >= parseFloat(h.dataset.en);
-			h.classList.toggle('encendido', on);
-			if (nodos[i]) nodos[i].classList.toggle('vivo', on);
-			if (on) escribir(h.querySelector('[data-escribir]'));
+	/* Lleva la línea de un punto a otro, con arranque y frenada. */
+	function tramo(desde, hasta, dur) {
+		return new Promise(function (listo) {
+			var t0 = performance.now();
+			requestAnimationFrame(function paso(ahora) {
+				var k = Math.min(1, (ahora - t0) / dur);
+				var e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+				trazoActual = desde + (hasta - desde) * e;
+				pintarLinea();
+				if (k < 1) requestAnimationFrame(paso);
+				else listo();
+			});
 		});
 	}
 
-	if (ruta && linea) {
-		var pendiente = false;
-		window.addEventListener('scroll', function () {
-			if (pendiente) return;
-			pendiente = true;
-			requestAnimationFrame(function () { pintar(); pendiente = false; });
-		}, { passive: true });
+	var pausa = function (ms) {
+		return new Promise(function (listo) { setTimeout(listo, ms); });
+	};
 
-		window.addEventListener('resize', medir);
-		window.addEventListener('load', medir);
-		// la primera medición va en un rAF: antes, el alto todavía no es el real
-		requestAnimationFrame(medir);
+	function encender(i) {
+		if (!hitos[i]) return 0;
+		hitos[i].classList.add('encendido');
+		if (nodos[i]) nodos[i].classList.add('vivo');
+		var p = hitos[i].querySelector('[data-escribir]');
+		escribir(p);
+		// lo que tarda en escribirse: 3 letras cada 16 ms
+		return p ? (p.textContent.length / 3) * 16 : 400;
+	}
+
+	function correrEscena() {
+		if (escenaViva || !linea || !largo) return;
+		escenaViva = true;
+
+		var destinos = [enNodo[1], enNodo[2], 1];
+
+		(function fase(i) {
+			var tarda = encender(i);
+			pausa(tarda + 520).then(function () {
+				if (i >= destinos.length) return;
+				tramo(trazoActual, destinos[i], 1150).then(function () { fase(i + 1); });
+			});
+		})(0);
+	}
+
+	function medirRuta() {
+		if (!ruta || !linea) return;
+		largo = linea.getTotalLength();
+		ubicarNodos();
+		pintarLinea();
+	}
+
+	if (ruta && linea) {
+		if (quieto) {
+			// sin movimiento: el camino entero dibujado y las tres fases a la vista
+			requestAnimationFrame(function () {
+				largo = linea.getTotalLength();
+				trazoActual = 1;
+				linea.style.strokeDasharray = 'none';
+				hitos.forEach(function (h) { h.classList.add('encendido'); });
+				nodos.forEach(function (n) { n.classList.add('vivo'); });
+			});
+		} else {
+			requestAnimationFrame(medirRuta);
+			window.addEventListener('resize', medirRuta);
+			window.addEventListener('load', medirRuta);
+
+			new IntersectionObserver(function (entradas, obs) {
+				entradas.forEach(function (e) {
+					if (!e.isIntersecting) return;
+					obs.disconnect();
+					medirRuta();
+					correrEscena();
+				});
+			}, { threshold: 0.35 }).observe(ruta);
+		}
 	}
 
 	/* ═══════════ el agente viaja de posta en posta ═══════════ */
@@ -479,7 +485,7 @@
 			var vh = window.innerHeight;
 
 			// la escena de la ruta manda mientras está en pantalla
-			if (linea && svgRuta && pinneado && largo) {
+			if (linea && svgRuta && escenaViva && largo) {
 				var c = svgRuta.getBoundingClientRect();
 				if (c.top < vh * 0.92 && c.bottom > vh * 0.08) {
 					var esc = c.width / 1000;   // ahora escala parejo en los dos ejes
@@ -785,20 +791,22 @@
 			}
 
 			decir('Enviando…');
-			fetch(URL_ENVIO, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-				body: JSON.stringify({
-					access_key: CLAVE_ENVIO,
-					subject: 'Consulta desde ' + datos.origen + ' · ' + datos.nombre,
-					from_name: datos.nombre + (datos.empresa ? ' (' + datos.empresa + ')' : ''),
-					email: datos.email,
-					empresa: datos.empresa,
-					origen: datos.origen,
-					pagina: datos.url,
-					message: datos.mensaje
-				})
-			}).then(function (r) { return r.json(); }).then(function (r) {
+
+			/* Va como FormData a propósito. Con JSON el navegador dispara un
+			   preflight CORS que Web3Forms no contesta, y el envío muere con
+			   ERR_FAILED antes de salir. FormData es un pedido simple. */
+			var sobre = new FormData();
+			sobre.append('access_key', CLAVE_ENVIO);
+			sobre.append('subject', 'Consulta desde ' + datos.origen + ' · ' + datos.nombre);
+			sobre.append('from_name', datos.nombre + (datos.empresa ? ' (' + datos.empresa + ')' : ''));
+			sobre.append('email', datos.email);
+			sobre.append('empresa', datos.empresa);
+			sobre.append('origen', datos.origen);
+			sobre.append('pagina', datos.url);
+			sobre.append('message', datos.mensaje);
+
+			fetch(URL_ENVIO, { method: 'POST', body: sobre })
+				.then(function (r) { return r.json(); }).then(function (r) {
 				if (!r.success) throw new Error('rechazado');
 				decir('Listo, te escribimos.', 'bien');
 				form.reset();

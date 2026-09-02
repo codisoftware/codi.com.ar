@@ -82,7 +82,6 @@ function menu() {
 			<li><a href="/#industrias">Industrias</a></li>
 			<li><a href="/#ruta">Cómo trabajamos</a></li>
 			<li><a href="/#plataforma">Plataforma</a></li>
-			<li><a href="${CODI}/nosotros/">Nosotros</a></li>
 		</ul>
 		<a href="/#hablemos" class="btn btn--sm nav__cta">Hablemos</a>
 		<button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
@@ -105,11 +104,12 @@ ${otras}
 			</ul>
 		</div>
 		<div class="pie__col">
-			<h5>Plataforma</h5>
+			<h5>Codi</h5>
 			<ul>
-				<li><a href="/plataforma/">Overview</a></li>
+				<li><a href="/plataforma/">Plataforma</a></li>
 				<li><a href="/estudio/">Codi Studio</a></li>
 				<li><a href="/apps/">Apps a medida</a></li>
+				<li><a href="/nosotros/">Nosotros</a></li>
 			</ul>
 		</div>
 		<div class="pie__col">
@@ -390,6 +390,37 @@ ${otras}
 	});
 }
 
+/* ───────── /contacto/ ─────────
+   El formulario vive al final de cada página, así que esta página ya no
+   tiene razón de existir. No se borra: la URL puede estar indexada o
+   linkeada desde afuera, y un 404 pierde esas visitas. Se redirige.
+   ═══════════════════════════════════════════════════════════════════ */
+
+function paginaContacto() {
+	return `<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+	<meta charset="UTF-8"/>
+	<title>Contacto · Codi</title>
+	<link rel="canonical" href="${CODI}/#hablemos" />
+	<meta name="robots" content="noindex, follow" />
+	<meta http-equiv="refresh" content="0; url=/#hablemos" />
+	<link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+	<style>
+		body { margin:0; min-height:100vh; display:grid; place-items:center;
+		       background:#0A0C0F; color:#94A2B2;
+		       font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
+		a { color:#6FD2FF; }
+	</style>
+</head>
+<body>
+	<p>El formulario está en la home. <a href="/#hablemos">Ir a Hablemos</a>.</p>
+	<script>location.replace('/#hablemos');</script>
+</body>
+</html>
+`;
+}
+
 /* ───────── a escribir ───────── */
 
 let hechas = 0;
@@ -400,6 +431,11 @@ for (const ind of INDUSTRIAS) {
 	console.log('·', `/industrias/${ind.slug}/`);
 	hechas++;
 }
+mkdirSync(join(RAIZ, 'contacto'), { recursive: true });
+writeFileSync(join(RAIZ, 'contacto', 'index.html'), paginaContacto());
+console.log('·', '/contacto/ (redirige a la home)');
+hechas++;
+
 for (const p of PRODUCTO) {
 	const carpeta = join(RAIZ, p.slug);
 	mkdirSync(carpeta, { recursive: true });

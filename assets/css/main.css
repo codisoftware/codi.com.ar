@@ -578,19 +578,1208 @@ body.js .hito {
 body.js .hito.encendido { opacity: 1; transform: none; }
 body.js .hito.encendido .hito__num { color: var(--cian); }
 
-/* con JS y pantalla grande, la escena se queda quieta y el scroll la recorre */
-@media (min-width: 900px) {
-	body.js .ruta { height: 300vh; }
-	body.js .ruta__escenario {
-		position: sticky;
-		top: 0;
-		height: 100vh;
-		display: flex;
-		align-items: center;
-		padding: 0;
-	}
-	body.js .ruta__linea { stroke-dasharray: var(--largo); stroke-dashoffset: var(--corte); }
+/* ───────── enlaces de plataforma ───────── */
+
+.enlaces {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 20px;
 }
+.enlace {
+	display: block;
+	padding: 30px 28px 34px;
+	background: var(--suelo);
+	border: 1px solid var(--linea);
+	border-radius: 6px;
+	text-decoration: none;
+	transition: border-color .25s ease, transform .25s var(--curva);
+}
+.enlace:hover { border-color: var(--cian); transform: translateY(-3px); }
+.enlace__num {
+	font-family: var(--mono);
+	font-size: .72rem;
+	color: var(--cian);
+	letter-spacing: .1em;
+}
+.enlace h3 { margin: 14px 0 8px; }
+.enlace p { color: var(--tinta-2); font-size: .9rem; }
+
+/* ───────── cierre ───────── */
+
+.cierre {
+	position: relative;
+	padding: 108px 0 118px;
+	text-align: center;
+	background:
+		radial-gradient(62% 78% at 50% 8%, rgba(55, 164, 220, .16), transparent 70%),
+		var(--suelo-2);
+	border-top: 1px solid var(--linea);
+}
+.cierre__agentes {
+	display: flex;
+	justify-content: center;
+	gap: 18px;
+	color: var(--tinta-3);
+	margin-bottom: 36px;
+}
+.cierre h2 { max-width: 24ch; margin: 0 auto; }
+.cierre .lead { margin: 22px auto 34px; text-align: center; }
+.cierre__pie {
+	margin-top: 30px;
+	font-family: var(--mono);
+	font-size: .82rem;
+	color: var(--tinta-3);
+}
+.cierre__pie a { color: var(--tinta-2); text-decoration: none; }
+.cierre__pie a:hover { color: var(--cian); }
+
+/* ───────── pie ───────── */
+
+.pie {
+	background: var(--suelo);
+	border-top: 1px solid var(--linea);
+	padding: 62px 0 0;
+}
+.pie__grid {
+	display: grid;
+	grid-template-columns: 1.7fr repeat(3, 1fr);
+	gap: 44px;
+	padding-bottom: 48px;
+}
+.pie__marca .nav__mark { color: var(--tinta); margin-bottom: 16px; }
+.pie__marca p { color: var(--tinta-3); font-size: .86rem; max-width: 34ch; }
+.pie__col h5 {
+	margin: 0 0 16px;
+	font-family: var(--mono);
+	font-size: .72rem;
+	font-weight: 500;
+	letter-spacing: .13em;
+	text-transform: uppercase;
+	color: var(--tinta-3);
+}
+.pie__col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.pie__col a {
+	font-size: .89rem;
+	color: var(--tinta-2);
+	text-decoration: none;
+}
+.pie__col a:hover { color: var(--cian); }
+
+.pie__base {
+	border-top: 1px solid var(--linea);
+	padding-block: 22px 26px;
+}
+.pie__base p { font-family: var(--mono); font-size: .76rem; color: var(--tinta-3); }
+
+/* ───────── sin movimiento ───────── */
+
+@media (prefers-reduced-motion: reduce) {
+	body.js .hito { opacity: 1; }
+}
+
+/* ───────── responsive ───────── */
+
+@media (max-width: 1000px) {
+	.hero__grid { grid-template-columns: 1fr; gap: 56px; }
+	.trabajo, .casos, .enlaces, .ruta__hitos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.casos { grid-template-columns: 1fr; gap: 28px; }
+	.pie__grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 860px) {
+	.nav__links { display: none; }
+	.nav__toggle { display: flex; }
+	.nav__inner { gap: 0; justify-content: space-between; }
+	.nav__cta { margin-left: auto; margin-right: 12px; }
+
+	.nav__links.abierto {
+		display: grid;
+		position: absolute;
+		inset: 68px 0 auto 0;
+		gap: 0;
+		margin: 0;
+		padding: 8px 28px 20px;
+		background: var(--suelo);
+		border-bottom: 1px solid var(--linea);
+	}
+	.nav__links.abierto li { padding: 12px 0; border-bottom: 1px solid var(--linea); }
+}
+
+@media (max-width: 720px) {
+	.wrap { padding: 0 20px; }
+	.hero { padding: 132px 0 76px; }
+	.seccion { padding: 76px 0; }
+	.trabajo, .enlaces, .ruta__hitos { grid-template-columns: 1fr; }
+	.ruta__svg { display: none; }
+	.ruta__hitos { gap: 46px; }
+	.hito { padding-left: 20px; border-left: 2px solid var(--linea); }
+	.pie__grid { grid-template-columns: 1fr; gap: 34px; }
+	.hero__datos { gap: 26px; }
+	.hero__cta { display: grid; gap: 12px; }
+	.hero__cta .btn { justify-content: center; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   El agente que viaja
+   Va suelto por la página, de posta en posta. Las postas son
+   anclas invisibles dentro del contenido real.
+   ═══════════════════════════════════════════════════════════ */
+
+.viajero {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 45;
+	width: 48px;
+	height: 48px;
+	pointer-events: none;
+	color: var(--tinta);
+	filter: drop-shadow(0 3px 7px rgba(0, 0, 0, .55));
+	will-change: transform;
+}
+.viajero .cuadro { position: absolute; inset: 0; }
+.viajero .cuadro--b { opacity: 0; }
+.viajero.cuadroB .cuadro--a { opacity: 0; }
+.viajero.cuadroB .cuadro--b { opacity: 1; }
+
+/* cuando corre deja una estela y se estira apenas */
+.viajero::after {
+	content: "";
+	position: absolute;
+	inset: 8px -26px 8px 8px;
+	border-radius: 40px;
+	background: linear-gradient(90deg, transparent, rgba(55, 164, 220, .18));
+	opacity: 0;
+	transition: opacity .25s ease;
+	z-index: -1;
+}
+.viajero.apurado::after { opacity: 1; }
+
+.posta {
+	display: inline-block;
+	width: 34px;
+	height: 34px;
+	vertical-align: middle;
+	pointer-events: none;
+}
+
+
+.posta--puerta {
+	position: absolute;
+	right: 8px;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 3;
+}
+.posta--cierre { display: block; margin: 0 auto 26px; }
+
+/* ───────── hero: el pulso de "en producción" ───────── */
+
+.kicker--vivo { display: flex; align-items: center; gap: 9px; }
+.kicker__pulso {
+	width: 7px;
+	height: 7px;
+	background: var(--cian);
+	box-shadow: 0 0 0 0 rgba(55, 164, 220, .6);
+}
+body.js .kicker__pulso { animation: pulsar 2.4s ease-out infinite; }
+@keyframes pulsar {
+	0%   { box-shadow: 0 0 0 0 rgba(55, 164, 220, .55); }
+	70%  { box-shadow: 0 0 0 9px rgba(55, 164, 220, 0); }
+	100% { box-shadow: 0 0 0 0 rgba(55, 164, 220, 0); }
+}
+
+/* ───────── nav: el subrayado que crece ───────── */
+
+.nav__links a {
+	position: relative;
+	padding-bottom: 3px;
+}
+.nav__links a::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0 0;
+	height: 1px;
+	background: var(--cian);
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform .35s var(--curva);
+}
+.nav__links a:hover::after { transform: scaleX(1); }
+
+/* ───────── las cuatro formas se abren cuando el agente llega ───────── */
+
+
+/* ───────── sin movimiento ───────── */
+
+@media (prefers-reduced-motion: reduce) {
+	body.js .viajero { display: none; }
+	body.js .item,
+	body.js .item__caja,
+	body.js .item__pend,
+	body.js .item__ok,
+	body.js .cola__puerta,
+	body.js .kicker__pulso { animation: none; }
+	body.js .item { opacity: 1; top: calc(var(--i) * 62px); }
+	body.js .item__ok { display: none; }
+	body.js .hito { opacity: 1; transform: none; }
+}
+
+/* ───────── responsive del viaje ───────── */
+
+@media (max-width: 860px) {
+	.viajero { display: none; }
+	.posta { display: none; }
+}
+
+/* ═══════════ las cuatro formas ═══════════
+   Un solo bichito en toda la página: se para en la tarima de la forma
+   que estés mirando y el texto se escribe abajo.
+   ══════════════════════════════════════════════════════════════════ */
+
+.seccion__cab--posta { position: relative; }
+.posta--seccion { position: absolute; left: -2px; top: -60px; }
+
+.tarjeta { cursor: pointer; outline: none; }
+.tarjeta:focus-visible { background: var(--panel); }
+
+.tarjeta__tarima {
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+	gap: 14px;
+	margin-bottom: 26px;
+	padding-bottom: 12px;
+}
+.tarjeta__objeto { color: var(--tinta-3); transition: color .35s ease; }
+.tarjeta.activa .tarjeta__objeto { color: var(--tinta); }
+
+/* el piso donde se para */
+.tarjeta__piso {
+	flex: 1;
+	height: 2px;
+	background: var(--linea-viva);
+	transform-origin: left;
+	transition: background .35s ease;
+}
+.tarjeta.activa .tarjeta__piso { background: var(--cian); }
+
+.posta--tarima {
+	position: absolute;
+	right: 18px;
+	bottom: 19px;
+	width: 34px;
+	height: 34px;
+}
+
+/* el texto se escribe */
+.tarjeta__texto { min-height: 4.6em; }
+
+/* En las tarjetas el texto queda fantasma en vez de desaparecer: así no
+   hay un hueco vacío esperando, y cada letra se prende al escribirse. */
+body.js .tarjeta .letra { opacity: .15; transition: opacity .18s ease; }
+body.js .tarjeta .letra.puesta { opacity: 1; }
+body.js .tarjeta.activa .tarjeta__piso { background: var(--cian); }
+body.js .letra { opacity: 0; }
+body.js .letra.puesta { opacity: 1; }
+/* el cursor va pegado a la última letra escrita, no al final de la caja */
+body.js .letra.cursor::after {
+	content: "";
+	display: inline-block;
+	width: 7px;
+	height: 1em;
+	margin-left: 1px;
+	background: var(--cian);
+	vertical-align: -2px;
+	animation: latido .7s steps(1) infinite;
+}
+@keyframes latido { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+	body.js .letra,
+	body.js .tarjeta .letra { opacity: 1; }
+	body.js .letra.cursor::after { display: none; }
+}
+
+/* ───────── el texto de cada fase también se escribe ───────── */
+
+.hito p { min-height: 4.4em; }
+
+/* ───────── los números de casos se cuentan ───────── */
+
+/* .caso__dato span achica la unidad; el número no es la unidad */
+.caso__dato .caso__n { font-size: 1em; color: var(--tinta); margin-left: 0; font-variant-numeric: tabular-nums; }
+
+/* ───────── la plataforma entra escalonada ───────── */
+
+body.js .enlace {
+	opacity: 0;
+	transform: translateY(22px) scale(.985);
+	transition: opacity .6s var(--curva), transform .6s var(--curva), border-color .25s ease;
+}
+body.js .enlace.entro { opacity: 1; transform: none; }
+
+.enlace { position: relative; overflow: hidden; }
+.enlace::before {
+	content: "";
+	position: absolute;
+	inset: 0 0 auto 0;
+	height: 2px;
+	background: var(--cian);
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform .7s var(--curva);
+}
+body.js .enlace.entro::before { transform: scaleX(1); }
+
+@media (prefers-reduced-motion: reduce) {
+	body.js .enlace { opacity: 1; transform: none; }
+
+}
+
+/* ═══════════ el formulario, en la home ═══════════ */
+
+.form {
+	max-width: 620px;
+	margin: 36px auto 0;
+	text-align: left;
+}
+
+.form__fila {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 18px;
+}
+
+.campo { display: block; margin-bottom: 18px; }
+.campo__rotulo {
+	display: block;
+	margin-bottom: 8px;
+	font-family: var(--mono);
+	font-size: .72rem;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+	color: var(--tinta-3);
+}
+
+.campo input,
+.campo textarea {
+	width: 100%;
+	padding: 13px 15px;
+	background: var(--suelo);
+	border: 1px solid var(--linea-viva);
+	border-radius: var(--radio);
+	color: var(--tinta);
+	font-family: var(--sans);
+	font-size: .96rem;
+	line-height: 1.5;
+	resize: vertical;
+	transition: border-color .2s ease, background .2s ease;
+}
+.campo input:focus,
+.campo textarea:focus {
+	outline: none;
+	border-color: var(--cian);
+	background: var(--panel);
+}
+.campo.mal input,
+.campo.mal textarea { border-color: #C4574B; }
+
+/* el tarro de miel: invisible para una persona, irresistible para un bot */
+.tarro {
+	position: absolute;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+.form__pie {
+	display: flex;
+	align-items: center;
+	gap: 18px;
+	flex-wrap: wrap;
+	margin-top: 26px;
+}
+.form__aviso {
+	font-family: var(--mono);
+	font-size: .8rem;
+	color: var(--tinta-3);
+}
+.form__aviso.bien { color: var(--cian-alto); }
+.form__aviso.mal { color: #E08C82; }
+
+.cierre .cierre__pie { margin-top: 30px; }
+
+@media (max-width: 620px) {
+	.form__fila { grid-template-columns: 1fr; gap: 0; }
+	.form__pie { flex-direction: column; align-items: stretch; }
+	.form__pie .btn { justify-content: center; }
+}
+
+/* ═══════════ industrias ═══════════
+   Cada una es un link real a su página: se separan por SEO, así que el
+   texto del enlace tiene que decir a dónde va.
+   ══════════════════════════════════════════════════════════════════ */
+
+.rubros {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 18px;
+}
+
+.rubro {
+	position: relative;
+	display: block;
+	padding: 28px 26px 26px;
+	background: var(--suelo);
+	border: 1px solid var(--linea);
+	border-radius: 6px;
+	text-decoration: none;
+	transition: border-color .3s var(--curva), background .3s ease, transform .3s var(--curva);
+}
+.rubro:hover,
+.rubro:focus-visible {
+	border-color: var(--cian);
+	background: var(--panel);
+	transform: translateY(-3px);
+	outline: none;
+}
+
+.rubro__icono {
+	display: block;
+	color: var(--tinta-3);
+	margin-bottom: 20px;
+	transition: color .3s ease;
+}
+.rubro.activa .rubro__icono { color: var(--tinta); }
+
+.rubro h3 { margin-bottom: 8px; }
+.rubro p { color: var(--tinta-2); font-size: .92rem; }
+
+.rubro__ir {
+	display: block;
+	margin-top: 16px;
+	font-family: var(--mono);
+	font-size: .74rem;
+	letter-spacing: .06em;
+	color: var(--cian);
+	opacity: 0;
+	transform: translateX(-6px);
+	transition: opacity .3s var(--curva), transform .3s var(--curva);
+}
+.rubro.activa .rubro__ir { opacity: 1; transform: none; }
+.rubro__ir::after { content: " →"; }
+
+/* donde se para el bicho cuando te acercás */
+.posta--rubro {
+	position: absolute;
+	top: 24px;
+	right: 20px;
+	width: 34px;
+	height: 34px;
+}
+
+@media (max-width: 1000px) { .rubros { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px)  { .rubros { grid-template-columns: 1fr; } }
+
+/* la marca es la de Codi, no se toca */
+.marca { display: block; height: 24px; width: auto; }
+.marca--pie { height: 28px; margin-bottom: 18px; }
+
+/* ═══════════ el puntero ═══════════
+   Una flecha de verdad, con el contorno cian claro y el relleno
+   transparentado. Va exacta: un cursor que llega tarde molesta.
+   ══════════════════════════════════════════════════════════════════ */
+
+.puntero { display: none; }
+
+@media (hover: hover) and (pointer: fine) {
+	body.js,
+	body.js a,
+	body.js button,
+	body.js [data-tarjeta],
+	body.js [data-rubro] { cursor: none; }
+
+	body.js input,
+	body.js textarea { cursor: text; }
+
+	.puntero {
+		display: block;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 90;
+		pointer-events: none;
+		opacity: 0;
+		will-change: transform;
+		transition: opacity .2s ease;
+	}
+	body.js .puntero.visible { opacity: 1; }
+
+	.puntero__flecha {
+		display: block;
+		transform-origin: 2px 2px;
+		transition: transform .22s var(--curva);
+		filter: drop-shadow(0 0 1.2px rgba(0, 0, 0, .95)) drop-shadow(0 2px 5px rgba(0, 0, 0, .5));
+	}
+	.puntero__flecha polygon {
+		fill: rgba(55, 164, 220, .22);
+		stroke: var(--cian-alto);
+		stroke-width: 1.6;
+		stroke-linejoin: miter;
+		transition: fill .22s ease, stroke .22s ease;
+	}
+
+	/* sobre algo clickeable, la manito */
+	.puntero__flecha { opacity: 1; transition: opacity .16s ease; }
+	.puntero__mano {
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: block;
+		transform: translate(-6.5px, -1px) scale(.86);
+		transform-origin: 8.5px 3px;
+		opacity: 0;
+		transition: opacity .16s ease, transform .22s var(--curva);
+		filter: drop-shadow(0 0 1.2px rgba(0, 0, 0, .95)) drop-shadow(0 2px 5px rgba(0, 0, 0, .5));
+	}
+	.puntero__mano polygon {
+		fill: rgba(111, 210, 255, .26);
+		stroke: var(--cian-alto);
+		stroke-width: 1.6;
+		stroke-linejoin: miter;
+	}
+
+	.puntero.tocable .puntero__flecha { opacity: 0; }
+	.puntero.tocable .puntero__mano { opacity: 1; transform: translate(-6.5px, -1px) scale(1); }
+
+	/* sobre un campo de texto se corre del camino */
+	.puntero.texto { opacity: 0; }
+}
+
+/* ───────── plataforma: el bicho también se posa acá ───────── */
+
+.enlace { position: relative; }
+.posta--enlace {
+	position: absolute;
+	top: 22px;
+	right: 20px;
+	width: 34px;
+	height: 34px;
+}
+.enlace.activa { border-color: var(--cian); transform: translateY(-3px); }
+.enlace.activa .enlace__num { color: var(--cian-alto); }
+
+/* ───────── menú: la sección en la que estás ───────── */
+
+.nav__links a.actual { color: var(--tinta); }
+.nav__links a.actual::after { transform: scaleX(1); }
+
+/* ───────── páginas internas ───────── */
+
+.hero--interna { padding: 148px 0 76px; text-align: left; }
+.hero--interna h1 { max-width: 18ch; }
+.hero--interna .lead { margin-top: 22px; }
+.hero--interna .hero__cta { margin-top: 34px; }
+.hero__marca { position: absolute; right: 6%; top: 46%; transform: translateY(-50%); color: var(--linea-viva); opacity: .75; pointer-events: none; }
+.hero--interna .wrap { position: relative; }
+.posta--hero { position: absolute; right: 6%; bottom: 8px; }
+.kicker__volver { color: inherit; text-decoration: none; }
+.kicker__volver:hover { color: var(--cian-alto); }
+.enlaces--cuatro { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 700px) { .enlaces--cuatro { grid-template-columns: 1fr; } .hero__marca { display: none; } }
+
+/* las tarjetas de "por qué" son información, no botones */
+.enlace--info { cursor: default; }
+.enlace--info:hover { border-color: var(--linea); transform: none; }
+body.js .enlace--info { cursor: none; }
+
+.cierre .form { margin-bottom: 4px; }
+
+.campo__rotulo i {
+	font-style: normal;
+	color: var(--tinta-3);
+	opacity: .6;
+	text-transform: none;
+	letter-spacing: 0;
+}Oscuro por decisión: la marca vive en negro con el cian.
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+	--suelo:      #0A0C0F;
+	--suelo-2:    #0E1116;
+	--panel:      #12161D;
+	--panel-alto: #171C25;
+	--linea:      #202834;
+	--linea-viva: #2C3746;
+
+	--tinta:      #E9EEF4;
+	--tinta-2:    #94A2B2;
+	--tinta-3:    #5D6B7B;
+
+	--cian:       #37A4DC;
+	--cian-alto:  #6FD2FF;
+	--cian-hondo: #1D6E99;
+	--cian-humo:  rgba(55, 164, 220, .13);
+
+	--sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	--mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	--ancho: 1200px;
+	--radio: 4px;
+
+	--curva: cubic-bezier(.22, 1, .36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+	margin: 0;
+	background: var(--suelo);
+	color: var(--tinta);
+	font-family: var(--sans);
+	font-size: 16px;
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+	overflow-x: hidden;
+}
+
+img, svg { max-width: 100%; }
+a { color: inherit; }
+
+.wrap {
+	width: 100%;
+	max-width: var(--ancho);
+	margin: 0 auto;
+	padding: 0 28px;
+}
+
+/* ───────── tipografía ───────── */
+
+h1, h2, h3 {
+	margin: 0;
+	font-weight: 700;
+	letter-spacing: -.028em;
+	line-height: 1.06;
+}
+
+h1 {
+	font-size: clamp(2.15rem, 4.4vw, 3.55rem);
+	font-weight: 800;
+	max-width: 15ch;
+	text-wrap: balance;
+}
+h1 em {
+	font-style: normal;
+	color: var(--cian-alto);
+}
+h2 { font-size: clamp(1.9rem, 3.6vw, 2.9rem); }
+h3 { font-size: 1.18rem; letter-spacing: -.018em; line-height: 1.25; }
+
+p { margin: 0; }
+
+.kicker {
+	font-family: var(--mono);
+	font-size: .72rem;
+	font-weight: 500;
+	letter-spacing: .16em;
+	text-transform: uppercase;
+	color: var(--cian);
+	margin-bottom: 22px;
+}
+
+.lead {
+	font-size: clamp(1.02rem, 1.5vw, 1.16rem);
+	line-height: 1.62;
+	color: var(--tinta-2);
+	max-width: 60ch;
+}
+
+/* ───────── botones ───────── */
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	padding: 14px 26px;
+	border: 1px solid var(--cian);
+	border-radius: var(--radio);
+	background: var(--cian);
+	color: #06121A;
+	font-size: .94rem;
+	font-weight: 600;
+	text-decoration: none;
+	transition: background .2s var(--curva), border-color .2s var(--curva), transform .2s var(--curva);
+}
+.btn:hover { background: var(--cian-alto); border-color: var(--cian-alto); transform: translateY(-1px); }
+
+.btn--fantasma {
+	background: transparent;
+	color: var(--tinta);
+	border-color: var(--linea-viva);
+}
+.btn--fantasma:hover { background: var(--cian-humo); border-color: var(--cian); color: var(--tinta); }
+
+.btn--sm { padding: 9px 18px; font-size: .86rem; }
+.btn--grande { padding: 17px 38px; font-size: 1.02rem; }
+
+/* ───────── agentes de píxeles ───────── */
+
+.px-agente { display: block; }
+.px-agente rect { fill: currentColor; }
+.px-agente rect.acc { fill: var(--cian); }
+
+/* ───────── nav ───────── */
+
+.nav {
+	position: fixed;
+	inset: 0 0 auto 0;
+	z-index: 60;
+	background: rgba(10, 12, 15, .72);
+	backdrop-filter: blur(14px);
+	border-bottom: 1px solid transparent;
+	transition: border-color .3s ease, background .3s ease;
+}
+.nav.pegado { border-bottom-color: var(--linea); background: rgba(10, 12, 15, .92); }
+
+.nav__inner {
+	max-width: var(--ancho);
+	margin: 0 auto;
+	padding: 0 28px;
+	height: 68px;
+	display: flex;
+	align-items: center;
+	gap: 34px;
+}
+
+.nav__logo {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	text-decoration: none;
+	color: var(--tinta);
+}
+.nav__word {
+	font-size: 1.22rem;
+	font-weight: 700;
+	letter-spacing: -.04em;
+}
+.nav__mark { display: block; color: var(--tinta); }
+
+.nav__links {
+	display: flex;
+	gap: 28px;
+	margin: 0 auto 0 12px;
+	padding: 0;
+	list-style: none;
+}
+.nav__links a {
+	font-size: .89rem;
+	font-weight: 500;
+	color: var(--tinta-2);
+	text-decoration: none;
+	transition: color .2s ease;
+}
+.nav__links a:hover { color: var(--tinta); }
+
+.nav__toggle {
+	display: none;
+	flex-direction: column;
+	gap: 5px;
+	background: none;
+	border: 0;
+	padding: 8px;
+	cursor: pointer;
+}
+.nav__toggle span { display: block; width: 20px; height: 2px; background: var(--tinta); }
+
+/* ───────── hero ───────── */
+
+.hero {
+	position: relative;
+	padding: 156px 0 82px;
+	overflow: hidden;
+}
+
+.hero__campo {
+	position: absolute;
+	inset: -20% -10% auto -10%;
+	height: 120%;
+	pointer-events: none;
+	background:
+		radial-gradient(58% 44% at 72% 26%, rgba(55, 164, 220, .17), transparent 68%),
+		radial-gradient(46% 38% at 18% 8%, rgba(55, 164, 220, .07), transparent 70%);
+}
+.hero::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background-image:
+		linear-gradient(var(--linea) 1px, transparent 1px),
+		linear-gradient(90deg, var(--linea) 1px, transparent 1px);
+	background-size: 68px 68px;
+	opacity: .34;
+	mask-image: radial-gradient(72% 58% at 60% 34%, #000 0%, transparent 76%);
+}
+
+.hero__grid {
+	position: relative;
+	z-index: 2;
+	display: grid;
+	grid-template-columns: minmax(0, 1.06fr) minmax(0, .94fr);
+	gap: 64px;
+	align-items: center;
+}
+
+.hero__texto .lead { margin-top: 26px; }
+
+.hero__cta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px;
+	margin-top: 38px;
+}
+
+.hero__datos {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 38px;
+	margin: 52px 0 0;
+	padding-top: 26px;
+	border-top: 1px solid var(--linea);
+}
+.hero__datos div { display: block; }
+.hero__datos dt {
+	font-family: var(--mono);
+	font-size: 1.42rem;
+	font-weight: 700;
+	color: var(--tinta);
+	letter-spacing: -.03em;
+}
+.hero__datos dd {
+	margin: 4px 0 0;
+	font-size: .82rem;
+	color: var(--tinta-3);
+}
+
+/* escena del hero · la cola de trabajo
+
+   Los items bajan por la vía. Al cruzar la puerta —donde está sentado el
+   agente— cambian de pendiente a hecho. Es literal: eso es lo que vendemos.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.hero__escena { position: relative; }
+
+.cola {
+	position: relative;
+	height: 470px;
+	padding-left: 6px;
+	overflow: hidden;
+	font-family: var(--mono);
+}
+
+.cola__rotulo {
+	position: absolute;
+	left: 40px;
+	font-size: .68rem;
+	letter-spacing: .16em;
+	text-transform: uppercase;
+	color: var(--tinta-3);
+	z-index: 4;
+}
+.cola__rotulo--arriba { top: 0; }
+.cola__rotulo--abajo { bottom: 0; }
+
+/* la vía por la que baja el trabajo */
+.cola__via {
+	position: absolute;
+	inset: 34px 0 34px 0;
+}
+.cola__via::before {
+	content: "";
+	position: absolute;
+	left: 15px;
+	top: 0;
+	bottom: 0;
+	width: 1px;
+	background: linear-gradient(180deg, transparent, var(--linea-viva) 12%, var(--linea-viva) 88%, transparent);
+}
+
+.item {
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	white-space: nowrap;
+	font-size: .84rem;
+	color: var(--tinta-2);
+	opacity: 0;
+}
+.item i { font-style: normal; }
+.item__ok { display: none; color: var(--cian-alto); }
+
+.item__caja {
+	flex: none;
+	width: 9px;
+	height: 9px;
+	margin-left: 11px;
+	border: 1px solid var(--tinta-3);
+	background: var(--suelo);
+}
+
+body.js .item {
+	animation: bajarCola 14s linear infinite;
+	animation-delay: calc(var(--i) * -2.8s);
+}
+body.js .item__caja { animation: llenarCaja 14s linear infinite; animation-delay: calc(var(--i) * -2.8s); }
+body.js .item__pend { animation: apagar 14s linear infinite; animation-delay: calc(var(--i) * -2.8s); }
+body.js .item__ok {
+	display: inline;
+	position: absolute;
+	left: 34px;
+	opacity: 0;
+	animation: prender 14s linear infinite;
+	animation-delay: calc(var(--i) * -2.8s);
+}
+
+@keyframes bajarCola {
+	0%   { transform: translateY(0);     opacity: 0; }
+	8%   { opacity: 1; }
+	90%  { opacity: 1; }
+	100% { transform: translateY(400px); opacity: 0; }
+}
+@keyframes llenarCaja {
+	0%, 48%   { background: var(--suelo); border-color: var(--tinta-3); }
+	52%, 100% { background: var(--cian); border-color: var(--cian-alto); }
+}
+@keyframes apagar  { 0%, 48% { opacity: 1; } 52%, 100% { opacity: 0; } }
+@keyframes prender { 0%, 48% { opacity: 0; } 52%, 100% { opacity: 1; } }
+
+/* la puerta: donde el agente lo resuelve */
+.cola__puerta {
+	position: absolute;
+	left: 15px;
+	right: 40px;
+	top: 50%;
+	height: 1px;
+	background: linear-gradient(90deg, var(--cian), rgba(55, 164, 220, .12));
+	z-index: 2;
+}
+body.js .cola__puerta { animation: latir 3s ease-in-out infinite; }
+@keyframes latir { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+
+
+/* ───────── franja ───────── */
+
+.franja {
+	border-block: 1px solid var(--linea);
+	background: var(--suelo-2);
+	padding: 56px 0 60px;
+}
+.franja__label {
+	font-family: var(--mono);
+	font-size: .72rem;
+	letter-spacing: .15em;
+	text-transform: uppercase;
+	color: var(--tinta-3);
+	margin-bottom: 28px;
+}
+.franja__items {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px 54px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.franja__items li {
+	font-size: 1.2rem;
+	font-weight: 600;
+	color: var(--tinta-2);
+	letter-spacing: -.015em;
+}
+
+.franja__pie {
+	margin-top: 30px;
+	font-size: .93rem;
+	color: var(--tinta-3);
+	max-width: 60ch;
+}
+
+/* ───────── secciones ───────── */
+
+.seccion { padding: 104px 0; }
+.seccion--panel { background: var(--suelo-2); border-block: 1px solid var(--linea); }
+
+.seccion__cab { margin-bottom: 56px; max-width: 820px; }
+.seccion__cab .lead { margin-top: 22px; }
+.seccion__cab--centro { margin: 0 auto 52px; text-align: center; }
+.seccion__cab--centro .lead { margin-inline: auto; }
+
+/* ───────── trabajo ───────── */
+
+.trabajo {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1px;
+	background: var(--linea);
+	border: 1px solid var(--linea);
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.tarjeta {
+	position: relative;
+	background: var(--suelo);
+	padding: 40px 36px 34px;
+	transition: background .3s ease;
+}
+.tarjeta::before {
+	content: "";
+	position: absolute;
+	inset: 0 auto 0 0;
+	width: 2px;
+	background: var(--cian);
+	transform: scaleY(0);
+	transform-origin: top;
+	transition: transform .4s var(--curva);
+}
+.tarjeta:hover { background: var(--panel); }
+.tarjeta:hover::before { transform: scaleY(1); }
+
+
+.tarjeta h3 { margin-bottom: 12px; }
+.tarjeta p { color: var(--tinta-2); font-size: .95rem; }
+
+.tarjeta__meta {
+	margin-top: 16px !important;
+	padding-top: 14px;
+	border-top: 1px solid var(--linea);
+	font-family: var(--mono);
+	font-size: .76rem !important;
+	color: var(--tinta-3) !important;
+	line-height: 1.5;
+}
+
+/* ───────── casos ───────── */
+
+.casos {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 34px;
+}
+
+.caso {
+	padding-top: 26px;
+	border-top: 2px solid var(--linea-viva);
+	transition: border-color .3s ease;
+}
+.caso:hover { border-top-color: var(--cian); }
+
+.caso__tag {
+	font-family: var(--mono);
+	font-size: .7rem;
+	letter-spacing: .13em;
+	text-transform: uppercase;
+	color: var(--tinta-3);
+}
+.caso__dato {
+	font-family: var(--mono);
+	font-size: clamp(3rem, 6vw, 4.2rem);
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: -.05em;
+	color: var(--cian-alto);
+	margin: 14px 0 18px;
+}
+.caso__dato span { font-size: .5em; color: var(--cian); margin-left: 1px; }
+
+/* .caso p es más específico que .caso__dato y le pisaba el tamaño */
+.caso p.caso__dato { font-size: clamp(2.8rem, 5.4vw, 3.9rem); line-height: 1; margin: 14px 0 12px; color: var(--tinta); }
+.caso p.caso__que {
+	font-family: var(--mono);
+	font-size: .76rem;
+	line-height: 1.55;
+	color: var(--tinta-3);
+	margin-bottom: 22px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid var(--linea);
+}
+.caso h3 { margin-bottom: 10px; }
+.caso p { color: var(--tinta-2); font-size: .93rem; }
+
+/* ───────── ruta (escena pinneada) ───────── */
+
+.ruta { position: relative; }
+
+.ruta__escenario {
+	padding: 104px 0;
+	background: var(--suelo);
+}
+
+.ruta__pista { position: relative; margin-top: 18px; }
+
+.ruta__svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	overflow: visible;
+}
+.ruta__linea {
+	fill: none;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-width: 2.5;
+}
+.ruta__linea {
+	stroke: var(--cian);
+	filter: drop-shadow(0 0 6px rgba(55, 164, 220, .55));
+}
+
+.ruta__nodo {
+	fill: var(--suelo);
+	stroke: var(--linea-viva);
+	stroke-width: 2;
+	transition: fill .4s ease, stroke .4s ease;
+}
+.ruta__nodo.vivo { fill: var(--cian); stroke: var(--cian-alto); }
+
+.ruta__hitos {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 40px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.hito { padding-top: 6px; }
+.hito__num {
+	display: block;
+	font-family: var(--mono);
+	font-size: .72rem;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+	color: var(--tinta-3);
+	margin-bottom: 16px;
+}
+.hito h3 { margin-bottom: 10px; font-size: 1.28rem; }
+.hito p { color: var(--tinta-2); font-size: .94rem; }
+
+body.js .hito {
+	opacity: 0;
+	transform: translateY(16px);
+	transition: opacity .55s var(--curva), transform .55s var(--curva);
+}
+body.js .hito.encendido { opacity: 1; transform: none; }
+body.js .hito.encendido .hito__num { color: var(--cian); }
 
 /* ───────── enlaces de plataforma ───────── */
 
@@ -689,8 +1878,6 @@ body.js .hito.encendido .hito__num { color: var(--cian); }
 
 @media (prefers-reduced-motion: reduce) {
 	body.js .hito { opacity: 1; }
-	body.js .ruta { height: auto; }
-	body.js .ruta__escenario { position: static; height: auto; padding: 104px 0; }
 }
 
 /* ───────── responsive ───────── */

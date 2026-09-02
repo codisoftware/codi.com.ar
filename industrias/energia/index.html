@@ -18,7 +18,10 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="/assets/css/main.css">
-	<script>(function(){try{if(localStorage.getItem("codi-tema")==="oscuro")document.documentElement.setAttribute("data-tema","oscuro")}catch(e){}})()</script>
+	<script>(function(){try{if(localStorage.getItem("codi-tema")==="oscuro")document.documentElement.setAttribute("data-tema","oscuro")}catch(e){}
+		/* El sentido del barrido lo deja anotado la página que se va: pagereveal
+		   dispara antes de que corra cualquier script propio. */
+		var n=sessionStorage.getItem("codi-nav");if(n)document.documentElement.dataset.nav=n;})()</script>
 	<script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Service","serviceType":"Agentes de IA para Energía y utilities","provider":{"@type":"Organization","name":"Codi","url":"https://codi.com.ar/"},"areaServed":"AR","description":"Facturación, cobranzas y reclamos de servicios esenciales, automatizados.","url":"https://codi.com.ar/industrias/energia/"}
 	</script>

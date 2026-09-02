@@ -33,7 +33,10 @@
   ]
 }
 </script>
-	<script>(function(){try{if(localStorage.getItem("codi-tema")==="oscuro")document.documentElement.setAttribute("data-tema","oscuro")}catch(e){}})()</script>
+	<script>(function(){try{if(localStorage.getItem("codi-tema")==="oscuro")document.documentElement.setAttribute("data-tema","oscuro")}catch(e){}
+		/* El sentido del barrido lo deja anotado la página que se va: pagereveal
+		   dispara antes de que corra cualquier script propio. */
+		var n=sessionStorage.getItem("codi-nav");if(n)document.documentElement.dataset.nav=n;})()</script>
 </head>
 <body>
 

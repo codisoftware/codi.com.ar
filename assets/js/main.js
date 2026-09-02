@@ -224,6 +224,36 @@
 		nodo.appendChild(dibujar(mapa, parseInt(nodo.dataset.escala, 10) || 4));
 	});
 
+	/* ───────── el sentido del barrido entre páginas ─────────
+	   Lo anota la página que se va, porque la que entra no llega a tiempo:
+	   pagereveal dispara antes que cualquier script del documento nuevo. */
+	if (!quieto) {
+		var anotarNav = function (v) {
+			try { sessionStorage.setItem('codi-nav', v); } catch (err) {}
+		};
+
+		// un clic en un link del sitio es ir hacia adelante
+		document.addEventListener('click', function (e) {
+			var a = e.target.closest && e.target.closest('a[href]');
+			if (!a || a.target === '_blank') return;
+			if (a.origin && a.origin !== location.origin) return;
+			if (a.getAttribute('href').charAt(0) === '#') return;
+			anotarNav('adelante');
+		}, true);
+
+		// y el historial, hacia atrás
+		if ('onpageswap' in window) {
+			window.addEventListener('pageswap', function (e) {
+				var act = e.activation;
+				if (!act || act.navigationType !== 'traverse') return;
+				// dentro del historial hay que mirar el índice: el botón
+				// 'adelante' también es un traverse, y va para el otro lado
+				var atras = !!(act.from && act.entry && act.from.index > act.entry.index);
+				anotarNav(atras ? 'atras' : 'adelante');
+			});
+		}
+	}
+
 	/* ═══════════ claro y oscuro ═══════════ */
 
 	var GUARDADO = 'codi-tema';

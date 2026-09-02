@@ -1546,33 +1546,32 @@ body.js .gracias__codi { animation: saludar 2.6s ease-in-out infinite; }
 .nav { view-transition-name: cabecera; }
 main { view-transition-name: cuerpo; }
 
-/* el porcentaje tiene que estar declarado para poder animarse */
-@property --pix {
-	syntax: "<percentage>";
-	inherits: false;
-	initial-value: 0%;
-}
-
 /* el header no se toca */
 ::view-transition-group(cabecera) { animation: none; }
 ::view-transition-old(cabecera),
 ::view-transition-new(cabecera) { animation: none; mix-blend-mode: normal; }
 
-/* el cuerpo aparece por píxeles: una grilla de 14px donde cada celda va
-   creciendo desde el centro, en diez pasos, así se ve el escalón */
+/* El cuerpo entra con un barrido lateral a saltos: doce escalones en vez de
+   un deslizamiento suave, para que se lea del mismo material que el resto.
+   Si volvés atrás, barre para el otro lado: el movimiento tiene que
+   coincidir con la dirección en la que te estás moviendo por el sitio. */
 ::view-transition-old(cuerpo) { animation: none; }
 ::view-transition-new(cuerpo) {
-	--pix: 0%;
-	mask-image: radial-gradient(circle at center, #000 var(--pix), transparent calc(var(--pix) + 1%));
-	mask-size: 14px 14px;
-	mask-repeat: repeat;
-	-webkit-mask-image: radial-gradient(circle at center, #000 var(--pix), transparent calc(var(--pix) + 1%));
-	-webkit-mask-size: 14px 14px;
-	-webkit-mask-repeat: repeat;
-	animation: pixelar .5s steps(10, end) both;
+	animation: barridoDerecha .46s steps(12, end) both;
 }
-@keyframes pixelar { to { --pix: 80%; } }
+:root[data-nav="atras"]::view-transition-new(cuerpo) {
+	animation-name: barridoIzquierda;
+}
+
+@keyframes barridoDerecha {
+	from { clip-path: inset(0 100% 0 0); }
+	to   { clip-path: inset(0 0 0 0); }
+}
+@keyframes barridoIzquierda {
+	from { clip-path: inset(0 0 0 100%); }
+	to   { clip-path: inset(0 0 0 0); }
+}
 
 @media (prefers-reduced-motion: reduce) {
-	::view-transition-new(cuerpo) { animation: none; mask-image: none; -webkit-mask-image: none; }
+	::view-transition-new(cuerpo) { animation: none; }
 }

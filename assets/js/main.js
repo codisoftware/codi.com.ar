@@ -238,46 +238,54 @@
 			botonTema.setAttribute('aria-pressed', t === 'oscuro' ? 'true' : 'false');
 		}
 	}
-	/* El telón: una grilla de cuadraditos que ya está tapando y se retira.
-	   El orden importa. Antes tapaba, se cambiaba el tema y se destapaba, y
-	   entre medio quedaba un frame con el tema viejo a la vista: eso era el
-	   titileo. Ahora el cambio pasa DEBAJO del telón, y lo que se ve es el
-	   contenido real apareciendo con el tema nuevo, cuadrado por cuadrado. */
-	function telon(cambiar) {
-		if (quieto) { cambiar(); return; }
+	/* El tema nuevo PISA al viejo, no lo tapa.
 
-		var fondoViejo = getComputedStyle(document.documentElement)
-			.getPropertyValue('--suelo').trim() || '#FFFFFF';
+	   El telón anterior cubría la pantalla entera con un color plano antes de
+	   cambiar: por un instante no se veía nada. Con View Transitions el
+	   navegador queda con dos capas encima, la de antes y la de después, las
+	   dos con el contenido puesto, y nosotros sólo recortamos la de arriba.
+	   Nunca hay un cuadro en blanco ni en negro: se ve el mismo texto pasando
+	   de un tema al otro, por columnas de píxeles.
 
-		var cols = Math.ceil(window.innerWidth / 84);
-		var filas = Math.ceil(window.innerHeight / 84);
-		var caja = document.createElement('div');
-		caja.className = 'telon';
-		caja.style.gridTemplateColumns = 'repeat(' + cols + ', 1fr)';
-		caja.style.gridTemplateRows = 'repeat(' + filas + ', 1fr)';
-		caja.style.setProperty('--telon-color', fondoViejo);
+	   Donde no exista la API, el cambio es instantáneo y listo: es preferible
+	   a inventar un efecto que tape. */
 
-		var ultimo = 0;
-		for (var f = 0; f < filas; f++) {
-			for (var x = 0; x < cols; x++) {
-				var s = document.createElement('span');
-				var d = (x + f) * 30;
-				ultimo = Math.max(ultimo, d);
-				s.style.animationDelay = d + 'ms';
-				caja.appendChild(s);
-			}
+	function columnas(p, n) {
+		var altos = [];
+		var arrastre = 0.55;   // cuánto se demora la última columna respecto de la primera
+		for (var i = 0; i < n; i++) {
+			var atraso = (i / (n - 1)) * arrastre;
+			var k = (p - atraso) / (1 - arrastre);
+			altos.push(Math.max(0, Math.min(1, k)) * 100);
 		}
 
-		document.body.appendChild(caja);
+		var pts = ['0% 0%', '100% 0%'];
+		for (var q = n - 1; q >= 0; q--) {
+			pts.push(((q + 1) / n * 100).toFixed(2) + '% ' + altos[q].toFixed(2) + '%');
+			pts.push((q / n * 100).toFixed(2) + '% ' + altos[q].toFixed(2) + '%');
+		}
+		return 'polygon(' + pts.join(', ') + ')';
+	}
 
-		// el telón ya tapa con el color de antes: cambiar acá no se ve
-		requestAnimationFrame(function () {
-			cambiar();
-			requestAnimationFrame(function () {
-				caja.classList.add('sale');
-				setTimeout(function () { caja.remove(); }, ultimo + 700);
-			});
-		});
+	function telon(cambiar) {
+		if (quieto || !document.startViewTransition) { cambiar(); return; }
+
+		var paso = document.startViewTransition(cambiar);
+
+		paso.ready.then(function () {
+			var barras = Math.max(12, Math.round(window.innerWidth / 70));
+			var cuadros = [];
+			for (var k = 0; k <= 24; k++) cuadros.push(columnas(k / 24, barras));
+
+			document.documentElement.animate(
+				{ clipPath: cuadros },
+				{
+					duration: 720,
+					easing: 'cubic-bezier(.35, 0, .2, 1)',
+					pseudoElement: '::view-transition-new(root)'
+				}
+			);
+		}).catch(function () {});
 	}
 
 	if (botonTema) {

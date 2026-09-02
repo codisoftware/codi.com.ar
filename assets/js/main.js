@@ -687,13 +687,6 @@
 					entradas.forEach(function (e) {
 						if (!e.isIntersecting) return;
 						obs.disconnect();
-						// las cuatro se escriben solas al llegar, una atrás de otra
-						formas.forEach(function (t, n) {
-							setTimeout(function () {
-								escribir(t.querySelector('[data-escribir]'));
-								escribir(t.querySelector('.tarjeta__meta'));
-							}, n * 260);
-						});
 						activar(formas[0]);
 					});
 				}, { threshold: 0.25 }).observe(zonaTrabajo);

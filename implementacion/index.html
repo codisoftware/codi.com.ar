@@ -1,207 +1,299 @@
 <!DOCTYPE html>
 <html lang="es-AR">
 <head>
-	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-	})(window,document,'script','dataLayer','GTM-NN89WD6C');</script>
 	<meta charset="UTF-8"/>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-	<title>Implementación — Codi</title>
-	<meta name="description" content="Equipos de implementación locales que llevan la IA a producción dentro de tu operación, entregan impacto rápido y te entregan las llaves." />
+	<title>Implementación · Codi</title>
+	<meta name="description" content="Ponemos equipos dentro de tu operación: llevan la IA a producción, entregan impacto rápido y después te dan las llaves." />
 	<link rel="canonical" href="https://codi.com.ar/implementacion/" />
 	<meta property="og:locale" content="es_AR" />
 	<meta property="og:type" content="website" />
-	<meta property="og:title" content="Implementación — Codi" />
-	<meta property="og:description" content="La implementación es donde la IA empresarial tiene éxito o fracasa." />
+	<meta property="og:title" content="Implementación · Codi" />
+	<meta property="og:description" content="Ponemos equipos dentro de tu operación: llevan la IA a producción, entregan impacto rápido y después te dan las llaves." />
 	<meta property="og:url" content="https://codi.com.ar/implementacion/" />
 	<meta property="og:site_name" content="Codi" />
-	<meta name="theme-color" content="#1a1a1a">
-	<link rel="icon" type="image/png" href="/assets/img/favicon.png">
-	<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+	<meta name="theme-color" content="#FFFFFF">
+	<link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="/assets/css/main.css">
+	<script>(function(){try{if(localStorage.getItem("codi-tema")==="oscuro")document.documentElement.setAttribute("data-tema","oscuro")}catch(e){}
+		/* El sentido del barrido lo deja anotado la página que se va: pagereveal
+		   dispara antes de que corra cualquier script propio. */
+		var n=sessionStorage.getItem("codi-nav");if(n)document.documentElement.dataset.nav=n;})()</script>
 </head>
 <body>
-	<header class="nav">
-		<div class="nav__inner">
-			<a href="/" class="nav__logo" aria-label="Codi — inicio"><img src="/assets/img/Codi-dark.svg" alt="Codi"></a>
-			<ul class="nav__links">
-				<li>
-					<a href="/plataforma/">Plataforma</a>
-					<ul class="nav__dropdown">
-						<li><a href="/plataforma/">Overview<span>La plataforma completa</span></a></li>
-						<li><a href="/estudio/">Codi Studio<span>Construí agentes de IA</span></a></li>
-						<li><a href="/apps/">Apps a medida<span>Interfaces por caso de uso</span></a></li>
-					</ul>
-				</li>
-				<li><a href="/implementacion/">Implementación</a></li>
-				<li><a href="/transformacion/">Transformación</a></li>
-				<li>
-					<a href="/industrias/">Industrias</a>
-					<ul class="nav__dropdown">
-						<li><a href="/industrias/banca/">Banca</a></li>
-						<li><a href="/industrias/telecom/">Telecom</a></li>
-						<li><a href="/industrias/salud/">Salud</a></li>
-						<li><a href="/industrias/energia/">Energía y utilities</a></li>
-						<li><a href="/industrias/seguros/">Seguros</a></li>
-						<li><a href="/industrias/retail/">Retail</a></li>
-					</ul>
-				</li>
-				<li><a href="/nosotros/">Nosotros</a></li>
-				<li><a href="/contacto/">Contacto</a></li>
+
+<div class="puntero" data-puntero aria-hidden="true">
+	<svg class="puntero__flecha" width="22" height="28" viewBox="0 0 22 28">
+		<polygon points="2,2 2,21 7,16.5 10.5,24 14,22.4 10.6,15.6 17.4,15.6"/>
+	</svg>
+	<svg class="puntero__mano" width="26" height="30" viewBox="0 0 26 30">
+		<polygon points="7,3 10,3 10,13 12,13 12,11 15,11 15,13 17,13 17,12 20,12 20,21 17,26 10,26 7,22 7,17 4,14 4,11 7,11"/>
+	</svg>
+</div>
+
+<div class="viajero" data-viajero aria-hidden="true"></div>
+
+<header class="nav">
+	<div class="nav__inner">
+		<a href="/" class="nav__logo" aria-label="Codi, inicio">
+			<img src="/assets/img/Codi.svg" alt="Codi" class="marca marca--claro" width="96" height="24"><img src="/assets/img/Codi-dark.svg" alt="" aria-hidden="true" class="marca marca--oscuro" width="96" height="24">
+		</a>
+		<ul class="nav__links">
+			<li><a href="/#trabajo">Qué hacemos</a></li>
+			<li><a href="/#casos">Casos</a></li>
+			<li><a href="/#ruta">Cómo trabajamos</a></li>
+			<li><a href="/#industrias">Industrias</a></li>
+			<li><a href="/#plataforma">Plataforma</a></li>
+			<li class="nav__tema"><button class="tema" data-tema-boton aria-label="Pasar al modo oscuro" aria-pressed="false">
+				<svg class="tema__ico tema__ico--luna" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M17 12.4A7.6 7.6 0 1 1 7.6 3a6 6 0 0 0 9.4 9.4z"/></svg><svg class="tema__ico tema__ico--sol" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><rect x="8" y="0" width="4" height="3"/><rect x="8" y="17" width="4" height="3"/><rect x="0" y="8" width="3" height="4"/><rect x="17" y="8" width="3" height="4"/><rect x="6" y="6" width="8" height="8"/></svg>
+			</button></li>
+		</ul>
+		<a href="/#hablemos" class="btn btn--sm nav__cta">Hablemos</a>
+		<button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+	</div>
+</header>
+
+<main>
+	<section class="hero hero--interna">
+		<div class="hero__campo" aria-hidden="true"></div>
+		<div class="wrap">
+			<p class="kicker kicker--vivo"><span class="kicker__pulso"></span><a href="/" class="kicker__volver">Implementación</a></p>
+			<h1>La implementación es donde la IA de una empresa se define.</h1>
+			<p class="lead">Ponemos equipos dentro de tu operación: llevan la IA a producción, entregan impacto rápido y después te dan las llaves.</p>
+			<div class="hero__cta">
+				<a href="#hablemos" class="btn">Contanos tu operación</a>
+				<a href="/#ruta" class="btn btn--fantasma">Cómo lo implementamos</a>
+			</div>
+			<div class="hero__marca" data-agente="pila" data-escala="14" aria-hidden="true"></div>
+			<span class="posta posta--hero" data-posta="hero"></span>
+		</div>
+	</section>
+
+	<section class="seccion seccion--panel" data-zona="El equipo">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="b0"></span>
+				<p class="kicker">El equipo</p>
+				<h2>Embebidos en tu operación, no del otro lado del mail.</h2>
+				<p class="lead">Ingenieros de implementación y estrategas de deployment trabajan dentro de tu entorno. No es un vendor remoto: es un equipo que se sienta con el tuyo.</p>
+			</header>
+			<div class="casos">
+				<article class="caso">
+					<p class="caso__tag">01</p>
+					<h3>Ingeniería</h3>
+					<p>Los que lo hacen funcionar: integraciones, datos, guardrails y puesta en producción.</p>
+				</article>
+				<article class="caso">
+					<p class="caso__tag">02</p>
+					<h3>Estrategia</h3>
+					<p>Los que lo hacen importar: qué caso primero, cómo se mide y cuándo se escala.</p>
+				</article>
+				<article class="caso">
+					<p class="caso__tag">03</p>
+					<h3>Tu equipo</h3>
+					<p>Adentro desde el día uno, porque la capacidad tiene que quedar en tu organización.</p>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<section class="seccion" data-zona="Las tres fases">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="b1"></span>
+				<p class="kicker">Las tres fases</p>
+				<h2>De liderado por Codi a ownership total, por diseño.</h2>
+				
+			</header>
+			<div class="trabajo">
+				<article class="tarjeta" data-tarjeta tabindex="0">
+					<div class="tarjeta__tarima">
+						<div class="tarjeta__objeto" data-agente="pila" data-escala="7" aria-hidden="true"></div>
+						<span class="tarjeta__piso"></span>
+						<span class="posta posta--tarima" data-posta="b1-0"></span>
+					</div>
+					<h3>El caso correcto, en producción</h3>
+					<p class="tarjeta__texto" data-escribir>Empezamos por tus datos, encontramos lo que vale la pena construir y lo llevamos a producción. El valor es real antes de escalar.</p>
+				</article>
+				<article class="tarjeta" data-tarjeta tabindex="0">
+					<div class="tarjeta__tarima">
+						<div class="tarjeta__objeto" data-agente="cimiento" data-escala="7" aria-hidden="true"></div>
+						<span class="tarjeta__piso"></span>
+						<span class="posta posta--tarima" data-posta="b1-1"></span>
+					</div>
+					<h3>Escalar lo que funciona</h3>
+					<p class="tarjeta__texto" data-escribir>Con el primer caso midiendo resultados, extendemos a los workflows siguientes reutilizando lo construido.</p>
+				</article>
+				<article class="tarjeta" data-tarjeta tabindex="0">
+					<div class="tarjeta__tarima">
+						<div class="tarjeta__objeto" data-agente="ventana" data-escala="7" aria-hidden="true"></div>
+						<span class="tarjeta__piso"></span>
+						<span class="posta posta--tarima" data-posta="b1-2"></span>
+					</div>
+					<h3>Transferir la capacidad</h3>
+					<p class="tarjeta__texto" data-escribir>Tus equipos aprenden a construir, operar y mejorar los agentes. Pasamos de constructor a partner.</p>
+				</article>
+				<article class="tarjeta" data-tarjeta tabindex="0">
+					<div class="tarjeta__tarima">
+						<div class="tarjeta__objeto" data-agente="grafico" data-escala="7" aria-hidden="true"></div>
+						<span class="tarjeta__piso"></span>
+						<span class="posta posta--tarima" data-posta="b1-3"></span>
+					</div>
+					<h3>Y nos corremos</h3>
+					<p class="tarjeta__texto" data-escribir>El final del proyecto es que puedas seguir sin nosotros. Si no, algo salió mal.</p>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<section class="seccion seccion--panel" data-zona="Dónde corre">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="b2"></span>
+				<p class="kicker">Dónde corre</p>
+				<h2>Se despliega donde tu infraestructura lo permita.</h2>
+				
+			</header>
+			<div class="enlaces enlaces--cuatro">
+				<article class="enlace enlace--info">
+					<span class="enlace__num">01</span>
+					<h3>Multi-tenant</h3>
+					<p>Actualizaciones continuas, monitoreado por Codi, con aislamiento lógico y autoescalado transparente.</p>
+				</article>
+				<article class="enlace enlace--info">
+					<span class="enlace__num">02</span>
+					<h3>Single tenant</h3>
+					<p>Infraestructura dedicada y aislada, con actualizaciones automáticas y configuración a medida.</p>
+				</article>
+				<article class="enlace enlace--info">
+					<span class="enlace__num">03</span>
+					<h3>Tu propia nube</h3>
+					<p>Tus datos nunca salen de tu organización: controlás seguridad, gobierno y cuándo se actualiza.</p>
+				</article>
+				<article class="enlace enlace--info">
+					<span class="enlace__num">04</span>
+					<h3>Lo que pida el regulador</h3>
+					<p>Si el cumplimiento manda, el despliegue se acomoda a eso y no al revés.</p>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<section class="seccion seccion--panel" data-zona="El resto">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="otras"></span>
+				<p class="kicker">Seguir leyendo</p>
+				<h2>Las piezas se usan juntas.</h2>
+			</header>
+			<div class="rubros">
+				<a href="/nosotros/" class="rubro" data-rubro>
+					<span class="rubro__icono" data-agente="operador" data-escala="6" aria-hidden="true"></span>
+					<span class="posta posta--rubro" aria-hidden="true"></span>
+					<h3>Nosotros</h3>
+					<p>Codi nació aplicando inteligencia artificial a problemas reales de negocio: recomendación personalizada, e-commerce y fintech. Hoy esa experiencia corre sobre una sola plataforma.</p>
+					<span class="rubro__ir">Ver nosotros</span>
+				</a>
+				<a href="/transformacion/" class="rubro" data-rubro>
+					<span class="rubro__icono" data-agente="medidor" data-escala="6" aria-hidden="true"></span>
+					<span class="posta posta--rubro" aria-hidden="true"></span>
+					<h3>Transformación</h3>
+					<p>El ERP, el CRM, la nube: cada ola tuvo su fecha de go-live. La IA no tiene fecha de go-live, tiene un punto de partida. No coordina personas, ejecuta trabajo.</p>
+					<span class="rubro__ir">Ver transformación</span>
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="cierre" id="hablemos" data-zona="Hablemos">
+		<div class="wrap">
+			<span class="posta posta--cierre" data-posta="cierre"></span>
+			<h2>Contanos qué parte de tu operación te está comiendo el día.</h2>
+			<p class="lead">Te decimos si un agente lo resuelve, cuánto sale y en cuánto tiempo. Si no lo resuelve, también te lo decimos.</p>
+			<form class="form" data-form data-origen="Implementación" novalidate>
+				<div class="form__fila">
+					<label class="campo">
+						<span class="campo__rotulo">Nombre</span>
+						<input type="text" name="nombre" autocomplete="name" required>
+					</label>
+					<label class="campo">
+						<span class="campo__rotulo">Mail de trabajo</span>
+						<input type="email" name="email" autocomplete="email" required>
+					</label>
+				</div>
+				<label class="campo">
+					<span class="campo__rotulo">Empresa <i>opcional</i></span>
+					<input type="text" name="empresa" autocomplete="organization">
+				</label>
+				<label class="campo">
+					<span class="campo__rotulo">Qué parte de tu operación querés resolver</span>
+					<textarea name="mensaje" rows="3" required></textarea>
+				</label>
+
+				<div class="tarro" aria-hidden="true">
+					<label>No completes esto<input type="text" name="empresa_web" tabindex="-1" autocomplete="off"></label>
+				</div>
+
+				<div class="form__pie">
+					<button type="submit" class="btn btn--grande">Contanos</button>
+					<p class="form__aviso" data-aviso role="status"></p>
+				</div>
+			</form>
+
+			<div class="gracias" data-gracias hidden>
+				<div class="gracias__codi" data-agente="viaja1" data-escala="8" aria-hidden="true"></div>
+				<div>
+					<p class="gracias__titulo">Listo, lo tenemos.</p>
+					<p class="gracias__texto">Te escribimos a <b data-gracias-mail></b>. Si es urgente, WhatsApp al <a href="https://wa.me/5491168383333">+54 9 11 6838 3333</a>.</p>
+				</div>
+			</div>
+			<p class="cierre__pie">O escribinos directo: <a href="mailto:info@codi.com.ar">info@codi.com.ar</a> · <a href="https://wa.me/5491168383333">+54 9 11 6838 3333</a></p>
+		</div>
+	</section>
+</main>
+
+<footer class="pie">
+	<div class="wrap pie__grid">
+		<div class="pie__marca">
+			<img src="/assets/img/Codi.svg" alt="Codi" class="marca marca--pie marca--claro" width="110" height="28"><img src="/assets/img/Codi-dark.svg" alt="" aria-hidden="true" class="marca marca--pie marca--oscuro" width="110" height="28">
+			<p>IA aplicada a las operaciones de las empresas. Construido en Argentina, operando a nivel global.</p>
+		</div>
+		<div class="pie__col">
+			<h5>Industrias</h5>
+			<ul>
+				<li><a href="/industrias/banca/">Banca</a></li>
+				<li><a href="/industrias/telecom/">Telecom</a></li>
+				<li><a href="/industrias/salud/">Salud</a></li>
+				<li><a href="/industrias/energia/">Energía y utilities</a></li>
+				<li><a href="/industrias/seguros/">Seguros</a></li>
+				<li><a href="/industrias/retail/">Retail</a></li>
 			</ul>
-			<a href="/contacto/" class="btn btn--small nav__cta">Contactanos</a>
-			<button class="nav__toggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
 		</div>
-	</header>
-
-	<main>
-		<section class="hero">
-			<div class="container">
-				<p class="eyebrow reveal">Implementación</p>
-				<h1 class="h-hero reveal">La implementación es donde la IA empresarial tiene éxito o fracasa.</h1>
-				<p class="lead reveal">Codi pone equipos de implementación dentro de tu operación: llevan la IA a producción, entregan impacto de negocio rápido y te entregan las llaves.</p>
-			</div>
-		</section>
-
-		<section class="section section--border">
-			<div class="container">
-				<p class="eyebrow reveal">El modelo</p>
-				<h2 class="h-section reveal">Equipos de implementación locales, embedidos en tu operación.</h2>
-				<p class="lead reveal">Ingenieros de implementación y estrategas de deployment trabajan dentro de tu entorno para entregar valor rápido y construir capacidad interna duradera. No un vendor remoto: un equipo dedicado que se sienta con tu equipo.</p>
-				<div class="split">
-					<div class="split__item reveal">
-						<h3>Ingenieros de implementación — lo hacen funcionar</h3>
-						<p>Construyen los agentes, las integraciones y los workflows dentro de tu stack. Trabajan en tu entorno para resolver acceso a datos, gobierno y performance durante la implementación.</p>
-					</div>
-					<div class="split__item reveal">
-						<h3>Estrategas de deployment — lo hacen importar</h3>
-						<p>Definen qué caso de uso va primero, cómo se mide el éxito y cómo la organización absorbe el cambio. La tecnología solo cuenta si el negocio la adopta.</p>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section class="section section--dark section--border">
-			<div class="container">
-				<p class="eyebrow reveal">El camino</p>
-				<h2 class="h-section reveal">De liderado por Codi a ownership total del cliente, por diseño.</h2>
-				<div class="steps">
-					<div class="step reveal">
-						<p class="step__num">FASE 01</p>
-						<div>
-							<h3 class="step__title">El caso de uso correcto, en producción, rápido.</h3>
-							<p class="step__text">Empezamos por tus datos, encontramos lo que vale la pena construir y lo llevamos a producción. El valor es real antes de escalar.</p>
-							<div class="step__tags">
-								<span>Discovery y scoping</span>
-								<span>Workshops de IA</span>
-								<span>Pilotos en producción</span>
-							</div>
-						</div>
-					</div>
-					<div class="step reveal">
-						<p class="step__num">FASE 02</p>
-						<div>
-							<h3 class="step__title">Escalar lo que funciona.</h3>
-							<p class="step__text">Con el primer caso de uso en producción y midiendo resultados, extendemos la plataforma a los workflows siguientes, reutilizando lo construido.</p>
-							<div class="step__tags">
-								<span>Nuevos canales</span>
-								<span>Nuevos workflows</span>
-								<span>Catálogo reutilizable</span>
-							</div>
-						</div>
-					</div>
-					<div class="step reveal">
-						<p class="step__num">FASE 03</p>
-						<div>
-							<h3 class="step__title">Transferir la capacidad.</h3>
-							<p class="step__text">Tus equipos aprenden a construir, operar y mejorar los agentes. Codi pasa de constructor a partner: la capacidad queda dentro de tu organización.</p>
-							<div class="step__tags">
-								<span>Capacitación</span>
-								<span>Handover completo</span>
-								<span>Acompañamiento continuo</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section class="section section--border">
-			<div class="container">
-				<p class="eyebrow reveal">Flexibilidad</p>
-				<h2 class="h-section reveal">Desplegá donde tu infraestructura y tu compliance lo requieran.</h2>
-				<div class="features">
-					<div class="feature reveal">
-						<h3 class="feature__title">Multi-tenant</h3>
-						<p class="feature__text">Actualizaciones continuas, monitoreado por Codi, con aislamiento lógico seguro y autoescalado transparente.</p>
-					</div>
-					<div class="feature reveal">
-						<h3 class="feature__title">Single tenant</h3>
-						<p class="feature__text">Infraestructura dedicada y completamente aislada, con actualizaciones automáticas y configuración a medida.</p>
-					</div>
-					<div class="feature reveal">
-						<h3 class="feature__title">Tu propia nube</h3>
-						<p class="feature__text">Tus datos nunca salen de tu organización: vos controlás seguridad, gobierno y el momento de cada actualización.</p>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section class="cta-final">
-			<div class="container">
-				<h2 class="reveal">Transformá tu modelo operativo con Codi.</h2>
-				<a href="/contacto/" class="btn reveal">Contactanos</a>
-			</div>
-		</section>
-	</main>
-
-	<footer class="footer">
-		<div class="container">
-			<div class="footer__grid">
-				<div class="footer__brand">
-					<img src="/assets/img/Codi-dark.svg" alt="Codi">
-					<p>IA aplicada a las operaciones de las empresas. Construido en Argentina, operando a nivel global.</p>
-				</div>
-				<div class="footer__col">
-					<h5>Plataforma</h5>
-					<ul>
-						<li><a href="/plataforma/">Overview</a></li>
-						<li><a href="/estudio/">Codi Studio</a></li>
-						<li><a href="/apps/">Apps a medida</a></li>
-					</ul>
-				</div>
-				<div class="footer__col">
-					<h5>Empresa</h5>
-					<ul>
-						<li><a href="/implementacion/">Implementación</a></li>
-						<li><a href="/transformacion/">Transformación</a></li>
-						<li><a href="/industrias/">Industrias</a></li>
-						<li><a href="/nosotros/">Nosotros</a></li>
-						<li><a href="/contacto/">Contacto</a></li>
-					</ul>
-				</div>
-				<div class="footer__col">
-					<h5>Contacto</h5>
-					<ul>
-						<li><a href="mailto:info@codi.com.ar">info@codi.com.ar</a></li>
-						<li class="footer__phone"><span>Argentina</span><a href="tel:+5491168383333">+54 9 11 6838 3333</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="footer__bottom">
-				<p>© 2026 Codi. Todos los derechos reservados.</p>
-				<div class="footer__social">
-					<a href="https://wa.me/5491168383333" aria-label="WhatsApp"><img src="/assets/img/icon-whatsapp.png" alt="WhatsApp"></a>
-				</div>
-			</div>
+		<div class="pie__col">
+			<h5>Codi</h5>
+			<ul>
+				<li><a href="/plataforma/">Plataforma</a></li>
+				<li><a href="/estudio/">Codi Studio</a></li>
+				<li><a href="/apps/">Apps a medida</a></li>
+				<li><a href="/nosotros/">Nosotros</a></li>
+			</ul>
 		</div>
-	</footer>
-	<script src="/assets/js/main.js"></script>
+		<div class="pie__col">
+			<h5>Contacto</h5>
+			<ul>
+				<li><a href="mailto:info@codi.com.ar">info@codi.com.ar</a></li>
+				<li><a href="tel:+5491168383333">+54 9 11 6838 3333</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="wrap pie__base">
+		<p>© 2026 Codi</p>
+	</div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
 </body>
 </html>

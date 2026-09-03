@@ -1,194 +1,320 @@
 <!DOCTYPE html>
 <html lang="es-AR">
 <head>
-	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-	})(window,document,'script','dataLayer','GTM-NN89WD6C');</script>
 	<meta charset="UTF-8"/>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 	<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-	<title>Energía y utilities — Codi</title>
-	<meta name="description" content="IA para energía y utilities: facturación, cobranzas, reclamos y altas de servicio automatizados de punta a punta." />
+	<title>Agentes de IA para Energía y utilities · Codi</title>
+	<meta name="description" content="Facturación, cobranzas y reclamos de servicios esenciales, automatizados." />
 	<link rel="canonical" href="https://codi.com.ar/industrias/energia/" />
 	<meta property="og:locale" content="es_AR" />
 	<meta property="og:type" content="website" />
-	<meta property="og:title" content="Energía y utilities — Codi" />
+	<meta property="og:title" content="Agentes de IA para Energía y utilities · Codi" />
 	<meta property="og:description" content="Facturación, cobranzas y reclamos de servicios esenciales, automatizados." />
 	<meta property="og:url" content="https://codi.com.ar/industrias/energia/" />
 	<meta property="og:site_name" content="Codi" />
-	<meta name="theme-color" content="#1a1a1a">
-	<link rel="icon" type="image/png" href="/assets/img/favicon.png">
-	<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+	<meta name="theme-color" content="#FFFFFF">
+	<link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="/assets/css/main.css">
+	<script>(function(){try{if(localStorage.getItem("codi-tema")==="oscuro")document.documentElement.setAttribute("data-tema","oscuro")}catch(e){}
+		/* El sentido del barrido lo deja anotado la página que se va: pagereveal
+		   dispara antes de que corra cualquier script propio. */
+		var n=sessionStorage.getItem("codi-nav");if(n)document.documentElement.dataset.nav=n;})()</script>
+	<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","serviceType":"Agentes de IA para Energía y utilities","provider":{"@type":"Organization","name":"Codi","url":"https://codi.com.ar/"},"areaServed":"AR","description":"Facturación, cobranzas y reclamos de servicios esenciales, automatizados.","url":"https://codi.com.ar/industrias/energia/"}
+	</script>
 </head>
 <body>
-	<header class="nav">
-		<div class="nav__inner">
-			<a href="/" class="nav__logo" aria-label="Codi — inicio"><img src="/assets/img/Codi-dark.svg" alt="Codi"></a>
-			<ul class="nav__links">
-				<li>
-					<a href="/plataforma/">Plataforma</a>
-					<ul class="nav__dropdown">
-						<li><a href="/plataforma/">Overview<span>La plataforma completa</span></a></li>
-						<li><a href="/estudio/">Codi Studio<span>Construí agentes de IA</span></a></li>
-						<li><a href="/apps/">Apps a medida<span>Interfaces por caso de uso</span></a></li>
-					</ul>
-				</li>
-				<li><a href="/implementacion/">Implementación</a></li>
-				<li><a href="/transformacion/">Transformación</a></li>
-				<li>
-					<a href="/industrias/">Industrias</a>
-					<ul class="nav__dropdown">
-						<li><a href="/industrias/banca/">Banca</a></li>
-						<li><a href="/industrias/telecom/">Telecom</a></li>
-						<li><a href="/industrias/salud/">Salud</a></li>
-						<li><a href="/industrias/energia/">Energía y utilities</a></li>
-						<li><a href="/industrias/seguros/">Seguros</a></li>
-						<li><a href="/industrias/retail/">Retail</a></li>
-					</ul>
-				</li>
-				<li><a href="/nosotros/">Nosotros</a></li>
-				<li><a href="/contacto/">Contacto</a></li>
+
+<div class="puntero" data-puntero aria-hidden="true">
+	<svg class="puntero__flecha" width="22" height="28" viewBox="0 0 22 28">
+		<polygon points="2,2 2,21 7,16.5 10.5,24 14,22.4 10.6,15.6 17.4,15.6"/>
+	</svg>
+	<svg class="puntero__mano" width="26" height="30" viewBox="0 0 26 30">
+		<polygon points="7,3 10,3 10,13 12,13 12,11 15,11 15,13 17,13 17,12 20,12 20,21 17,26 10,26 7,22 7,17 4,14 4,11 7,11"/>
+	</svg>
+</div>
+
+<div class="viajero" data-viajero aria-hidden="true"></div>
+
+<header class="nav">
+	<div class="nav__inner">
+		<a href="/" class="nav__logo" aria-label="Codi, inicio">
+			<img src="/assets/img/Codi.svg" alt="Codi" class="marca marca--claro" width="96" height="24"><img src="/assets/img/Codi-dark.svg" alt="" aria-hidden="true" class="marca marca--oscuro" width="96" height="24">
+		</a>
+		<ul class="nav__links">
+			<li><a href="/#trabajo">Qué hacemos</a></li>
+			<li><a href="/#casos">Casos</a></li>
+			<li><a href="/#ruta">Cómo trabajamos</a></li>
+			<li><a href="/#industrias">Industrias</a></li>
+			<li><a href="/#plataforma">Plataforma</a></li>
+			<li class="nav__tema"><button class="tema" data-tema-boton aria-label="Pasar al modo oscuro" aria-pressed="false">
+				<svg class="tema__ico tema__ico--luna" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M17 12.4A7.6 7.6 0 1 1 7.6 3a6 6 0 0 0 9.4 9.4z"/></svg><svg class="tema__ico tema__ico--sol" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><rect x="8" y="0" width="4" height="3"/><rect x="8" y="17" width="4" height="3"/><rect x="0" y="8" width="3" height="4"/><rect x="17" y="8" width="3" height="4"/><rect x="6" y="6" width="8" height="8"/></svg>
+			</button></li>
+		</ul>
+		<a href="/#hablemos" class="btn btn--sm nav__cta">Hablemos</a>
+		<button class="nav__toggle" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+	</div>
+</header>
+
+<main>
+	<section class="hero hero--interna">
+		<div class="hero__campo" aria-hidden="true"></div>
+		<div class="wrap">
+			<p class="kicker kicker--vivo"><span class="kicker__pulso"></span><a href="/#industrias" class="kicker__volver">Industrias</a></p>
+			<h1>Energía y utilities</h1>
+			<p class="lead">Facturación, cobranzas y reclamos de servicios esenciales, automatizados.</p>
+			<div class="hero__cta">
+				<a href="#hablemos" class="btn">Contanos tu operación</a>
+				<a href="#workflows" class="btn btn--fantasma">Ver los workflows</a>
+			</div>
+			<div class="hero__marca" data-agente="rayo" data-escala="14" aria-hidden="true"></div>
+			<span class="posta posta--hero" data-posta="hero"></span>
+		</div>
+	</section>
+
+	<section class="seccion" data-zona="Beneficios">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="beneficios"></span>
+				<p class="kicker">Beneficios</p>
+				<h2>Qué cambia en tu operación.</h2>
+			</header>
+			<div class="casos">
+				<article class="caso">
+					<p class="caso__tag">01</p>
+					<h3>Facturación sin fricción</h3>
+					<p>Consultas de facturación resueltas end-to-end, sin derivaciones ni esperas para el cliente.</p>
+				</article>
+				<article class="caso">
+					<p class="caso__tag">02</p>
+					<h3>Cobranzas efectivas</h3>
+					<p>Gestión masiva y personalizada de la deuda, con el mensaje correcto por el canal correcto.</p>
+				</article>
+				<article class="caso">
+					<p class="caso__tag">03</p>
+					<h3>Reclamos más rápidos</h3>
+					<p>Triage automático y derivación inmediata: cada reclamo llega al equipo correcto desde el primer contacto.</p>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<section class="seccion seccion--panel" id="workflows" data-zona="Workflows">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="workflows"></span>
+				<p class="kicker">Workflows</p>
+				<h2>Los procesos que automatizamos primero.</h2>
+			</header>
+			<div class="trabajo">
+				<article class="tarjeta" data-tarjeta tabindex="0">
+					<div class="tarjeta__tarima">
+						<div class="tarjeta__objeto" data-agente="pila" data-escala="7" aria-hidden="true"></div>
+						<span class="tarjeta__piso"></span>
+						<span class="posta posta--tarima" data-posta="wf-0"></span>
+					</div>
+					<h3>Facturación</h3>
+					<p class="tarjeta__texto" data-escribir>Consultas, duplicados y planes de pago resueltos en la misma interacción.</p>
+				</article>
+				<article class="tarjeta" data-tarjeta tabindex="0">
+					<div class="tarjeta__tarima">
+						<div class="tarjeta__objeto" data-agente="cimiento" data-escala="7" aria-hidden="true"></div>
+						<span class="tarjeta__piso"></span>
+						<span class="posta posta--tarima" data-posta="wf-1"></span>
+					</div>
+					<h3>Cobranzas</h3>
+					<p class="tarjeta__texto" data-escribir>Contacto, negociación y seguimiento multicanal de la cartera, con compromisos de pago registrados.</p>
+				</article>
+				<article class="tarjeta" data-tarjeta tabindex="0">
+					<div class="tarjeta__tarima">
+						<div class="tarjeta__objeto" data-agente="ventana" data-escala="7" aria-hidden="true"></div>
+						<span class="tarjeta__piso"></span>
+						<span class="posta posta--tarima" data-posta="wf-2"></span>
+					</div>
+					<h3>Reclamos y averías</h3>
+					<p class="tarjeta__texto" data-escribir>Recepción, clasificación y derivación de reclamos técnicos, con seguimiento hasta la resolución.</p>
+				</article>
+				<article class="tarjeta" data-tarjeta tabindex="0">
+					<div class="tarjeta__tarima">
+						<div class="tarjeta__objeto" data-agente="grafico" data-escala="7" aria-hidden="true"></div>
+						<span class="tarjeta__piso"></span>
+						<span class="posta posta--tarima" data-posta="wf-3"></span>
+					</div>
+					<h3>Altas y cambios de servicio</h3>
+					<p class="tarjeta__texto" data-escribir>Onboarding de nuevos clientes y gestiones de cambio de servicio, de la solicitud a la activación.</p>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<section class="seccion" data-zona="Por qué Codi">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="porque"></span>
+				<p class="kicker">Por qué Codi</p>
+				<h2>Por qué nos eligen en energía y utilities.</h2>
+			</header>
+			<div class="enlaces enlaces--cuatro">
+				<article class="enlace enlace--info">
+					<span class="enlace__num">01</span>
+					<h3>IA de frontera, en producción</h3>
+					<p>Los modelos más avanzados del mercado, gestionando millones de cuentas y reclamos reales.</p>
+				</article>
+				<article class="enlace enlace--info">
+					<span class="enlace__num">02</span>
+					<h3>Una plataforma para toda la empresa</h3>
+					<p>Facturación, cobranzas, reclamos y altas sobre la misma plataforma, conectada con tus sistemas comerciales.</p>
+				</article>
+				<article class="enlace enlace--info">
+					<span class="enlace__num">03</span>
+					<h3>Listo para reguladores</h3>
+					<p>Trazabilidad, seguridad y guardrails para operar servicios esenciales con el estándar que el ente regulador exige.</p>
+				</article>
+				<article class="enlace enlace--info">
+					<span class="enlace__num">04</span>
+					<h3>Un partner, no un vendor</h3>
+					<p>Acompañamos la operación hasta que los tiempos de resolución y la mora mueven la aguja.</p>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<section class="seccion seccion--panel" data-zona="Otras industrias">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="otras"></span>
+				<p class="kicker">Otras industrias</p>
+				<h2>El mismo agente, otro terreno.</h2>
+			</header>
+			<div class="rubros">
+				<a href="/industrias/banca/" class="rubro" data-rubro>
+					<span class="rubro__icono" data-agente="banca" data-escala="6" aria-hidden="true"></span>
+					<span class="posta posta--rubro" aria-hidden="true"></span>
+					<h3>Banca</h3>
+					<p>Donde los workflows más complejos de un banco se convierten en producción lista para reguladores, de punta a punta.</p>
+					<span class="rubro__ir">Ver banca</span>
+				</a>
+				<a href="/industrias/telecom/" class="rubro" data-rubro>
+					<span class="rubro__icono" data-agente="antena" data-escala="6" aria-hidden="true"></span>
+					<span class="posta posta--rubro" aria-hidden="true"></span>
+					<h3>Telecom</h3>
+					<p>Atención y operaciones para millones de clientes, resueltas de punta a punta.</p>
+					<span class="rubro__ir">Ver telecom</span>
+				</a>
+				<a href="/industrias/salud/" class="rubro" data-rubro>
+					<span class="rubro__icono" data-agente="cruz" data-escala="6" aria-hidden="true"></span>
+					<span class="posta posta--rubro" aria-hidden="true"></span>
+					<h3>Salud</h3>
+					<p>La operación clínica y administrativa, sin fricción para pacientes ni equipos.</p>
+					<span class="rubro__ir">Ver salud</span>
+				</a>
+				<a href="/industrias/seguros/" class="rubro" data-rubro>
+					<span class="rubro__icono" data-agente="escudo" data-escala="6" aria-hidden="true"></span>
+					<span class="posta posta--rubro" aria-hidden="true"></span>
+					<h3>Seguros</h3>
+					<p>Cotización, siniestros y renovaciones a la velocidad que el cliente espera.</p>
+					<span class="rubro__ir">Ver seguros</span>
+				</a>
+				<a href="/industrias/retail/" class="rubro" data-rubro>
+					<span class="rubro__icono" data-agente="bolsa" data-escala="6" aria-hidden="true"></span>
+					<span class="posta posta--rubro" aria-hidden="true"></span>
+					<h3>Retail</h3>
+					<p>Venta y atención omnicanal, personalizadas para cada cliente.</p>
+					<span class="rubro__ir">Ver retail</span>
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="cierre" id="hablemos" data-zona="Hablemos">
+		<div class="wrap">
+			<span class="posta posta--cierre" data-posta="cierre"></span>
+			<h2>Contanos qué parte de tu operación te está comiendo el día.</h2>
+			<p class="lead">Te decimos si un agente lo resuelve, cuánto sale y en cuánto tiempo. Si no lo resuelve, también te lo decimos.</p>
+			<form class="form" data-form data-origen="Energía y utilities" novalidate>
+				<div class="form__fila">
+					<label class="campo">
+						<span class="campo__rotulo">Nombre</span>
+						<input type="text" name="nombre" autocomplete="name" required>
+					</label>
+					<label class="campo">
+						<span class="campo__rotulo">Mail de trabajo</span>
+						<input type="email" name="email" autocomplete="email" required>
+					</label>
+				</div>
+				<label class="campo">
+					<span class="campo__rotulo">Empresa <i>opcional</i></span>
+					<input type="text" name="empresa" autocomplete="organization">
+				</label>
+				<label class="campo">
+					<span class="campo__rotulo">Qué parte de tu operación querés resolver</span>
+					<textarea name="mensaje" rows="3" required></textarea>
+				</label>
+
+				<div class="tarro" aria-hidden="true">
+					<label>No completes esto<input type="text" name="empresa_web" tabindex="-1" autocomplete="off"></label>
+				</div>
+
+				<div class="form__pie">
+					<button type="submit" class="btn btn--grande">Contanos</button>
+					<p class="form__aviso" data-aviso role="status"></p>
+				</div>
+			</form>
+
+			<div class="gracias" data-gracias hidden>
+				<div class="gracias__codi" data-agente="viaja1" data-escala="8" aria-hidden="true"></div>
+				<div>
+					<p class="gracias__titulo">Listo, lo tenemos.</p>
+					<p class="gracias__texto">Te escribimos a <b data-gracias-mail></b>. Si es urgente, WhatsApp al <a href="https://wa.me/5491168383333">+54 9 11 6838 3333</a>.</p>
+				</div>
+			</div>
+			<p class="cierre__pie">O escribinos directo: <a href="mailto:info@codi.com.ar">info@codi.com.ar</a> · <a href="https://wa.me/5491168383333">+54 9 11 6838 3333</a></p>
+		</div>
+	</section>
+</main>
+
+<footer class="pie">
+	<div class="wrap pie__grid">
+		<div class="pie__marca">
+			<img src="/assets/img/Codi.svg" alt="Codi" class="marca marca--pie marca--claro" width="110" height="28"><img src="/assets/img/Codi-dark.svg" alt="" aria-hidden="true" class="marca marca--pie marca--oscuro" width="110" height="28">
+			<p>IA aplicada a las operaciones de las empresas. Construido en Argentina, operando a nivel global.</p>
+		</div>
+		<div class="pie__col">
+			<h5>Industrias</h5>
+			<ul>
+				<li><a href="/industrias/banca/">Banca</a></li>
+				<li><a href="/industrias/telecom/">Telecom</a></li>
+				<li><a href="/industrias/salud/">Salud</a></li>
+				<li><a href="/industrias/energia/">Energía y utilities</a></li>
+				<li><a href="/industrias/seguros/">Seguros</a></li>
+				<li><a href="/industrias/retail/">Retail</a></li>
 			</ul>
-			<a href="/contacto/" class="btn btn--small nav__cta">Contactanos</a>
-			<button class="nav__toggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
 		</div>
-	</header>
-
-	<main>
-		<section class="hero">
-			<div class="container">
-				<p class="eyebrow reveal">Industrias</p>
-				<h1 class="h-hero reveal">Energía y utilities</h1>
-				<p class="lead reveal">Facturación, cobranzas y reclamos de servicios esenciales, automatizados.</p>
-			</div>
-		</section>
-
-		<section class="section section--border">
-			<div class="container">
-				<p class="eyebrow reveal">Beneficios</p>
-				<h2 class="h-section reveal">Transformá tus operaciones con IA</h2>
-				<div class="features">
-					<div class="feature reveal">
-						<h3 class="feature__title">Facturación sin fricción</h3>
-						<p class="feature__text">Consultas de facturación resueltas end-to-end, sin derivaciones ni esperas para el cliente.</p>
-					</div>
-					<div class="feature reveal">
-						<h3 class="feature__title">Cobranzas efectivas</h3>
-						<p class="feature__text">Gestión masiva y personalizada de la deuda, con el mensaje correcto por el canal correcto.</p>
-					</div>
-					<div class="feature reveal">
-						<h3 class="feature__title">Reclamos más rápidos</h3>
-						<p class="feature__text">Triage automático y derivación inmediata: cada reclamo llega al equipo correcto desde el primer contacto.</p>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section class="section section--dark section--border">
-			<div class="container">
-				<p class="eyebrow reveal">Workflows</p>
-				<h2 class="h-section reveal">Automatizá tus workflows más críticos</h2>
-				<div class="features">
-					<div class="feature reveal">
-						<h3 class="feature__title">Facturación</h3>
-						<p class="feature__text">Consultas, duplicados y planes de pago resueltos en la misma interacción.</p>
-					</div>
-					<div class="feature reveal">
-						<h3 class="feature__title">Cobranzas</h3>
-						<p class="feature__text">Contacto, negociación y seguimiento multicanal de la cartera, con compromisos de pago registrados.</p>
-					</div>
-					<div class="feature reveal">
-						<h3 class="feature__title">Reclamos y averías</h3>
-						<p class="feature__text">Recepción, clasificación y derivación de reclamos técnicos, con seguimiento hasta la resolución.</p>
-					</div>
-					<div class="feature reveal">
-						<h3 class="feature__title">Altas y cambios de servicio</h3>
-						<p class="feature__text">Onboarding de nuevos clientes y gestiones de cambio de servicio, de la solicitud a la activación.</p>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section class="section section--border">
-			<div class="container">
-				<p class="eyebrow reveal">Por qué Codi</p>
-				<h2 class="h-section reveal">Por qué eligen Codi</h2>
-				<div class="features">
-					<div class="feature reveal">
-						<h3 class="feature__title">IA de frontera, en producción</h3>
-						<p class="feature__text">Los modelos más avanzados del mercado, gestionando millones de cuentas y reclamos reales.</p>
-					</div>
-					<div class="feature reveal">
-						<h3 class="feature__title">Una plataforma para toda la empresa</h3>
-						<p class="feature__text">Facturación, cobranzas, reclamos y altas sobre la misma plataforma, conectada con tus sistemas comerciales.</p>
-					</div>
-					<div class="feature reveal">
-						<h3 class="feature__title">Enterprise-grade, listo para reguladores</h3>
-						<p class="feature__text">Trazabilidad, seguridad y guardrails para operar servicios esenciales con el estándar que el ente regulador exige.</p>
-					</div>
-					<div class="feature reveal">
-						<h3 class="feature__title">Un partner de implementación, no un vendor</h3>
-						<p class="feature__text">Acompañamos la operación hasta que los tiempos de resolución y la mora mueven la aguja.</p>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section class="cta-final">
-			<div class="container">
-				<h2 class="reveal">Transformá tu modelo operativo con Codi.</h2>
-				<a href="/contacto/" class="btn reveal">Contactanos</a>
-			</div>
-		</section>
-	</main>
-
-	<footer class="footer">
-		<div class="container">
-			<div class="footer__grid">
-				<div class="footer__brand">
-					<img src="/assets/img/Codi-dark.svg" alt="Codi">
-					<p>IA aplicada a las operaciones de las empresas. Construido en Argentina, operando a nivel global.</p>
-				</div>
-				<div class="footer__col">
-					<h5>Plataforma</h5>
-					<ul>
-						<li><a href="/plataforma/">Overview</a></li>
-						<li><a href="/estudio/">Codi Studio</a></li>
-						<li><a href="/apps/">Apps a medida</a></li>
-					</ul>
-				</div>
-				<div class="footer__col">
-					<h5>Empresa</h5>
-					<ul>
-						<li><a href="/implementacion/">Implementación</a></li>
-						<li><a href="/transformacion/">Transformación</a></li>
-						<li><a href="/industrias/">Industrias</a></li>
-						<li><a href="/nosotros/">Nosotros</a></li>
-						<li><a href="/contacto/">Contacto</a></li>
-					</ul>
-				</div>
-				<div class="footer__col">
-					<h5>Contacto</h5>
-					<ul>
-						<li><a href="mailto:info@codi.com.ar">info@codi.com.ar</a></li>
-						<li class="footer__phone"><span>Argentina</span><a href="tel:+5491168383333">+54 9 11 6838 3333</a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="footer__bottom">
-				<p>© 2026 Codi. Todos los derechos reservados.</p>
-				<div class="footer__social">
-					<a href="https://wa.me/5491168383333" aria-label="WhatsApp"><img src="/assets/img/icon-whatsapp.png" alt="WhatsApp"></a>
-				</div>
-			</div>
+		<div class="pie__col">
+			<h5>Codi</h5>
+			<ul>
+				<li><a href="/plataforma/">Plataforma</a></li>
+				<li><a href="/estudio/">Codi Studio</a></li>
+				<li><a href="/apps/">Apps a medida</a></li>
+				<li><a href="/nosotros/">Nosotros</a></li>
+			</ul>
 		</div>
-	</footer>
-	<script src="/assets/js/main.js"></script>
+		<div class="pie__col">
+			<h5>Contacto</h5>
+			<ul>
+				<li><a href="mailto:info@codi.com.ar">info@codi.com.ar</a></li>
+				<li><a href="tel:+5491168383333">+54 9 11 6838 3333</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="wrap pie__base">
+		<p>© 2026 Codi</p>
+	</div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
 </body>
 </html>

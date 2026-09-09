@@ -22,7 +22,7 @@ const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 
 /* ───────── el molde ───────── */
 
-function molde({ titulo, descripcion, ruta, cuerpo, jsonld }) {
+function molde({ titulo, descripcion, ruta, cuerpo, jsonld, og }) {
 	return `<!DOCTYPE html>
 <html lang="es-AR">
 <head>
@@ -37,6 +37,14 @@ function molde({ titulo, descripcion, ruta, cuerpo, jsonld }) {
 	<meta property="og:description" content="${esc(descripcion)}" />
 	<meta property="og:url" content="${CODI}${ruta}" />
 	<meta property="og:site_name" content="Codi" />
+	<meta property="og:image" content="${CODI}/assets/og/${og || 'home'}.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="og:image:alt" content="${esc(titulo)}" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="${esc(titulo)}" />
+	<meta name="twitter:description" content="${esc(descripcion)}" />
+	<meta name="twitter:image" content="${CODI}/assets/og/${og || 'home'}.png" />
 	<meta name="theme-color" content="#FFFFFF">
 	<link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -301,6 +309,7 @@ ${hermanas}
 		titulo: `Agentes de IA para ${ind.nombre} · Codi`,
 		descripcion: ind.lead,
 		ruta: `/industrias/${ind.slug}/`,
+		og: `industrias-${ind.slug}`,
 		cuerpo,
 		jsonld
 	});
@@ -402,6 +411,7 @@ ${otras}
 		titulo: `${p.kicker} · Codi`,
 		descripcion: p.lead,
 		ruta: `/${p.slug}/`,
+		og: p.slug,
 		cuerpo
 	});
 }
@@ -519,6 +529,7 @@ ${tarjetas}
 		titulo: 'Industrias · Codi',
 		descripcion: 'Seis industrias donde ya corren agentes de Codi: banca, telecom, salud, energía, seguros y retail.',
 		ruta: '/industrias/',
+		og: 'industrias',
 		cuerpo
 	}));
 	console.log('·', '/industrias/');

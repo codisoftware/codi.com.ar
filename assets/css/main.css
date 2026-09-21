@@ -1635,3 +1635,83 @@ main { view-transition-name: cuerpo; }
 	.casos { gap: 26px; }
 	.enlaces, .enlaces--cuatro { grid-template-columns: 1fr; }
 }
+
+/* ═══════════ agentes como servicio ═══════════ */
+
+/* La franja de estudios va apenas después del hero. Son datos de terceros,
+   no resultados de Codi: la fuente se ve y se puede abrir. */
+.estudios {
+	border-block: 1px solid var(--linea);
+	background: var(--suelo-2);
+	padding: 34px 0;
+}
+.estudios__rotulo {
+	font-family: var(--mono);
+	font-size: .7rem;
+	letter-spacing: .15em;
+	text-transform: uppercase;
+	color: var(--tinta-3);
+	margin-bottom: 20px;
+}
+.estudios__lista {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 28px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.estudios__lista li { display: grid; gap: 6px; align-content: start; }
+.estudios__lista strong {
+	font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+	font-weight: 800;
+	letter-spacing: -.035em;
+	color: var(--tinta);
+	line-height: 1;
+}
+.estudios__lista span { color: var(--tinta-2); font-size: .94rem; line-height: 1.45; }
+.estudios__lista a {
+	font-family: var(--mono);
+	font-size: .72rem;
+	color: var(--tinta-3);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+.estudios__lista a:hover { color: var(--cian-txt); }
+
+/* la grilla de rubros: cuatro, con la métrica que importa */
+.rubros--cuatro { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.rubro__dato {
+	margin-top: 14px;
+	padding-top: 12px;
+	border-top: 1px solid var(--linea);
+	font-size: .84rem;
+	color: var(--tinta-3);
+	line-height: 1.4;
+}
+.rubro__dato b { color: var(--tinta); font-family: var(--mono); }
+
+/* el problema, en un número grande con su fuente */
+.dato { max-width: 640px; }
+.dato__cifra {
+	font-size: clamp(3rem, 7vw, 5rem);
+	font-weight: 800;
+	letter-spacing: -.04em;
+	line-height: 1;
+	color: var(--tinta);
+}
+.dato__texto { margin-top: 14px; font-size: 1.1rem; color: var(--tinta-2); line-height: 1.5; }
+.dato__fuente { margin-top: 18px; font-family: var(--mono); font-size: .76rem; color: var(--tinta-3); }
+.dato__fuente a { color: var(--cian-txt); }
+.dato--sin { max-width: 620px; color: var(--tinta-2); font-size: 1.05rem; line-height: 1.6; }
+
+.casos--dos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+@media (max-width: 1000px) {
+	.rubros--cuatro { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+	.estudios__lista { grid-template-columns: 1fr; gap: 22px; }
+	.casos--dos { grid-template-columns: 1fr; }
+	.rubro__dato { display: none; }
+}

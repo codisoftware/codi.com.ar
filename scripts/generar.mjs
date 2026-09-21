@@ -14,6 +14,8 @@ import { fileURLToPath } from 'url';
 import { INDUSTRIAS } from '../contenido/industrias.mjs';
 import { PRODUCTO } from '../contenido/plataforma.mjs';
 import { EMPRESA } from '../contenido/empresa.mjs';
+import { RUBROS, ESTUDIOS } from '../contenido/rubros.mjs';
+import { readFileSync } from 'fs';
 
 const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CODI = 'https://codi.com.ar';
@@ -90,11 +92,10 @@ function menu() {
 			<img src="/assets/img/Codi.svg" alt="Codi" class="marca marca--claro" width="96" height="24"><img src="/assets/img/Codi-dark.svg" alt="" aria-hidden="true" class="marca marca--oscuro" width="96" height="24">
 		</a>
 		<ul class="nav__links">
-			<li><a href="/#trabajo">Qué hacemos</a></li>
+			<li><a href="/#rubros">Rubros</a></li>
+			<li><a href="/#ruta">Cómo funciona</a></li>
 			<li><a href="/#casos">Casos</a></li>
-			<li><a href="/#ruta">Cómo trabajamos</a></li>
 			<li><a href="/#industrias">Industrias</a></li>
-			<li><a href="/#plataforma">Plataforma</a></li>
 		</ul>
 		<div class="nav__acciones">
 			<button class="tema" data-tema-boton aria-label="Pasar al modo oscuro" aria-pressed="false">
@@ -127,6 +128,8 @@ ${otras}
 				<li><a href="/plataforma/">Plataforma</a></li>
 				<li><a href="/estudio/">Codi Studio</a></li>
 				<li><a href="/apps/">Apps a medida</a></li>
+				<li><a href="/implementacion/">Implementación</a></li>
+				<li><a href="/transformacion/">Transformación</a></li>
 				<li><a href="/nosotros/">Nosotros</a></li>
 			</ul>
 		</div>
@@ -447,6 +450,173 @@ function paginaContacto() {
 `;
 }
 
+/* ───────── los rubros ─────────
+   Una página por rubro, más dos secciones de la home que salen del mismo
+   dato: la franja de estudios y la grilla de rubros. Se escriben entre
+   marcadores dentro de index.html, así la home y las páginas no se
+   contradicen nunca.
+   ═══════════════════════════════════════════════════════════════════ */
+
+function datoRubro(r) {
+	if (!r.dato) return `<p class="dato dato--sin">${esc(r.sinDato)}</p>`;
+	return `<div class="dato">
+				<p class="dato__cifra">${esc(r.dato.cifra)}</p>
+				<p class="dato__texto">${esc(r.dato.texto)}</p>
+				<p class="dato__fuente">Fuente: <a href="${r.dato.url}" target="_blank" rel="noopener">${esc(r.dato.fuente)}</a></p>
+			</div>`;
+}
+
+function paginaRubro(r) {
+	const pasos = r.pasos.map(([t, d], i) => `\t\t\t\t<article class="enlace enlace--info">
+					<span class="enlace__num">0${i + 1}</span>
+					<h3>${esc(t)}</h3>
+					<p>${esc(d)}</p>
+				</article>`).join('\n');
+
+	const escenas = r.escenas.map(([cuando, que]) => `\t\t\t\t<article class="caso">
+					<p class="caso__tag">${esc(cuando)}</p>
+					<p>${esc(que)}</p>
+				</article>`).join('\n');
+
+	const otros = RUBROS.filter(o => o.slug !== r.slug).map(o => `\t\t\t\t<a href="/rubros/${o.slug}/" class="rubro" data-rubro>
+					<span class="rubro__icono" data-agente="${o.icono}" data-escala="6" aria-hidden="true"></span>
+					<span class="posta posta--rubro" aria-hidden="true"></span>
+					<h3>${esc(o.nombre)}</h3>
+					<p>${esc(o.proceso)}</p>
+					<span class="rubro__ir">Ver ${esc(o.nombre.toLowerCase())}</span>
+				</a>`).join('\n');
+
+	const cuerpo = `	<section class="hero hero--interna">
+		<div class="hero__campo" aria-hidden="true"></div>
+		<div class="wrap">
+			<p class="kicker kicker--vivo"><span class="kicker__pulso"></span><a href="/#rubros" class="kicker__volver">${esc(r.nombre)}</a></p>
+			<h1>${esc(r.gancho)}</h1>
+			<p class="lead">${esc(r.lead)}</p>
+			<div class="hero__cta">
+				<a href="#hablemos" class="btn">Contanos tu operación</a>
+				<a href="#como" class="btn btn--fantasma">Cómo funciona</a>
+			</div>
+			<div class="hero__marca" data-agente="${r.icono}" data-escala="14" aria-hidden="true"></div>
+			<span class="posta posta--hero" data-posta="hero"></span>
+		</div>
+	</section>
+
+	<section class="seccion seccion--panel" data-zona="El problema">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="problema"></span>
+				<p class="kicker">El problema</p>
+				<h2>Lo que se pierde hoy.</h2>
+			</header>
+			${datoRubro(r)}
+		</div>
+	</section>
+
+	<section class="seccion" id="como" data-zona="Cómo funciona">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="como"></span>
+				<p class="kicker">Qué hace el agente</p>
+				<h2>Paso por paso.</h2>
+			</header>
+			<div class="enlaces enlaces--cuatro">
+${pasos}
+			</div>
+		</div>
+	</section>
+
+	<section class="seccion seccion--panel" data-zona="Un día cualquiera">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="escenas"></span>
+				<p class="kicker">Un día cualquiera</p>
+				<h2>Así se ve andando.</h2>
+			</header>
+			<div class="casos casos--dos">
+${escenas}
+			</div>
+		</div>
+	</section>
+
+	<section class="seccion" data-zona="Otros rubros">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="otros"></span>
+				<p class="kicker">Otros rubros</p>
+				<h2>Las mismas piezas, otro negocio.</h2>
+			</header>
+			<div class="rubros">
+${otros}
+			</div>
+		</div>
+	</section>
+
+	<section class="cierre" id="hablemos" data-zona="Hablemos">
+		<div class="wrap">
+			<span class="posta posta--cierre" data-posta="cierre"></span>
+			<h2>Contanos cómo trabaja hoy tu equipo.</h2>
+			<p class="lead">Te decimos qué parte puede tomar un agente, cuánto sale y en cuánto tiempo está andando.</p>
+			${formulario(r.nombre)}
+			<p class="cierre__pie">O escribinos directo: <a href="mailto:info@codi.com.ar">info@codi.com.ar</a> · <a href="https://wa.me/5491168383333">+54 9 11 6838 3333</a></p>
+		</div>
+	</section>`;
+
+	return molde({
+		titulo: `Agentes de IA para ${r.nombre.toLowerCase()} · Codi`,
+		descripcion: r.lead,
+		ruta: `/rubros/${r.slug}/`,
+		cuerpo
+	});
+}
+
+function seccionEstudios() {
+	const items = ESTUDIOS.map(e => `\t\t\t\t<li>
+					<strong>${esc(e.cifra)}</strong>
+					<span>${esc(e.texto)}</span>
+					<a href="${e.url}" target="_blank" rel="noopener">${esc(e.fuente)}</a>
+				</li>`).join('\n');
+	return `	<section class="estudios" aria-label="Estudios del sector">
+		<div class="wrap">
+			<p class="estudios__rotulo">Estudios del sector</p>
+			<ul class="estudios__lista">
+${items}
+			</ul>
+		</div>
+	</section>
+`;
+}
+
+function seccionRubros() {
+	const tarjetas = RUBROS.map(r => `\t\t\t\t<a href="/rubros/${r.slug}/" class="rubro" data-rubro>
+					<span class="rubro__icono" data-agente="${r.icono}" data-escala="6" aria-hidden="true"></span>
+					<span class="posta posta--rubro" aria-hidden="true"></span>
+					<h3>${esc(r.nombre)}</h3>
+					<p>${esc(r.proceso)}</p>
+					<span class="rubro__ir">Ver cómo funciona</span>
+				</a>`).join('\n');
+	return `	<section class="seccion" id="rubros" data-zona="Rubros">
+		<div class="wrap">
+			<header class="seccion__cab seccion__cab--posta">
+				<span class="posta posta--seccion" data-posta="rubros"></span>
+				<p class="kicker">Agentes por rubro</p>
+				<h2>Lo que resolvemos, rubro por rubro.</h2>
+			</header>
+			<div class="rubros rubros--cuatro">
+${tarjetas}
+			</div>
+		</div>
+	</section>
+`;
+}
+
+function inyectar(html, nombre, contenido) {
+	const ini = `<!-- GENERADO:${nombre} -->`, fin = `<!-- /GENERADO:${nombre} -->`;
+	const a = html.indexOf(ini), b = html.indexOf(fin);
+	if (a < 0 || b < a) throw new Error('falta el marcador ' + nombre + ' en index.html');
+	return html.slice(0, a + ini.length) + '\n' + contenido + '\t' + html.slice(b);
+}
+
+
 /* ───────── a escribir ───────── */
 
 let hechas = 0;
@@ -533,6 +703,24 @@ ${tarjetas}
 	}));
 	console.log('·', '/industrias/');
 	hechas++;
+}
+
+for (const r of RUBROS) {
+	const carpeta = join(RAIZ, 'rubros', r.slug);
+	mkdirSync(carpeta, { recursive: true });
+	writeFileSync(join(carpeta, 'index.html'), paginaRubro(r));
+	console.log('·', `/rubros/${r.slug}/`);
+	hechas++;
+}
+
+// la home: sólo las dos secciones que salen de los datos
+{
+	const ruta = join(RAIZ, 'index.html');
+	let home = readFileSync(ruta, 'utf8');
+	home = inyectar(home, 'estudios', seccionEstudios());
+	home = inyectar(home, 'rubros', seccionRubros());
+	writeFileSync(ruta, home);
+	console.log('·', '/ (estudios y rubros)');
 }
 
 console.log(`\n${hechas} páginas generadas.`);

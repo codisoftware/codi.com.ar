@@ -35,6 +35,66 @@
 			'.##..##.'
 		],
 		/* los iconos de cada rubro */
+		camion: [
+			'........',
+			'######..',
+			'######..',
+			'######o#',
+			'########',
+			'.##..##.',
+			'.##..##.',
+			'........'
+		],
+		cruzsola: [
+			'........',
+			'..oooo..',
+			'..oooo..',
+			'oooooooo',
+			'oooooooo',
+			'..oooo..',
+			'..oooo..',
+			'........'
+		],
+		paquete: [
+			'########',
+			'#......#',
+			'###oo###',
+			'###oo###',
+			'###oo###',
+			'###oo###',
+			'#......#',
+			'########'
+		],
+		auricular: [
+			'..####..',
+			'.#....#.',
+			'##.##.##',
+			'##....##',
+			'##.oo.##',
+			'.#....#.',
+			'..#oo#..',
+			'..####..'
+		],
+		carpeta: [
+			'........',
+			'###.....',
+			'########',
+			'#......#',
+			'#.oooo.#',
+			'#......#',
+			'#......#',
+			'########'
+		],
+		equipo: [
+			'##.##.##',
+			'##.##.##',
+			'........',
+			'oooooooo',
+			'oo.oo.oo',
+			'oo.oo.oo',
+			'oo.oo.oo',
+			'........'
+		],
 		casa: [
 			'...##...',
 			'..####..',
@@ -225,11 +285,14 @@
 
 	function dibujar(mapa, escala) {
 		var filas = mapa.length, cols = mapa[0].length;
-		var hueco = escala >= 6 ? 1 : 0;
-		var lado = escala - hueco;
+		// Sin separación entre píxeles: el hueco los volvía cuadraditos sueltos, y eso se
+		// lee como juguete. Pegados, cada dibujo es una forma sólida.
+		var lado = escala;
 
 		var svg = document.createElementNS(SVG_NS, 'svg');
 		svg.setAttribute('class', 'px-agente');
+		// los bordes del píxel no se interpolan: si no, aparecen costuras grises entre bloques
+		svg.setAttribute('shape-rendering', 'crispEdges');
 		svg.setAttribute('width', cols * escala);
 		svg.setAttribute('height', filas * escala);
 		svg.setAttribute('viewBox', '0 0 ' + cols * escala + ' ' + filas * escala);
@@ -687,33 +750,6 @@
 		});
 	}
 
-	/* ───────── el puntero propio ───────── */
-
-	var puntero = document.querySelector('[data-puntero]');
-	if (puntero && window.matchMedia('(hover: hover) and (pointer: fine)').matches && !quieto) {
-		var raton = { x: -100, y: -100 };
-		var TOCABLE = 'a, button, [data-tarjeta], [data-rubro], label';
-
-		document.addEventListener('mousemove', function (e) {
-			raton.x = e.clientX;
-			raton.y = e.clientY;
-			puntero.classList.add('visible');
-
-			var bajo = e.target;
-			puntero.classList.toggle('tocable', !!(bajo.closest && bajo.closest(TOCABLE)));
-			puntero.classList.toggle('texto', !!(bajo.closest && bajo.closest('input, textarea')));
-		}, { passive: true });
-
-		document.addEventListener('mouseleave', function () { puntero.classList.remove('visible'); });
-		document.addEventListener('mouseenter', function () { puntero.classList.add('visible'); });
-
-		requestAnimationFrame(function tic() {
-			// la punta de la flecha cae justo donde está el mouse
-			puntero.style.transform = 'translate3d(' + (raton.x - 2) + 'px,' + (raton.y - 2) + 'px,0)';
-			requestAnimationFrame(tic);
-		});
-	}
-
 	/* ───────── el menú marca dónde estás ───────── */
 
 	var deMenu = Array.prototype.slice.call(document.querySelectorAll('.nav__links a[href^="#"]'));
@@ -756,31 +792,10 @@
 
 	/* ───────── los números de casos suben desde cero ───────── */
 
-	var numeros = Array.prototype.slice.call(document.querySelectorAll('[data-contar]'));
-	if (numeros.length && !quieto) {
-		numeros.forEach(function (n) { n.textContent = '0'; });
-
-		var mirarNumero = new IntersectionObserver(function (entradas, obs) {
-			entradas.forEach(function (e) {
-				if (!e.isIntersecting) return;
-				obs.unobserve(e.target);
-
-				var meta = parseInt(e.target.dataset.contar, 10);
-				var t0 = performance.now();
-				var dur = 1100;
-
-				requestAnimationFrame(function paso(ahora) {
-					var k = Math.min(1, (ahora - t0) / dur);
-					var e2 = 1 - Math.pow(1 - k, 3);   // frena al llegar
-					e.target.textContent = Math.round(meta * e2);
-					if (k < 1) requestAnimationFrame(paso);
-					else e.target.textContent = meta;
-				});
-			});
-		}, { threshold: 0.6 });
-
-		numeros.forEach(function (n) { mirarNumero.observe(n); });
-	}
+	/* 🔴 Los números de Casos NO se animan. Contar desde cero mostraba «85%» abajo de
+	   un rótulo que dice 100% y «20/7» donde dice 24/7: un número falso en pantalla es
+	   un número falso, aunque dure 400 ms, y estos tres sostienen la credibilidad de la
+	   página entera. Quedan escritos en el HTML y no los toca nadie. */
 
 	/* ───────── la plataforma entra escalonada ───────── */
 
@@ -872,12 +887,16 @@
 		/* Cuando sale bien, el formulario se va y queda Codi con la
 		   confirmación. Dejar los campos vacíos abajo de un "listo" invita a
 		   mandarlo de nuevo, y encima no se ve que haya pasado nada. */
-		function confirmar(mail) {
+		function confirmar(contacto) {
 			if (!gracias) { decir('Listo, te escribimos.', 'bien'); return; }
 			var donde = gracias.querySelector('[data-gracias-mail]');
-			if (donde) donde.textContent = mail;
+			if (donde) donde.textContent = contacto;
 			form.hidden = true;
 			gracias.hidden = false;
+			/* El bicho se queda acá abajo. Si sigue viajando aparece dos veces (uno en el
+			   «listo, lo tenemos» y otro suelto) y encima se vuelve arriba justo cuando la
+			   persona terminó de escribirnos. */
+			if (viajero) viajero.style.display = 'none';
 		}
 
 		var decir = function (texto, clase) {
@@ -891,6 +910,7 @@
 
 			var datos = {
 				nombre: form.nombre.value.trim(),
+				agente: form.agente ? form.agente.value : '',
 				email: form.email.value.trim(),
 				mensaje: form.mensaje.value.trim(),
 				empresa: form.empresa ? form.empresa.value.trim() : '',
@@ -898,9 +918,11 @@
 				url: window.location.pathname
 			};
 
-			// campos vacíos: marcamos cuál falta en vez de un aviso genérico
+			/* Se pide lo mínimo: el nombre, por cuál agente escribe y el mail. Los detalles
+			   y la empresa son opcionales: el que ya se decidió no tiene que redactar nada
+			   para que le contestemos. */
 			var falta = false;
-			['nombre', 'email', 'mensaje'].forEach(function (k) {
+			['nombre', 'agente', 'email'].forEach(function (k) {
 				var campo = form[k].closest('.campo');
 				var vacio = !datos[k];
 				campo.classList.toggle('mal', vacio);
@@ -914,22 +936,28 @@
 				return;
 			}
 
-			/* Capa 1 del front: el tarro de miel. Capa 2: nadie completa esto en
-			   menos de tres segundos. En los dos casos contestamos como si hubiera
-			   salido bien: decirle a un bot que lo detectaste es regalarle la
-			   pista para ajustar el patrón. */
-			var sospechoso = form.empresa_web.value !== '' || (Date.now() - abierto) < 3000;
-			if (sospechoso) { confirmar(datos.email); return; }
+			/* El tarro de miel: el que lo completa es un bot y se le contesta como si
+			   hubiera salido bien, porque avisarle es regalarle la pista. */
+			if (form.empresa_web.value !== '') { confirmar(datos.email); return; }
+
+			/* Antes, mandar en menos de tres segundos también se descartaba en
+			   silencio, con un "Listo, lo tenemos" arriba. Un autocompletado del
+			   navegador entra en tres segundos: eso era perder leads de verdad. Ahora
+			   el mensaje sale igual, marcado, y decide una persona. */
+			if ((Date.now() - abierto) < 3000) datos.origen += ' · rápido';
+
+			var cuerpo = (datos.mensaje || '(sin detalles)')
+				+ '\n\nAgente: ' + datos.agente
+				+ '\nNombre: ' + datos.nombre
+				+ (datos.empresa ? '\nEmpresa: ' + datos.empresa : '')
+				+ '\nMail: ' + datos.email
+				+ '\n\nLlegó desde: ' + datos.origen + ' (' + datos.url + ')';
+			var asunto = 'Quiere: ' + (datos.agente || 'consulta') + ' · ' + datos.nombre;
 
 			if (!CLAVE_ENVIO) {
 				// Todavía no hay a dónde mandarlo: abrimos el mail ya redactado.
-				var cuerpo = datos.mensaje
-					+ '\n\n' + datos.nombre
-					+ (datos.empresa ? '\n' + datos.empresa : '')
-					+ '\n' + datos.email
-					+ '\n\nLlegó desde: ' + datos.origen + ' (' + datos.url + ')';
 				window.location.href = 'mailto:info@codi.com.ar'
-					+ '?subject=' + encodeURIComponent('Consulta desde ' + datos.origen + ' · ' + datos.nombre)
+					+ '?subject=' + encodeURIComponent(asunto)
 					+ '&body=' + encodeURIComponent(cuerpo);
 				confirmar(datos.email);
 				return;
@@ -942,21 +970,231 @@
 			   ERR_FAILED antes de salir. FormData es un pedido simple. */
 			var sobre = new FormData();
 			sobre.append('access_key', CLAVE_ENVIO);
-			sobre.append('subject', 'Consulta desde ' + datos.origen + ' · ' + datos.nombre);
+			sobre.append('subject', asunto);
 			sobre.append('from_name', datos.nombre + (datos.empresa ? ' (' + datos.empresa + ')' : ''));
 			sobre.append('email', datos.email);
+			sobre.append('agente', datos.agente);
 			sobre.append('empresa', datos.empresa);
 			sobre.append('origen', datos.origen);
 			sobre.append('pagina', datos.url);
-			sobre.append('message', datos.mensaje);
+			sobre.append('message', cuerpo);
 
 			fetch(URL_ENVIO, { method: 'POST', body: sobre })
 				.then(function (r) { return r.json(); }).then(function (r) {
 				if (!r.success) throw new Error('rechazado');
 				confirmar(datos.email);
 			}).catch(function () {
-				decir('No salió. Escribinos a info@codi.com.ar.', 'mal');
+				/* 🔴 Si el servicio de envío falla o la clave se vence, el lead NO se pierde:
+				   se le abre el mail con todo escrito. Nadie de este lado puede ver la
+				   casilla de info@, así que el formulario no puede depender de que ande. */
+				decir('Te abrimos el mail con todo escrito. Si no se abrió solo, mandalo a info@codi.com.ar.', 'mal');
+				window.location.href = 'mailto:info@codi.com.ar'
+					+ '?subject=' + encodeURIComponent(asunto)
+					+ '&body=' + encodeURIComponent(cuerpo);
 			});
 		});
 	}
+
+	/* ───────── el mercado de agentes ─────────
+	   Las conversaciones ya están en el HTML. Esto solo las revela de a una, con la pausa
+	   que tendría alguien escribiendo del otro lado: leer una charla de corrido no se
+	   parece a nada, y lo que vende es el ritmo.
+
+	   Con prefers-reduced-motion se ve la charla entera de una vez. */
+
+	var mercado = document.querySelector('[data-mercado]');
+	if (mercado) {
+		var cartas = Array.prototype.slice.call(mercado.querySelectorAll('[data-carta]'));
+
+		/* Las conversaciones vienen VISIBLES en el HTML: sin JS, y para quien lea el
+		   codigo o lo indexe, se leen enteras. Las esconde el JS, que es el unico que
+		   despues las sabe volver a mostrar. */
+		document.querySelectorAll('[data-demo]').forEach(function (d) { d.hidden = true; });
+		var relojes = [];
+
+		function frenar() {
+			relojes.forEach(clearTimeout);
+			relojes = [];
+			document.querySelectorAll('[data-charla]').forEach(function (c) { c.style.height = ''; });
+			var puntos = document.querySelector('.escribiendo');
+			if (puntos) puntos.remove();
+		}
+
+		// La ficha del caso se abre pegada a la fila de la tarjeta, no al final de la
+		// seccion: abajo de todo la conversacion se leia sin saber de que caso hablaba.
+		var ficha = document.createElement('div');
+		ficha.className = 'ficha';
+		ficha.innerHTML = '<span class="ficha__pico" aria-hidden="true"></span>' +
+			'<div class="ficha__cinta">' +
+			'<p class="ficha__pregunta">¿Es tu caso?</p>' +
+			'<span class="ficha__salidas"></span>' +
+			'<button type="button" class="ficha__cerrar" aria-label="Cerrar el caso">✕</button>' +
+			'</div>';
+		var pico = ficha.querySelector('.ficha__pico');
+
+		// Mientras no se miran, las conversaciones esperan aca: siguen en el HTML para
+		// quien lo lea sin JS y para los buscadores.
+		var deposito = document.createElement('div');
+		deposito.hidden = true;
+		mercado.parentNode.appendChild(deposito);
+
+		var abiertaAhora = null;
+
+		/** Mete la ficha despues de la ultima tarjeta de la misma fila y apunta el pico. */
+		function ubicar(carta, demo) {
+			var fila = cartas.filter(function (c) { return Math.abs(c.offsetTop - carta.offsetTop) < 8; });
+			var ultima = fila[fila.length - 1] || carta;
+			mercado.insertBefore(ficha, ultima.nextSibling);
+			if (demo.parentNode !== ficha) {
+				ficha.appendChild(demo);
+				// El par de botones del caso, clonado arriba: el que ya se decidió no
+				// scrollea tres pantallas para que lo dejen. Se clona, así no hay nueve
+				// pares duplicados en el HTML.
+				var salidas = ficha.querySelector('.ficha__salidas');
+				var acciones = demo.querySelector('.demo__acciones');
+				salidas.innerHTML = '';
+				if (acciones) {
+					Array.prototype.forEach.call(acciones.children, function (a) {
+						salidas.appendChild(a.cloneNode(true));
+					});
+				}
+			}
+			var cajaF = ficha.getBoundingClientRect();
+			var cajaC = carta.getBoundingClientRect();
+			pico.style.left = (cajaC.left - cajaF.left + cajaC.width / 2) + 'px';
+		}
+
+		/* Mueve lo justo: primero intenta que entre el final de la ficha, pero nunca
+		   tanto como para meter la tarjeta abajo de la barra. Una conversación sin su
+		   tarjeta arriba es una pantalla de la que no se sabe de qué habla. */
+		function acomodar(carta) {
+			var barra = 92;
+			var cajaF = ficha.getBoundingClientRect();
+			var cajaC = carta.getBoundingClientRect();
+			var delta = 0;
+			if (cajaF.bottom > window.innerHeight) {
+				delta = Math.min(cajaF.bottom - window.innerHeight + 16, Math.max(0, cajaC.top - barra));
+			} else if (cajaC.top < barra) {
+				delta = cajaC.top - barra;
+			}
+			if (Math.abs(delta) < 4) return;
+			window.scrollBy({ top: delta, behavior: quieto ? 'auto' : 'smooth' });
+		}
+
+		function cerrarTodo() {
+			frenar();
+			cartas.forEach(function (c) {
+				c.setAttribute('aria-expanded', 'false');
+				var r = c.querySelector('.mercado__ver');
+				if (r) r.textContent = 'Ver el caso';
+			});
+			document.querySelectorAll('[data-demo]').forEach(function (d) {
+				d.hidden = true;
+				if (d.parentNode === ficha) deposito.appendChild(d);
+			});
+			if (ficha.parentNode) ficha.parentNode.removeChild(ficha);
+			abiertaAhora = null;
+		}
+
+		ficha.querySelector('.ficha__cerrar').addEventListener('click', function () {
+			var carta = abiertaAhora;
+			cerrarTodo();
+			if (carta) carta.focus();
+		});
+
+		document.addEventListener('keydown', function (e) {
+			if (e.key !== 'Escape' || !abiertaAhora) return;
+			var carta = abiertaAhora;
+			cerrarTodo();
+			carta.focus();
+		});
+
+		// Al cambiar el ancho cambian las filas: la ficha tiene que seguir a su tarjeta.
+		window.addEventListener('resize', function () {
+			if (!abiertaAhora) return;
+			var demo = document.getElementById(abiertaAhora.getAttribute('aria-controls'));
+			if (demo) ubicar(abiertaAhora, demo);
+		});
+
+		function puntitos() {
+			var p = document.createElement('div');
+			p.className = 'escribiendo';
+			p.setAttribute('aria-hidden', 'true');
+			p.innerHTML = '<i></i><i></i><i></i>';
+			return p;
+		}
+
+		/** Revela los globos uno por uno. El agente "escribe" antes de contestar. */
+		function correr(charla) {
+			var globos = Array.prototype.slice.call(charla.querySelectorAll('[data-globo]'));
+			if (quieto) {
+				globos.forEach(function (g) { g.classList.add('puesto'); });
+				return;
+			}
+
+			/* Los puntitos de «escribiendo» entran y salen del flujo, y con ellos crecía y
+			   se achicaba toda la ficha. Como los globos ya están todos en el HTML, el alto
+			   final se mide ANTES de empezar y se clava: lo que empuja el que está
+			   escribiendo son globos que todavía no se ven. */
+			charla.style.height = charla.offsetHeight + 'px';
+			charla.classList.add('corriendo');
+			globos.forEach(function (g) { g.classList.remove('puesto'); });
+
+			var demora = 120;
+			globos.forEach(function (globo) {
+				var esAgente = globo.classList.contains('globo--agente');
+				// Lo que tarda en leerse el mensaje anterior, con tope: una charla no puede
+				// durar más que la paciencia de quien la mira.
+				var pensar = esAgente ? Math.min(450, 260 + globo.textContent.length * 2) : 240;
+
+				if (esAgente || globo === globos[0]) {
+					relojes.push(setTimeout(function () {
+						var p = puntitos();
+						charla.insertBefore(p, globo);
+					}, demora));
+					demora += pensar;
+					relojes.push(setTimeout(function () {
+						var p = charla.querySelector('.escribiendo');
+						if (p) p.remove();
+						globo.classList.add('puesto');
+					}, demora));
+				} else {
+					demora += pensar;
+					relojes.push(setTimeout(function () { globo.classList.add('puesto'); }, demora));
+				}
+				demora += 140;
+			});
+
+			// terminada la charla, el alto vuelve a ser el que pida el texto
+			relojes.push(setTimeout(function () { charla.style.height = ''; }, demora + 200));
+		}
+
+		cartas.forEach(function (carta) {
+			carta.addEventListener('click', function () {
+				var abierta = carta.getAttribute('aria-expanded') === 'true';
+				var demo = document.getElementById(carta.getAttribute('aria-controls'));
+
+				// Cerrar la ficha anterior achica el documento abajo del dedo y la página
+				// se iba 1052 px para arriba. Se anota dónde estaba la tarjeta antes de
+				// cerrar y se la devuelve al mismo lugar después.
+				var antes = carta.getBoundingClientRect().top;
+				cerrarTodo();
+				if (abierta || !demo) return;
+				var corrimiento = carta.getBoundingClientRect().top - antes;
+				if (corrimiento) window.scrollBy({ top: corrimiento, behavior: 'auto' });
+
+				carta.setAttribute('aria-expanded', 'true');
+				var rotulo = carta.querySelector('.mercado__ver');
+				if (rotulo) rotulo.textContent = 'Cerrar';
+				abiertaAhora = carta;
+				ubicar(carta, demo);
+				demo.hidden = false;
+				ubicar(carta, demo);   // ya visible: recien ahora el pico mide bien
+				correr(demo.querySelector('[data-charla]'));
+
+				acomodar(carta);
+			});
+		});
+	}
+
 })();

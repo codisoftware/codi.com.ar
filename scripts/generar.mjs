@@ -60,15 +60,6 @@ function molde({ titulo, descripcion, ruta, cuerpo, jsonld }) {
 ${jsonld || ''}</head>
 <body>
 
-<div class="puntero" data-puntero aria-hidden="true">
-	<svg class="puntero__flecha" width="22" height="28" viewBox="0 0 22 28">
-		<polygon points="2,2 2,21 7,16.5 10.5,24 14,22.4 10.6,15.6 17.4,15.6"/>
-	</svg>
-	<svg class="puntero__mano" width="26" height="30" viewBox="0 0 26 30">
-		<polygon points="7,3 10,3 10,13 12,13 12,11 15,11 15,13 17,13 17,12 20,12 20,21 17,26 10,26 7,22 7,17 4,14 4,11 7,11"/>
-	</svg>
-</div>
-
 <div class="viajero" data-viajero aria-hidden="true"></div>
 
 ${menu()}
@@ -92,10 +83,10 @@ function menu() {
 			<img src="/assets/img/Codi.svg" alt="Codi" class="marca marca--claro" width="96" height="24"><img src="/assets/img/Codi-dark.svg" alt="" aria-hidden="true" class="marca marca--oscuro" width="96" height="24">
 		</a>
 		<ul class="nav__links">
+			<li><a href="/#agentes">Agentes</a></li>
 			<li><a href="/#rubros">Rubros</a></li>
 			<li><a href="/#ruta">Cómo funciona</a></li>
 			<li><a href="/#casos">Casos</a></li>
-			<li><a href="/#industrias">Industrias</a></li>
 		</ul>
 		<div class="nav__acciones">
 			<button class="tema" data-tema-boton aria-label="Pasar al modo oscuro" aria-pressed="false">
@@ -114,7 +105,7 @@ function pie() {
 	<div class="wrap pie__grid">
 		<div class="pie__marca">
 			<img src="/assets/img/Codi.svg" alt="Codi" class="marca marca--pie marca--claro" width="110" height="28"><img src="/assets/img/Codi-dark.svg" alt="" aria-hidden="true" class="marca marca--pie marca--oscuro" width="110" height="28">
-			<p>IA aplicada a las operaciones de las empresas. Construido en Argentina, operando a nivel global.</p>
+			<p>IA aplicada a las operaciones de las empresas. Desde Argentina.</p>
 		</div>
 		<div class="pie__col">
 			<h5>Industrias</h5>
@@ -153,24 +144,56 @@ ${otras}
    ═══════════════════════════════════════════════════════════════════ */
 
 export function formulario(origen) {
-	return `<form class="form" data-form data-origen="${esc(origen)}" novalidate>
+	/* El que llega hasta acá ya se convenció, y hasta ahora el único camino con
+	   jerarquía era el formulario, que es el más lento. El WhatsApp existía como nota
+	   al pie en gris, sin texto armado: a Rodrigo le llegaba un «Hola» pelado. Ahora
+	   los dos caminos están arriba y el mensaje viaja con el origen, que es lo que
+	   convierte un «Hola» en una charla que se puede contestar con algo concreto. */
+	const texto = encodeURIComponent(
+		`Hola Codi. Entré a la web, a la parte de ${origen}. Quiero saber si un agente `
+		+ `me sirve para lo que tengo. Te cuento en qué se nos va el tiempo, ¿arrancamos?`);
+	return `<div class="cierre__salidas">
+				<a class="btn btn--grande" href="https://wa.me/5491168383333?text=${texto}" target="_blank" rel="noopener">Escribinos por WhatsApp</a>
+				<a class="btn btn--fantasma btn--grande" href="mailto:info@codi.com.ar?subject=${encodeURIComponent('Consulta desde ' + origen)}&body=${texto}">Mandar un mail</a>
+			</div>
+			<p class="form__invita">O dejanos los datos y te escribimos nosotros.</p>
+			<form class="form" data-form data-origen="${esc(origen)}" novalidate
+				action="https://api.web3forms.com/submit" method="POST">
+				<input type="hidden" name="access_key" value="5b366589-b055-42c8-aa10-73db464d729b">
+				<input type="hidden" name="subject" value="Consulta desde la web de Codi">
 				<div class="form__fila">
 					<label class="campo">
 						<span class="campo__rotulo">Nombre</span>
 						<input type="text" name="nombre" autocomplete="name" required>
 					</label>
 					<label class="campo">
-						<span class="campo__rotulo">Mail de trabajo</span>
-						<input type="email" name="email" autocomplete="email" required>
+						<span class="campo__rotulo">Empresa <i>opcional</i></span>
+						<input type="text" name="empresa" autocomplete="organization">
 					</label>
 				</div>
 				<label class="campo">
-					<span class="campo__rotulo">Empresa <i>opcional</i></span>
-					<input type="text" name="empresa" autocomplete="organization">
+					<span class="campo__rotulo">¿Por cuál agente nos escribís?</span>
+					<select name="agente" required>
+						<option value="">Elegí uno</option>
+						<option>Contestar dónde está un pedido</option>
+						<option>Recordar vencimientos y reclamar lo impago</option>
+						<option>Dar turnos por WhatsApp</option>
+						<option>Contestar consultas de propiedades</option>
+						<option>Contestar a los compradores a cualquier hora</option>
+						<option>Atender reclamos y avisar a una persona</option>
+						<option>Cargar los comprobantes que llegan</option>
+						<option>Cuadrar el banco contra el sistema</option>
+						<option>Contestar datos internos por chat</option>
+						<option>Todavía no sé / es otra cosa</option>
+					</select>
 				</label>
 				<label class="campo">
-					<span class="campo__rotulo">Qué parte de tu operación querés resolver</span>
-					<textarea name="mensaje" rows="3" required></textarea>
+					<span class="campo__rotulo">Tu mail</span>
+					<input type="email" name="email" autocomplete="email" required>
+				</label>
+				<label class="campo">
+					<span class="campo__rotulo">Contanos un poco más <i>opcional</i></span>
+					<textarea name="mensaje" rows="3"></textarea>
 				</label>
 
 				<div class="tarro" aria-hidden="true">
@@ -187,7 +210,7 @@ export function formulario(origen) {
 				<div class="gracias__codi" data-agente="viaja1" data-escala="8" aria-hidden="true"></div>
 				<div>
 					<p class="gracias__titulo">Listo, lo tenemos.</p>
-					<p class="gracias__texto">Te escribimos a <b data-gracias-mail></b>. Si es urgente, WhatsApp al <a href="https://wa.me/5491168383333">+54 9 11 6838 3333</a>.</p>
+					<p class="gracias__texto">Te escribimos a <b data-gracias-mail></b>. Si es urgente, WhatsApp al <a href="https://wa.me/5491168383333?text=${texto}" target="_blank" rel="noopener">+54 9 11 6838 3333</a>.</p>
 				</div>
 			</div>`;
 }
@@ -299,10 +322,10 @@ ${hermanas}
 	<section class="cierre" id="hablemos" data-zona="Hablemos">
 		<div class="wrap">
 			<span class="posta posta--cierre" data-posta="cierre"></span>
-			<h2>Contanos qué parte de tu operación te está comiendo el día.</h2>
+			<h2>Contanos qué parte de tu operación se lleva más horas.</h2>
 			<p class="lead">Te decimos si un agente lo resuelve, cuánto sale y en cuánto tiempo. Si no lo resuelve, también te lo decimos.</p>
 			${formulario(ind.nombre)}
-			<p class="cierre__pie">O escribinos directo: <a href="mailto:info@codi.com.ar">info@codi.com.ar</a> · <a href="https://wa.me/5491168383333">+54 9 11 6838 3333</a></p>
+			<p class="cierre__pie">O escribinos directo: <a href="mailto:info@codi.com.ar">info@codi.com.ar</a> · <a href="https://wa.me/5491168383333?text=Hola%20Codi.%20Entr%C3%A9%20a%20la%20web%20y%20quiero%20saber%20si%20un%20agente%20me%20sirve%20para%20lo%20que%20tengo.%20Te%20cuento%20en%20qu%C3%A9%20se%20nos%20va%20el%20tiempo%2C%20%C2%BFarrancamos%3F" target="_blank" rel="noopener">+54 9 11 6838 3333</a></p>
 		</div>
 	</section>`;
 
@@ -404,10 +427,10 @@ ${otras}
 	<section class="cierre" id="hablemos" data-zona="Hablemos">
 		<div class="wrap">
 			<span class="posta posta--cierre" data-posta="cierre"></span>
-			<h2>Contanos qué parte de tu operación te está comiendo el día.</h2>
+			<h2>Contanos qué parte de tu operación se lleva más horas.</h2>
 			<p class="lead">Te decimos si un agente lo resuelve, cuánto sale y en cuánto tiempo. Si no lo resuelve, también te lo decimos.</p>
 			${formulario(p.kicker)}
-			<p class="cierre__pie">O escribinos directo: <a href="mailto:info@codi.com.ar">info@codi.com.ar</a> · <a href="https://wa.me/5491168383333">+54 9 11 6838 3333</a></p>
+			<p class="cierre__pie">O escribinos directo: <a href="mailto:info@codi.com.ar">info@codi.com.ar</a> · <a href="https://wa.me/5491168383333?text=Hola%20Codi.%20Entr%C3%A9%20a%20la%20web%20y%20quiero%20saber%20si%20un%20agente%20me%20sirve%20para%20lo%20que%20tengo.%20Te%20cuento%20en%20qu%C3%A9%20se%20nos%20va%20el%20tiempo%2C%20%C2%BFarrancamos%3F" target="_blank" rel="noopener">+54 9 11 6838 3333</a></p>
 		</div>
 	</section>`;
 
@@ -557,7 +580,7 @@ ${otros}
 			<h2>Contanos cómo trabaja hoy tu equipo.</h2>
 			<p class="lead">Te decimos qué parte puede tomar un agente, cuánto sale y en cuánto tiempo está andando.</p>
 			${formulario(r.nombre)}
-			<p class="cierre__pie">O escribinos directo: <a href="mailto:info@codi.com.ar">info@codi.com.ar</a> · <a href="https://wa.me/5491168383333">+54 9 11 6838 3333</a></p>
+			<p class="cierre__pie">O escribinos directo: <a href="mailto:info@codi.com.ar">info@codi.com.ar</a> · <a href="https://wa.me/5491168383333?text=Hola%20Codi.%20Entr%C3%A9%20a%20la%20web%20y%20quiero%20saber%20si%20un%20agente%20me%20sirve%20para%20lo%20que%20tengo.%20Te%20cuento%20en%20qu%C3%A9%20se%20nos%20va%20el%20tiempo%2C%20%C2%BFarrancamos%3F" target="_blank" rel="noopener">+54 9 11 6838 3333</a></p>
 		</div>
 	</section>`;
 
@@ -594,6 +617,12 @@ function seccionRubros() {
 					<p>${esc(r.proceso)}</p>
 					<span class="rubro__ir">Ver cómo funciona</span>
 				</a>`).join('\n');
+
+	// Las industrias reguladas eran una sección aparte que decía lo mismo con otras
+	// palabras. Van acá abajo, como lista: son páginas para leer, no tarjetas para elegir.
+	const reguladas = INDUSTRIAS.map(ind =>
+		`\t\t\t\t\t<li><a href="/industrias/${ind.slug}/">${esc(ind.nombre)}</a></li>`).join('\n');
+
 	return `	<section class="seccion" id="rubros" data-zona="Rubros">
 		<div class="wrap">
 			<header class="seccion__cab seccion__cab--posta">
@@ -603,6 +632,13 @@ function seccionRubros() {
 			</header>
 			<div class="rubros rubros--cuatro">
 ${tarjetas}
+			</div>
+			<div class="reguladas">
+				<span class="ancla" id="industrias" aria-hidden="true"></span>
+				<p class="reguladas__intro">También en industrias donde un error no se perdona, cada una con su página:</p>
+				<ul class="reguladas__lista">
+${reguladas}
+				</ul>
 			</div>
 		</div>
 	</section>
@@ -687,10 +723,10 @@ ${tarjetas}
 	<section class="cierre" id="hablemos" data-zona="Hablemos">
 		<div class="wrap">
 			<span class="posta posta--cierre" data-posta="cierre"></span>
-			<h2>Contanos qué parte de tu operación te está comiendo el día.</h2>
+			<h2>Contanos qué parte de tu operación se lleva más horas.</h2>
 			<p class="lead">Te decimos si un agente lo resuelve, cuánto sale y en cuánto tiempo. Si no lo resuelve, también te lo decimos.</p>
 			${formulario('Industrias')}
-			<p class="cierre__pie">O escribinos directo: <a href="mailto:info@codi.com.ar">info@codi.com.ar</a> · <a href="https://wa.me/5491168383333">+54 9 11 6838 3333</a></p>
+			<p class="cierre__pie">O escribinos directo: <a href="mailto:info@codi.com.ar">info@codi.com.ar</a> · <a href="https://wa.me/5491168383333?text=Hola%20Codi.%20Entr%C3%A9%20a%20la%20web%20y%20quiero%20saber%20si%20un%20agente%20me%20sirve%20para%20lo%20que%20tengo.%20Te%20cuento%20en%20qu%C3%A9%20se%20nos%20va%20el%20tiempo%2C%20%C2%BFarrancamos%3F" target="_blank" rel="noopener">+54 9 11 6838 3333</a></p>
 		</div>
 	</section>`;
 

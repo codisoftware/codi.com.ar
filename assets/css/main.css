@@ -52,7 +52,7 @@
 
 	--tinta:      #E9EEF4;
 	--tinta-2:    #94A2B2;
-	--tinta-3:    #5D6B7B;
+	--tinta-3:    #8392A3;   /* #5D6B7B dejaba cuatro textos chicos abajo de 3,6:1 */
 
 	--cian:       #37A4DC;
 	--cian-txt:   #6FD2FF;
@@ -740,7 +740,7 @@ body.js .hito.encendido .hito__num { color: var(--cian-txt); }
 	.nav__links { display: none; }
 	.nav__toggle { display: flex; }
 	.nav__inner { gap: 0; justify-content: space-between; }
-	.nav__cta { margin-left: auto; margin-right: 12px; }
+	.nav__cta { margin-right: 12px; }
 
 	.nav__links.abierto {
 		display: grid;
@@ -1152,73 +1152,6 @@ body.js .enlace.entro::before { transform: scaleX(1); }
 
 /* ── lo que solo estaba en la copia de abajo ── */
 
-.puntero { display: none; }
-
-
-@media (hover: hover) and (pointer: fine) {
-	body.js,
-	body.js a,
-	body.js button,
-	body.js [data-tarjeta],
-	body.js [data-rubro] { cursor: none; }
-
-	body.js input,
-	body.js textarea { cursor: text; }
-
-	.puntero {
-		display: block;
-		position: fixed;
-		top: 0;
-		left: 0;
-		z-index: 90;
-		pointer-events: none;
-		opacity: 0;
-		will-change: transform;
-		transition: opacity .2s ease;
-	}
-	body.js .puntero.visible { opacity: 1; }
-
-	.puntero__flecha {
-		display: block;
-		transform-origin: 2px 2px;
-		transition: transform .22s var(--curva);
-		filter: drop-shadow(0 0 1.2px rgba(0, 0, 0, .95)) drop-shadow(0 2px 5px rgba(0, 0, 0, .5));
-	}
-	.puntero__flecha polygon {
-		fill: rgba(55, 164, 220, .22);
-		stroke: var(--cian-alto);
-		stroke-width: 1.6;
-		stroke-linejoin: miter;
-		transition: fill .22s ease, stroke .22s ease;
-	}
-
-	/* sobre algo clickeable, la manito */
-	.puntero__flecha { opacity: 1; transition: opacity .16s ease; }
-	.puntero__mano {
-		position: absolute;
-		top: 0;
-		left: 0;
-		display: block;
-		transform: translate(-6.5px, -1px) scale(.86);
-		transform-origin: 8.5px 3px;
-		opacity: 0;
-		transition: opacity .16s ease, transform .22s var(--curva);
-		filter: drop-shadow(0 0 1.2px rgba(0, 0, 0, .95)) drop-shadow(0 2px 5px rgba(0, 0, 0, .5));
-	}
-	.puntero__mano polygon {
-		fill: rgba(111, 210, 255, .26);
-		stroke: var(--cian-alto);
-		stroke-width: 1.6;
-		stroke-linejoin: miter;
-	}
-
-	.puntero.tocable .puntero__flecha { opacity: 0; }
-	.puntero.tocable .puntero__mano { opacity: 1; transform: translate(-6.5px, -1px) scale(1); }
-
-	/* sobre un campo de texto se corre del camino */
-	.puntero.texto { opacity: 0; }
-}
-
 /* ───────── plataforma: el bicho también se posa acá ───────── */
 
 
@@ -1272,7 +1205,6 @@ body.js .enlace.entro::before { transform: scaleX(1); }
 
 .enlace--info:hover { border-color: var(--linea); transform: none; }
 
-body.js .enlace--info { cursor: none; }
 
 
 .cierre .form { margin-bottom: 4px; }
@@ -1284,78 +1216,10 @@ body.js .enlace--info { cursor: none; }
 	opacity: .6;
 	text-transform: none;
 	letter-spacing: 0;
-}Oscuro por decisión: la marca vive en negro con el cian.
-   ═══════════════════════════════════════════════════════════ */
+}
 
 
 body.js .tarjeta .letra.puesta { opacity: 1; }
-
-.puntero { display: none; }
-
-
-@media (hover: hover) and (pointer: fine) {
-	body.js,
-	body.js a,
-	body.js button,
-	body.js [data-tarjeta],
-	body.js [data-rubro] { cursor: none; }
-
-	body.js input,
-	body.js textarea { cursor: text; }
-
-	.puntero {
-		display: block;
-		position: fixed;
-		top: 0;
-		left: 0;
-		z-index: 90;
-		pointer-events: none;
-		opacity: 0;
-		will-change: transform;
-		transition: opacity .2s ease;
-	}
-	body.js .puntero.visible { opacity: 1; }
-
-	.puntero__flecha {
-		display: block;
-		transform-origin: 2px 2px;
-		transition: transform .22s var(--curva);
-		filter: drop-shadow(0 0 1.2px rgba(0, 0, 0, .95)) drop-shadow(0 2px 5px rgba(0, 0, 0, .5));
-	}
-	.puntero__flecha polygon {
-		fill: rgba(55, 164, 220, .22);
-		stroke: var(--cian-alto);
-		stroke-width: 1.6;
-		stroke-linejoin: miter;
-		transition: fill .22s ease, stroke .22s ease;
-	}
-
-	/* sobre algo clickeable, la manito */
-	.puntero__flecha { opacity: 1; transition: opacity .16s ease; }
-	.puntero__mano {
-		position: absolute;
-		top: 0;
-		left: 0;
-		display: block;
-		transform: translate(-6.5px, -1px) scale(.86);
-		transform-origin: 8.5px 3px;
-		opacity: 0;
-		transition: opacity .16s ease, transform .22s var(--curva);
-		filter: drop-shadow(0 0 1.2px rgba(0, 0, 0, .95)) drop-shadow(0 2px 5px rgba(0, 0, 0, .5));
-	}
-	.puntero__mano polygon {
-		fill: rgba(111, 210, 255, .26);
-		stroke: var(--cian-alto);
-		stroke-width: 1.6;
-		stroke-linejoin: miter;
-	}
-
-	.puntero.tocable .puntero__flecha { opacity: 0; }
-	.puntero.tocable .puntero__mano { opacity: 1; transform: translate(-6.5px, -1px) scale(1); }
-
-	/* sobre un campo de texto se corre del camino */
-	.puntero.texto { opacity: 0; }
-}
 
 /* ───────── plataforma: el bicho también se posa acá ───────── */
 
@@ -1410,7 +1274,6 @@ body.js .tarjeta .letra.puesta { opacity: 1; }
 
 .enlace--info:hover { border-color: var(--linea); transform: none; }
 
-body.js .enlace--info { cursor: none; }
 
 
 .cierre .form { margin-bottom: 4px; }
@@ -1467,7 +1330,6 @@ body { transition: background .35s ease, color .35s ease; }
 	transition: border-color .25s ease, color .25s ease, background .25s ease;
 }
 .tema:hover { border-color: var(--cian-txt); color: var(--cian-txt); background: var(--cian-humo); }
-body.js .tema { cursor: none; }
 
 /* Dos iconos enteros, no uno que se transforma: a 20px un sol que muta en
    luna no se entiende, y lo que importa es que se lea de un vistazo. */
@@ -1608,8 +1470,11 @@ main { view-transition-name: cuerpo; }
 	.hero__escena { display: none; }
 	.hero { padding: 120px 0 56px; }
 
-	.nav__inner { grid-template-columns: auto 1fr; }
+	/* El toggle no tenia celda: la grilla le inventaba una segunda fila y el boton
+	   terminaba 5px por debajo del header, flotando sobre el hero. */
+	.nav__inner { grid-template-columns: auto 1fr auto; align-items: center; }
 	.nav__acciones { grid-column: 2; }
+	.nav__toggle { grid-column: 3; width: 44px; height: 44px; }
 	.nav__acciones .tema { width: 40px; height: 36px; }
 }
 
@@ -1715,3 +1580,534 @@ main { view-transition-name: cuerpo; }
 	.casos--dos { grid-template-columns: 1fr; }
 	.rubro__dato { display: none; }
 }
+
+
+/* ═══════════════════════════════════════════════════════════
+   MERCADO DE AGENTES
+   Las tarjetas son el problema del visitante; la conversación es la prueba.
+   Se abre una por vez: dos conversaciones corriendo juntas no se leen.
+   ═══════════════════════════════════════════════════════════ */
+
+.mercado {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 18px;
+}
+
+.mercado__carta {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding: 0;
+	overflow: hidden;
+	background: var(--suelo);
+	border: 1px solid var(--linea-viva);
+	border-radius: 8px;
+	text-align: left;
+	font: inherit;
+	color: inherit;
+	cursor: pointer;
+	box-shadow: 0 1px 0 var(--linea);
+	transition: border-color .25s var(--curva), box-shadow .25s ease, transform .25s var(--curva);
+}
+
+.mercado__carta:hover {
+	border-color: var(--cian);
+	box-shadow: 0 6px 20px -12px var(--sombra);
+	transform: translateY(-2px);
+}
+.mercado__carta:focus-visible { outline: 2px solid var(--cian); outline-offset: 3px; }
+
+.mercado__carta[aria-expanded="true"] {
+	border-color: var(--cian);
+	box-shadow: 0 0 0 1px var(--cian);
+	transform: none;
+}
+
+/* La banda de arriba dice de qué rubro es la escena, y de paso le da a la tarjeta
+   la forma de algo que se elige. */
+.mercado__banda {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 11px 18px;
+	/* 🔴 Sin relleno cian: entre la banda, la línea de ayuda y el botón eran 27 manchas
+	   del mismo color antes de llegar al botón que cobra, y para entonces el cian ya no
+	   significaba nada. Queda la del botón, que es la que se toca. */
+	background: var(--suelo-2);
+	border-bottom: 1px solid var(--linea);
+}
+.mercado__carta[aria-expanded="true"] .mercado__banda {
+	background: var(--cian);
+	border-bottom-color: var(--cian);
+}
+
+.mercado__rubro {
+	font-family: var(--mono);
+	font-size: .68rem;
+	font-weight: 600;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+	color: var(--cian-txt);
+}
+.mercado__carta[aria-expanded="true"] .mercado__rubro { color: var(--sobre-cian); }
+
+/* El puntito es la señal de "esto se elige", como el de una lista de opciones. */
+.mercado__punto {
+	flex: none;
+	width: 15px;
+	height: 15px;
+	border: 1.5px solid var(--cian-hondo);
+	border-radius: 50%;
+	background: transparent;
+	transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.mercado__carta:hover .mercado__punto { border-color: var(--cian); }
+.mercado__carta[aria-expanded="true"] .mercado__punto {
+	background: var(--sobre-cian);
+	border-color: var(--sobre-cian);
+	box-shadow: inset 0 0 0 3px var(--cian);
+}
+
+.mercado__cuerpo {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	padding: 20px 18px 18px;
+}
+
+.mercado__titulo {
+	/* dos renglones reservados: así una tarjeta de título corto mide lo mismo que una de
+	   título largo, sin estirar la fila entera */
+	min-height: 2.6em;
+	font-size: 1.12rem;
+	font-weight: 700;
+	letter-spacing: -.018em;
+	line-height: 1.3;
+	margin-bottom: 10px;
+}
+
+.mercado__texto { min-height: 3.2em; color: var(--tinta-2); font-size: .92rem; line-height: 1.6; }
+
+/* Lo que resuelve, que es lo que la persona vino a buscar: va resaltado y arriba del
+   botón, no perdido adentro del párrafo. */
+.mercado__ayuda {
+	display: block;
+	margin-top: 14px;
+	padding: 8px 0 8px 12px;
+	border-left: 2px solid var(--cian);
+	font-size: .86rem;
+	line-height: 1.5;
+	color: var(--tinta);
+}
+
+.mercado__ver {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	align-self: flex-start;
+	margin-top: auto;
+	padding: 9px 16px 9px 18px;
+	border: 1px solid var(--cian);
+	border-radius: var(--radio);
+	background: var(--cian);
+	font-size: .86rem;
+	font-weight: 600;
+	color: var(--sobre-cian);
+	transition: filter .2s var(--curva), transform .2s var(--curva);
+}
+.mercado__carta:hover .mercado__ver { filter: brightness(1.08); transform: translateX(2px); }
+.mercado__ver::after { content: "→"; }
+
+.mercado__carta[aria-expanded="true"] .mercado__ver::after { content: "↓"; }
+
+/* el botón queda despegado de la línea de ayuda */
+.mercado__ayuda + .mercado__ver { margin-top: 16px; }
+
+.mercado__pie {
+	margin-top: 34px;
+	text-align: center;
+	color: var(--tinta-2);
+	font-size: .94rem;
+}
+.mercado__pie a { color: var(--cian-txt); }
+
+/* ───────── la conversación ───────── */
+
+.demo {
+	display: grid;
+	grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+	gap: 1px;
+	margin-top: 22px;
+	background: var(--linea);
+	border: 1px solid var(--linea);
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.demo[hidden] { display: none; }
+
+.demo__charla { background: var(--suelo-2); padding: 26px 24px; }
+.demo__detras { background: var(--panel); padding: 26px 24px; }
+
+.demo__linea {
+	margin-bottom: 18px;
+	font-family: var(--mono);
+	font-size: .72rem;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+	color: var(--tinta-3);
+}
+
+.charla { display: flex; flex-direction: column; gap: 10px; }
+
+.globo {
+	max-width: 85%;
+	padding: 11px 14px;
+	border-radius: 10px;
+	font-size: .93rem;
+	line-height: 1.55;
+}
+
+.globo--persona {
+	align-self: flex-start;
+	background: var(--panel);
+	border: 1px solid var(--linea);
+	border-bottom-left-radius: 2px;
+	color: var(--tinta);
+}
+
+.globo--agente {
+	align-self: flex-end;
+	background: var(--cian-humo);
+	border: 1px solid var(--cian-hondo);
+	border-bottom-right-radius: 2px;
+	color: var(--tinta);
+}
+
+/* Mientras el JS la va revelando. Sin JS no se agrega la clase y se ve todo. */
+.charla.corriendo .globo { opacity: 0; transform: translateY(6px); }
+.charla.corriendo .globo.puesto {
+	opacity: 1;
+	transform: none;
+	transition: opacity .28s ease, transform .28s var(--curva);
+}
+
+.escribiendo {
+	align-self: flex-end;
+	display: inline-flex;
+	gap: 4px;
+	padding: 13px 14px;
+	background: var(--cian-humo);
+	border: 1px solid var(--cian-hondo);
+	border-radius: 10px;
+	border-bottom-right-radius: 2px;
+}
+.escribiendo i {
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: var(--cian-txt);
+	animation: puntito 1s infinite;
+}
+.escribiendo i:nth-child(2) { animation-delay: .15s; }
+.escribiendo i:nth-child(3) { animation-delay: .3s; }
+
+@keyframes puntito {
+	0%, 60%, 100% { opacity: .25; transform: translateY(0); }
+	30% { opacity: 1; transform: translateY(-3px); }
+}
+
+.detras {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	counter-reset: paso;
+}
+.detras li {
+	position: relative;
+	padding-left: 28px;
+	margin-bottom: 14px;
+	font-size: .9rem;
+	line-height: 1.6;
+	color: var(--tinta-2);
+	counter-increment: paso;
+}
+.detras li::before {
+	content: counter(paso);
+	position: absolute;
+	left: 0;
+	top: 1px;
+	width: 18px;
+	height: 18px;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	background: var(--cian-humo);
+	color: var(--cian-txt);
+	font-family: var(--mono);
+	font-size: .68rem;
+	font-weight: 700;
+}
+
+.demo__linea { color: var(--tinta-2); }   /* 4,33:1 en claro, a 11,5 px */
+.demo__pide {
+	margin: 20px 0 22px;
+	padding-top: 18px;
+	border-top: 1px solid var(--linea);
+	font-size: .86rem;
+	line-height: 1.6;
+	color: var(--tinta-3);
+}
+
+@media (max-width: 900px) {
+	.mercado { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.demo { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 620px) {
+	.mercado { grid-template-columns: minmax(0, 1fr); }
+	.globo { max-width: 92%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mercado__carta:hover { transform: none; }
+	.charla.corriendo .globo { opacity: 1; transform: none; }
+	.escribiendo i { animation: none; }
+}
+
+/* La pregunta va arriba de todo y tiene que frenar al que scrollea: titular más
+   grande que el del resto de las secciones y una línea que la separa del hero. */
+.seccion--pregunta {
+	border-top: 1px solid var(--linea);
+	padding-top: 92px;
+}
+.seccion--pregunta h2 { font-size: clamp(2.1rem, 4.2vw, 3.3rem); }
+.seccion--pregunta .seccion__cab { margin-bottom: 44px; }
+
+/* Las industrias reguladas, abajo de los rubros: son páginas para leer, no tarjetas
+   para elegir, y por eso no compiten con las de arriba. */
+.reguladas {
+	position: relative;
+	margin-top: 40px;
+	padding-top: 28px;
+	border-top: 1px solid var(--linea);
+}
+.ancla { position: absolute; top: -90px; }
+.reguladas__intro { color: var(--tinta-2); font-size: .95rem; margin-bottom: 14px; }
+.reguladas__lista {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px 10px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.reguladas__lista a {
+	display: inline-block;
+	padding: 8px 14px;
+	border: 1px solid var(--linea-viva);
+	border-radius: 999px;
+	font-size: .9rem;
+	font-weight: 500;
+	color: var(--tinta);
+	text-decoration: none;
+	transition: border-color .2s var(--curva), color .2s ease;
+}
+.reguladas__lista a:hover { border-color: var(--cian); color: var(--cian-txt); }
+
+.demo__gana {
+	margin-top: 18px;
+	padding: 12px 14px;
+	background: var(--cian-humo);
+	border-left: 2px solid var(--cian);
+	font-size: .88rem;
+	line-height: 1.6;
+	color: var(--tinta);
+}
+.demo__gana strong { font-weight: 600; }
+
+/* El ahorro se dice una vez y sin vueltas: lo que vuelve son horas, no puestos menos. */
+.mercado__ahorro {
+	max-width: 62ch;
+	margin: 34px auto 0;
+	text-align: center;
+	font-size: 1.02rem;
+	line-height: 1.65;
+	color: var(--tinta);
+}
+.mercado__pie { margin-top: 14px; }
+
+/* Dos mitades: los que hablan con los clientes y los que trabajan para adentro.
+   El rótulo las separa sin meter otra sección. */
+.mercado__rotulo {
+	margin: 30px 0 14px;
+	font-family: var(--mono);
+	font-size: .72rem;
+	font-weight: 600;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+	color: var(--tinta-3);
+}
+.mercado__rotulo:first-child { margin-top: 0; }
+/* el rótulo es una fila entera de la grilla: así los dos grupos comparten la medida */
+.mercado__rotulo { grid-column: 1 / -1; }
+
+/* El icono del área, en la banda: se reconoce antes de leer. */
+.mercado__icono {
+	display: inline-flex;
+	flex: none;
+	color: var(--cian-txt);
+}
+.mercado__icono .px-agente { display: block; }
+.mercado__icono .px-agente rect { fill: currentColor; }
+.mercado__icono .px-agente rect.acc { fill: var(--cian); }
+.mercado__carta[aria-expanded="true"] .mercado__icono { color: var(--sobre-cian); }
+.mercado__carta[aria-expanded="true"] .mercado__icono .px-agente rect.acc { fill: var(--sobre-cian); }
+.mercado__banda { gap: 9px; }
+.mercado__rubro { flex: 1; min-width: 0; }
+
+/* la línea de ayuda reserva dos renglones: si no, las tarjetas vuelven a medir distinto */
+.mercado__ayuda { min-height: 4.4em; }   /* dos renglones, contando el relleno */
+
+/* Las dos salidas del caso: el que ya se decidió manda el WhatsApp con el texto escrito,
+   y el que prefiere mail tiene el asunto y el cuerpo armados. Un clic, no un formulario. */
+.demo__acciones { display: flex; flex-wrap: wrap; gap: 10px; }
+.demo__acciones .btn { padding: 12px 20px; font-size: .9rem; }
+
+/* La ficha del caso. Ocupa la fila entera justo debajo de la tarjeta elegida, con un
+   pico que apunta a cuál: es lo que convierte nueve tarjetas sueltas en un acordeón. */
+.ficha {
+	position: relative;
+	grid-column: 1 / -1;
+	padding-top: 11px;
+}
+.ficha .demo { margin-top: 0; border-color: var(--cian); }
+/* el alto de la barra de arriba, para que al subir la tarjeta no quede tapada */
+.mercado__carta { scroll-margin-top: 92px; }
+.ficha__pico {
+	position: absolute;
+	top: 0;
+	width: 0;
+	height: 0;
+	margin-left: -10px;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 11px solid var(--cian);
+}
+/* La cinta: lo que el que ya se decidió vino a buscar, arriba de la conversación y no
+   tres pantallas más abajo. El que quiere leer todo, lee todo igual. */
+.ficha__cinta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+	padding: 12px 10px 12px 18px;
+	border: 1px solid var(--cian);
+	border-bottom: 0;
+	border-radius: 6px 6px 0 0;
+	background: var(--cian-humo);
+}
+.ficha__pregunta { margin: 0 auto 0 0; font-weight: 600; font-size: .95rem; }
+.ficha__salidas { display: flex; flex-wrap: wrap; gap: 8px; }
+.ficha__cinta .btn { padding: 10px 16px; font-size: .86rem; }
+.ficha .demo { border-radius: 0 0 6px 6px; }
+
+.ficha__cerrar {
+	flex: none;
+	display: grid;
+	place-items: center;
+	width: 44px;
+	height: 44px;
+	padding: 0;
+	border: 1px solid var(--linea);
+	border-radius: var(--radio);
+	background: var(--panel);
+	color: var(--tinta-3);
+	font-size: .78rem;
+	line-height: 1;
+	cursor: pointer;
+	transition: border-color .2s var(--curva), color .2s var(--curva);
+}
+.ficha__cerrar:hover { border-color: var(--cian); color: var(--cian-txt); }
+.ficha__cerrar:focus-visible { outline: 2px solid var(--cian); outline-offset: 2px; }
+
+/* En oscuro los globos quedaban a 1,04:1 contra el fondo de la charla: se leían, pero
+   dejaban de parecer un WhatsApp, que es todo lo que esa pieza tiene que lograr. */
+[data-tema="oscuro"] .globo--persona { background: #232C38; border-color: #3A4857; }
+[data-tema="oscuro"] .globo--agente { background: rgba(55, 164, 220, .22); border-color: #2F7FA8; }
+[data-tema="oscuro"] .mercado__banda { background: var(--panel-alto); }
+
+/* En una sola columna, los alto mínimos que emparejan filas de tres solo agregan aire. */
+@media (max-width: 620px) {
+	.mercado__titulo, .mercado__texto, .mercado__ayuda { min-height: 0; }
+	.ficha__cinta { padding: 12px; }
+	.ficha__pregunta { width: 100%; }
+	.ficha__salidas { flex: 1; }
+	.ficha__cinta .btn { flex: 1; justify-content: center; text-align: center; }
+}
+
+.cierre__cuenta {
+	max-width: 62ch;
+	margin: 14px auto 0;
+	font-size: .95rem;
+	line-height: 1.65;
+	color: var(--tinta-2);
+}
+
+/* El que llegó hasta acá ya se convenció: el camino rápido va arriba, y el formulario
+   abajo con su propia invitación. Antes el WhatsApp era una nota al pie en gris, sin
+   texto armado, y a Rodrigo le llegaba un «Hola» sin contexto. */
+.cierre__salidas {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 12px;
+	margin-top: 26px;
+}
+.form__invita {
+	margin: 30px 0 -10px;
+	font-size: .9rem;
+	color: var(--tinta-3);
+}
+
+/* Lo que cambia para la persona, dicho de una. Va primero y grande: el que mira la
+   ficha vino a ver si esto le saca un problema de encima, no a leer cómo está hecho. */
+.demo__golpe {
+	margin: 0 0 18px;
+	font-size: 1.16rem;
+	font-weight: 600;
+	letter-spacing: -.015em;
+	line-height: 1.35;
+	color: var(--tinta);
+}
+
+/* Con la columna más corta, en escritorio se veían los dos pares de botones a la vez:
+   el de la cinta y el del final. El de abajo queda solo en el celular, donde la charla
+   es larga y volver arriba cuesta. */
+@media (min-width: 901px) {
+	.ficha .demo__acciones { display: none; }
+}
+
+/* El desplegable de «por cuál agente» se viste igual que los campos de texto: si se ve
+   distinto, parece de otro formulario. */
+.campo select {
+	width: 100%;
+	padding: 12px 14px;
+	border: 1px solid var(--linea-viva);
+	border-radius: var(--radio);
+	background: var(--panel);
+	color: var(--tinta);
+	font: inherit;
+	font-size: .95rem;
+	appearance: none;
+	background-image: linear-gradient(45deg, transparent 50%, var(--tinta-3) 50%), linear-gradient(135deg, var(--tinta-3) 50%, transparent 50%);
+	background-position: calc(100% - 19px) calc(50% + 1px), calc(100% - 14px) calc(50% + 1px);
+	background-size: 5px 5px, 5px 5px;
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+.campo select:focus { outline: 2px solid var(--cian); outline-offset: 1px; }
+.campo.mal select { border-color: #D1495B; }

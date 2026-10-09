@@ -2390,3 +2390,27 @@ main { view-transition-name: cuerpo; }
 	cursor: pointer;
 }
 .charlita__globito-cerrar:hover { color: var(--tinta); }
+
+/* La barra de «me interesa». Vive entre la conversación y el campo de escribir,
+   porque el que ya se convenció no tiene que redactar nada para que lo llamen. */
+.charlita__acciones {
+	padding: 10px 12px 0;
+	background: var(--suelo-2);
+}
+.charlita__acciones[hidden] { display: none; }
+.charlita__interesa { width: 100%; justify-content: center; padding: 11px 16px; font-size: .88rem; }
+.charlita__dato { display: flex; gap: 8px; }
+.charlita__dato[hidden] { display: none; }
+.charlita__dato input {
+	flex: 1;
+	min-width: 0;
+	padding: 11px 13px;
+	border: 1px solid var(--cian);
+	border-radius: var(--radio);
+	background: var(--panel);
+	color: var(--tinta);
+	font: inherit;
+	font-size: .9rem;
+}
+.charlita__dato input:focus { outline: 2px solid var(--cian); outline-offset: 1px; }
+.charlita__dato .btn { flex: none; padding: 11px 16px; font-size: .88rem; }

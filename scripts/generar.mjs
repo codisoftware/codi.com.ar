@@ -79,13 +79,21 @@ ${jsonld || ''}</head>
 <section class="charlita" id="charlita" data-charlita hidden aria-label="Chat con el agente de Codi">
 	<header class="charlita__cab">
 		<span class="charlita__nido" data-charlita-nido aria-hidden="true"></span>
-		<p class="charlita__quien">Agente de Codi<span>te contesta al toque</span></p>
+		<p class="charlita__quien">Agente de Codi<span>responde en el momento</span></p>
 		<button type="button" class="charlita__cerrar" data-charlita-cerrar aria-label="Cerrar el chat">✕</button>
 	</header>
 	<div class="charlita__log" data-charlita-log role="log" aria-live="polite"></div>
+	<div class="charlita__acciones" data-charlita-acciones hidden>
+		<button type="button" class="btn charlita__interesa" data-charlita-interesa>Me interesa, que me escriban</button>
+		<form class="charlita__dato" data-charlita-dato hidden>
+			<input type="text" data-charlita-contacto autocomplete="email" maxlength="120"
+			       placeholder="Tu mail o tu WhatsApp" aria-label="Tu mail o tu WhatsApp">
+			<button type="submit" class="btn">Listo</button>
+		</form>
+	</div>
 	<form class="charlita__pie" data-charlita-form>
 		<input type="text" data-charlita-campo autocomplete="off" maxlength="600"
-		       placeholder="Contame qué te come el tiempo" aria-label="Escribí tu mensaje">
+		       placeholder="Contame qué te lleva más tiempo" aria-label="Escribí tu mensaje">
 		<button type="submit" aria-label="Mandar">→</button>
 	</form>
 </section>

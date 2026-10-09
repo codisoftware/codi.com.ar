@@ -1425,6 +1425,10 @@
 		var formul = panel.querySelector('[data-charlita-form]');
 		var campo = panel.querySelector('[data-charlita-campo]');
 		var cerrarBoton = panel.querySelector('[data-charlita-cerrar]');
+		var acciones = panel.querySelector('[data-charlita-acciones]');
+		var botonInteresa = panel.querySelector('[data-charlita-interesa]');
+		var formDato = panel.querySelector('[data-charlita-dato]');
+		var campoDato = panel.querySelector('[data-charlita-contacto]');
 
 		var HOLA = 'Hola. Soy el agente de Codi, el mismo tipo de agente que armamos. Contame qué parte del día se te va en lo que se repite y te digo si hay uno que lo resuelva.';
 		var PENSANDO = 'Escribiendo…';
@@ -1535,8 +1539,30 @@
 			e.preventDefault();
 			var texto = campo.value.trim();
 			if (!texto || ocupado || cerrado) return;
-
 			campo.value = '';
+			mandar(texto);
+		});
+
+		/* El botón de «me interesa» pide una vía de contacto y la manda como un
+		   mensaje más. El servicio ya sabe reconocer un mail o un teléfono en lo
+		   último que llegó, aunque el modelo no lo marque, así que por ese camino
+		   el aviso sale igual: a Telegram y a la planilla. */
+		botonInteresa.addEventListener('click', function () {
+			botonInteresa.hidden = true;
+			formDato.hidden = false;
+			campoDato.focus();
+		});
+
+		formDato.addEventListener('submit', function (e) {
+			e.preventDefault();
+			var dato = campoDato.value.trim();
+			if (!dato || ocupado || cerrado) return;
+			campoDato.value = '';
+			acciones.hidden = true;
+			mandar('Me interesa. Escribime a ' + dato);
+		});
+
+		function mandar(texto) {
 			charlaDicha.push({ rol: 'yo', texto: texto });
 			globo('yo', texto);
 			guardarCharla();
@@ -1559,6 +1585,12 @@
 				charlaDicha.push({ rol: 'bot', texto: d.respuesta });
 				globo('bot', d.respuesta);
 				guardarCharla();
+
+				/* Recién con una respuesta encima hay algo que le pueda interesar. El
+				   botón antes de eso es un cartel de venta arriba de una charla que no
+				   empezó. Y si ya dejó el dato, se va y no vuelve a aparecer. */
+				if (acciones && !d.lead) acciones.hidden = false;
+				if (d.lead && acciones) acciones.hidden = true;
 
 				/* El modelo pidió una persona. El botón se pone en pantalla en vez de
 				   describirlo: el que ya se decidió no tiene que buscar dónde. */
@@ -1590,7 +1622,7 @@
 					if (abierto) campo.focus();
 				}
 			});
-		});
+		}
 	}
 
 

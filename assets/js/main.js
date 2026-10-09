@@ -35,6 +35,16 @@
 			'.##..##.'
 		],
 		/* los iconos de cada rubro */
+		burbuja: [
+			'.######.',
+			'########',
+			'##.oo.##',
+			'##oooo##',
+			'##.oo.##',
+			'########',
+			'.####...',
+			'..##....'
+		],
 		ahorro: [
 			'........',
 			'..oooo..',
@@ -1290,6 +1300,8 @@
 	var panel = document.querySelector('[data-charlita]');
 	if (panel && window.fetch) {
 		var botonEsquina = document.querySelector('[data-charlita-abrir]');
+		var ancla = document.querySelector('.charlita__ancla');
+		var globito = document.querySelector('[data-charlita-globito]');
 		var nido = panel.querySelector('[data-charlita-nido]');
 		var hoja = panel.querySelector('[data-charlita-log]');
 		var formul = panel.querySelector('[data-charlita-form]');
@@ -1339,6 +1351,8 @@
 				viajero.setAttribute('aria-expanded', 'true');
 			}
 			if (botonEsquina) botonEsquina.setAttribute('aria-expanded', 'true');
+			if (ancla) ancla.classList.add('escondida');
+			guardarGlobito();
 			pintarCharla();
 			campo.focus();
 		}
@@ -1352,11 +1366,40 @@
 				viajero.setAttribute('aria-expanded', 'false');
 			}
 			if (botonEsquina) botonEsquina.setAttribute('aria-expanded', 'false');
+			if (ancla) ancla.classList.remove('escondida');
 			// se esconde recién cuando terminó de irse, así la salida se ve
 			setTimeout(function () { if (!abierto) panel.hidden = true; }, 260);
 		}
 
 		function alternar() { if (abierto) cerrarCharla(); else abrirCharla(); }
+
+		/* Se presenta una vez por visita y a los cuatro segundos. Antes tapa el hero,
+		   que es lo que la gente cierra sin leer; y si no aparece nunca, nadie se
+		   entera de que hay alguien a quien preguntarle. */
+		var GLOBITO_VISTO = 'codi-globito';
+
+		function guardarGlobito() {
+			try { sessionStorage.setItem(GLOBITO_VISTO, '1'); } catch (e) {}
+			if (globito) { globito.classList.remove('puesto'); setTimeout(function () { globito.hidden = true; }, 260); }
+		}
+
+		if (globito) {
+			var yaLoVio = false;
+			try { yaLoVio = sessionStorage.getItem(GLOBITO_VISTO) === '1'; } catch (e) {}
+			if (!yaLoVio && !charlaDicha.length) {
+				setTimeout(function () {
+					if (abierto) return;
+					globito.hidden = false;
+					requestAnimationFrame(function () { globito.classList.add('puesto'); });
+					// se va solo: un aviso que se queda para siempre deja de ser un aviso
+					setTimeout(function () { if (!abierto) guardarGlobito(); }, 16000);
+				}, 4000);
+			}
+			globito.addEventListener('click', function (e) {
+				if (e.target.closest('[data-charlita-globito-no]')) { guardarGlobito(); return; }
+				abrirCharla();
+			});
+		}
 
 		if (viajero) {
 			viajero.addEventListener('click', alternar);

@@ -2173,15 +2173,25 @@ main { view-transition-name: cuerpo; }
 .viajero.en-el-nido { z-index: 61; }
 .viajero[role="button"]:focus-visible { outline: 2px solid var(--cian); outline-offset: 6px; }
 
-.charlita__boton {
-	display: none;
+/* 🔴 El launcher es este botón, no el bicho que viaja. Apuntarle a algo que se
+   mueve es difícil y, peor, no se entiende que haya que tocarlo: nadie le apunta
+   a una animación. El viajero sigue andando y sigue respondiendo si lo agarrás,
+   y se para en el panel cuando se abre, pero el que invita es este. */
+.charlita__ancla {
 	position: fixed;
 	right: 16px;
 	bottom: 16px;
 	z-index: 46;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 10px;
+}
+.charlita__boton {
+	display: grid;
 	place-items: center;
-	width: 56px;
-	height: 56px;
+	width: 58px;
+	height: 58px;
 	padding: 0;
 	border: 1px solid var(--linea-viva);
 	border-radius: 50%;
@@ -2190,12 +2200,17 @@ main { view-transition-name: cuerpo; }
 	color: var(--tinta);
 	cursor: pointer;
 }
+.charlita__boton:hover { border-color: var(--cian); transform: translateY(-2px); }
+.charlita__boton:focus-visible { outline: 2px solid var(--cian); outline-offset: 3px; }
+.charlita__boton { transition: border-color .2s var(--curva), transform .2s var(--curva); }
+.charlita__boton-cara { color: var(--cian); }
 .charlita__boton-cara .px-agente { display: block; }
 .charlita__boton-cara .px-agente rect { fill: currentColor; }
 .charlita__boton-cara .px-agente rect.acc { fill: var(--cian); }
 
-@media (max-width: 860px) { .charlita__boton { display: grid; } }
-@media (prefers-reduced-motion: reduce) { body.js .charlita__boton { display: grid; } }
+/* mientras el panel está abierto el botón sobra: lo que hay que ver es el panel */
+.charlita__ancla.escondida { opacity: 0; pointer-events: none; transform: translateY(8px); }
+.charlita__ancla { transition: opacity .2s var(--curva), transform .2s var(--curva); }
 
 .charlita {
 	position: fixed;
@@ -2328,3 +2343,50 @@ main { view-transition-name: cuerpo; }
 @media (max-width: 620px) {
 	.charlita { right: 12px; left: 12px; bottom: 12px; width: auto; max-height: 76vh; }
 }
+
+/* El globito que se presenta solo. Aparece una vez por visita, a los cuatro
+   segundos: antes tapa el hero, y si no aparece nunca nadie descubre que hay
+   alguien para preguntarle, que es justo la gente que más lo necesita. */
+.charlita__globito {
+	position: relative;
+	width: 290px;
+	max-width: calc(100vw - 32px);
+	padding: 14px 16px 14px 16px;
+	border: 1px solid var(--linea-viva);
+	border-radius: 10px 10px 2px 10px;
+	background: var(--panel);
+	box-shadow: 0 12px 34px var(--sombra);
+	cursor: pointer;
+	opacity: 0;
+	transform: translateY(8px);
+	transition: opacity .25s var(--curva), transform .25s var(--curva);
+}
+.charlita__globito[hidden] { display: none; }
+.charlita__globito.puesto { opacity: 1; transform: none; }
+.charlita__globito-titulo { margin: 0 0 4px; font-size: .95rem; font-weight: 700; }
+.charlita__globito-texto { margin: 0; font-size: .88rem; line-height: 1.5; color: var(--tinta-2); }
+.charlita__globito-ej {
+	margin: 8px 0 0;
+	padding-left: 10px;
+	border-left: 2px solid var(--cian);
+	font-size: .84rem;
+	line-height: 1.45;
+	color: var(--tinta-3);
+}
+.charlita__globito-cerrar {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	display: grid;
+	place-items: center;
+	width: 26px;
+	height: 26px;
+	padding: 0;
+	border: 0;
+	border-radius: var(--radio);
+	background: transparent;
+	color: var(--tinta-3);
+	font-size: .7rem;
+	cursor: pointer;
+}
+.charlita__globito-cerrar:hover { color: var(--tinta); }

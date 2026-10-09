@@ -55,10 +55,18 @@
 <div class="viajero" data-viajero role="button" tabindex="0"
      aria-label="Hablar con el agente de Codi" aria-expanded="false" aria-controls="charlita"></div>
 
-<button type="button" class="charlita__boton" data-charlita-abrir
-        aria-label="Hablar con el agente de Codi" aria-expanded="false" aria-controls="charlita">
-	<span class="charlita__boton-cara" data-agente="viaja1" data-escala="4" aria-hidden="true"></span>
-</button>
+<div class="charlita__ancla">
+	<div class="charlita__globito" data-charlita-globito hidden>
+		<button type="button" class="charlita__globito-cerrar" data-charlita-globito-no aria-label="Cerrar el aviso">✕</button>
+		<p class="charlita__globito-titulo">¿Te doy una mano?</p>
+		<p class="charlita__globito-texto">Escribime qué parte del día se te va en lo que se repite y te digo si hay un agente que lo resuelva.</p>
+		<p class="charlita__globito-ej">Por ejemplo: «me preguntan todo el día dónde está el pedido»</p>
+	</div>
+	<button type="button" class="charlita__boton" data-charlita-abrir
+	        aria-label="Hablar con el agente de Codi" aria-expanded="false" aria-controls="charlita">
+		<span class="charlita__boton-cara" data-agente="burbuja" data-escala="4" aria-hidden="true"></span>
+	</button>
+</div>
 
 <section class="charlita" id="charlita" data-charlita hidden aria-label="Chat con el agente de Codi">
 	<header class="charlita__cab">

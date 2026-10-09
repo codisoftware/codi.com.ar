@@ -295,12 +295,12 @@ p { margin: 0; }
 .hero__datos {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 38px;
+	gap: 30px;
 	margin: 52px 0 0;
 	padding-top: 26px;
 	border-top: 1px solid var(--linea);
 }
-.hero__datos div { display: block; }
+.hero__datos div { display: block; max-width: 20ch; }
 .hero__datos dt {
 	font-family: var(--mono);
 	font-size: 1.42rem;
@@ -2111,3 +2111,47 @@ main { view-transition-name: cuerpo; }
 }
 .campo select:focus { outline: 2px solid var(--cian); outline-offset: 1px; }
 .campo.mal select { border-color: #D1495B; }
+
+/* El dato que explica por qué esto urge. Va destacado y con la fuente al lado: un
+   número suelto en una landing no se cree, uno con el estudio al lado sí. */
+.mercado__dato {
+	grid-column: 1 / -1;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin: 0 0 6px;
+	padding: 16px 20px;
+	background: var(--cian-humo);
+	border-left: 3px solid var(--cian);
+	border-radius: 0 var(--radio) var(--radio) 0;
+}
+.mercado__dato-icono { flex: none; display: inline-flex; color: var(--tinta); }
+.mercado__dato-icono .px-agente { display: block; }
+.mercado__dato-icono .px-agente rect { fill: currentColor; }
+.mercado__dato-icono .px-agente rect.acc { fill: var(--cian); }
+
+.mercado__dato-texto {
+	font-size: 1.02rem;
+	line-height: 1.5;
+	color: var(--tinta);
+}
+.mercado__dato-texto b {
+	font-size: 1.26rem;
+	font-weight: 700;
+	letter-spacing: -.02em;
+	color: var(--cian-txt);
+}
+.mercado__fuente {
+	display: block;
+	margin-top: 5px;
+	font-family: var(--mono);
+	font-size: .71rem;
+	letter-spacing: .04em;
+	color: var(--tinta-3);
+}
+
+@media (max-width: 620px) {
+	.mercado__dato { gap: 12px; padding: 14px 16px; }
+	.mercado__dato-texto { font-size: .95rem; }
+}
+

@@ -909,11 +909,36 @@
 		} catch (e) { /* nunca */ }
 	}
 
+	/* Cada clic en un botón de WhatsApp queda anotado. 🔴 No sabemos quién es: WhatsApp
+	   no devuelve nada, así que la fila no tiene nombre ni teléfono. Lo que sí dice es
+	   cuántos llegaron al último paso y por cuál agente, que hoy no se puede contar de
+	   ninguna otra forma. Va por sendBeacon porque el navegador se está yendo a otra app
+	   y un fetch normal se cancela a la mitad. */
+	document.addEventListener('click', function (e) {
+		var a = e.target.closest ? e.target.closest('a[href*="wa.me"]') : null;
+		if (!a || !PLANILLA) return;
+
+		var abierta = document.querySelector('[data-carta][aria-expanded="true"] .mercado__titulo');
+		var dentroDeUnCaso = a.closest('.ficha') || a.closest('[data-demo]');
+		var cual = (dentroDeUnCaso && abierta) ? abierta.textContent.trim() : 'General';
+
+		try {
+			navigator.sendBeacon(PLANILLA, new Blob([JSON.stringify({
+				nombre: '(clic en WhatsApp)',
+				agente: cual,
+				origen: 'Clic WhatsApp',
+				url: window.location.pathname
+			})], { type: 'text/plain;charset=utf-8' }));
+		} catch (err) { /* nunca frena el clic */ }
+	});
+
 	var form = document.querySelector('[data-form]');
 	if (form) {
 		var aviso = form.querySelector('[data-aviso]');
 		var gracias = form.parentNode.querySelector('[data-gracias]');
 		var abierto = Date.now();
+		var mandando = false;
+		var boton = form.querySelector('button[type="submit"]');
 
 		/* Cuando sale bien, el formulario se va y queda Codi con la
 		   confirmación. Dejar los campos vacíos abajo de un "listo" invita a
@@ -938,6 +963,7 @@
 
 		form.addEventListener('submit', function (e) {
 			e.preventDefault();
+			if (mandando) return;
 
 			var datos = {
 				nombre: form.nombre.value.trim(),
@@ -976,6 +1002,13 @@
 			   navegador entra en tres segundos: eso era perder leads de verdad. Ahora
 			   el mensaje sale igual, marcado, y decide una persona. */
 			if ((Date.now() - abierto) < 3000) datos.origen += ' · rápido';
+
+			mandando = true;
+			if (boton) { boton.disabled = true; boton.textContent = 'Mandando…'; }
+			function soltar() {
+				mandando = false;
+				if (boton) { boton.disabled = false; boton.textContent = 'Contanos'; }
+			}
 
 			anotar(datos);
 
@@ -1020,6 +1053,7 @@
 				/* 🔴 Si el servicio de envío falla o la clave se vence, el lead NO se pierde:
 				   se le abre el mail con todo escrito. Nadie de este lado puede ver la
 				   casilla de info@, así que el formulario no puede depender de que ande. */
+				soltar();
 				decir('Te abrimos el mail con todo escrito. Si no se abrió solo, mandalo a info@codi.com.ar.', 'mal');
 				window.location.href = 'mailto:info@codi.com.ar'
 					+ '?subject=' + encodeURIComponent(asunto)

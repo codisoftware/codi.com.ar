@@ -33,7 +33,27 @@
 </head>
 <body>
 
-<div class="viajero" data-viajero aria-hidden="true"></div>
+<div class="viajero" data-viajero role="button" tabindex="0"
+     aria-label="Hablar con el agente de Codi" aria-expanded="false" aria-controls="charlita"></div>
+
+<button type="button" class="charlita__boton" data-charlita-abrir
+        aria-label="Hablar con el agente de Codi" aria-expanded="false" aria-controls="charlita">
+	<span class="charlita__boton-cara" data-agente="viaja1" data-escala="4" aria-hidden="true"></span>
+</button>
+
+<section class="charlita" id="charlita" data-charlita hidden aria-label="Chat con el agente de Codi">
+	<header class="charlita__cab">
+		<span class="charlita__nido" data-charlita-nido aria-hidden="true"></span>
+		<p class="charlita__quien">Agente de Codi<span>te contesta al toque</span></p>
+		<button type="button" class="charlita__cerrar" data-charlita-cerrar aria-label="Cerrar el chat">✕</button>
+	</header>
+	<div class="charlita__log" data-charlita-log role="log" aria-live="polite"></div>
+	<form class="charlita__pie" data-charlita-form>
+		<input type="text" data-charlita-campo autocomplete="off" maxlength="600"
+		       placeholder="Contame qué te come el tiempo" aria-label="Escribí tu mensaje">
+		<button type="submit" aria-label="Mandar">→</button>
+	</form>
+</section>
 
 <header class="nav">
 	<div class="nav__inner">

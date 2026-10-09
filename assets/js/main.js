@@ -666,6 +666,11 @@
 
 	/* ═══════════ el agente viaja de posta en posta ═══════════ */
 
+	/* Cuando el chat está abierto el bicho deja de recorrer la página y se para
+	   en el panel. Es lo que evita que haya dos Codi en la misma pantalla: el
+	   que atiende es el mismo que estaba viajando. */
+	var nidoDelChat = null;
+
 	var viajero = document.querySelector('[data-viajero]');
 	var postas = Array.prototype.slice.call(document.querySelectorAll('[data-posta]'));
 
@@ -696,6 +701,12 @@
 
 		var objetivo = function () {
 			var vh = window.innerHeight;
+
+			// el chat gana contra todo lo demás: ahí es donde lo llamaron
+			if (nidoDelChat) {
+				var n = nidoDelChat.getBoundingClientRect();
+				return { x: n.left + n.width / 2, y: n.top + n.height / 2 };
+			}
 
 			// la escena de la ruta manda mientras está en pantalla
 			if (linea && svgRuta && escenaViva && largo) {
@@ -1263,5 +1274,163 @@
 			});
 		});
 	}
+
+	/* ═══════════ el agente que atiende el sitio ═══════════
+
+	   El servicio vive en el VPS y la clave del modelo también: acá solo está la
+	   dirección. Este repo es compartido y se publica entero.
+
+	   Lo que hace y lo que no lo decide el servidor, no este archivo: los topes
+	   del día, las respuestas enlatadas y el set cerrado de hechos del que no
+	   puede salir están allá. Acá solo se pinta la conversación. */
+
+	var CHARLA_URL = 'https://api.eixol.tech/codi/chat';
+	var CHARLA_GUARDA = 'codi-charla';
+
+	var panel = document.querySelector('[data-charlita]');
+	if (panel && window.fetch) {
+		var botonEsquina = document.querySelector('[data-charlita-abrir]');
+		var nido = panel.querySelector('[data-charlita-nido]');
+		var hoja = panel.querySelector('[data-charlita-log]');
+		var formul = panel.querySelector('[data-charlita-form]');
+		var campo = panel.querySelector('[data-charlita-campo]');
+		var cerrarBoton = panel.querySelector('[data-charlita-cerrar]');
+
+		var HOLA = 'Hola. Soy el agente de Codi, el mismo tipo de agente que armamos. Contame qué parte del día se te va en lo que se repite y te digo si hay uno que lo resuelva.';
+		var PENSANDO = 'Escribiendo…';
+		var CAIDO = 'Se me trabó algo de este lado. Probá de nuevo, o escribinos por WhatsApp.';
+
+		var charlaDicha = [];
+		var ocupado = false, cerrado = false, abierto = false;
+
+		try {
+			var crudo = sessionStorage.getItem(CHARLA_GUARDA);
+			if (crudo) charlaDicha = JSON.parse(crudo) || [];
+		} catch (e) { charlaDicha = []; }
+
+		function guardarCharla() {
+			try { sessionStorage.setItem(CHARLA_GUARDA, JSON.stringify(charlaDicha)); } catch (e) {}
+		}
+
+		function globo(rol, texto) {
+			var el = document.createElement('p');
+			el.className = 'charlita__globo charlita__globo--' + rol;
+			el.textContent = texto;
+			hoja.appendChild(el);
+			hoja.scrollTop = hoja.scrollHeight;
+			return el;
+		}
+
+		function pintarCharla() {
+			hoja.textContent = '';
+			if (!charlaDicha.length) globo('bot', HOLA);
+			else charlaDicha.forEach(function (t) { globo(t.rol, t.texto); });
+		}
+
+		function abrirCharla() {
+			abierto = true;
+			panel.hidden = false;
+			// el alto se mide después de mostrarlo, o el panel entra sin transición
+			requestAnimationFrame(function () { panel.classList.add('abierta'); });
+			if (viajero) {
+				nidoDelChat = nido;
+				// el panel vive más arriba que el bicho: parado en el nido tiene que ganarle
+				viajero.classList.add('en-el-nido');
+				viajero.setAttribute('aria-expanded', 'true');
+			}
+			if (botonEsquina) botonEsquina.setAttribute('aria-expanded', 'true');
+			pintarCharla();
+			campo.focus();
+		}
+
+		function cerrarCharla() {
+			abierto = false;
+			panel.classList.remove('abierta');
+			nidoDelChat = null;
+			if (viajero) {
+				viajero.classList.remove('en-el-nido');
+				viajero.setAttribute('aria-expanded', 'false');
+			}
+			if (botonEsquina) botonEsquina.setAttribute('aria-expanded', 'false');
+			// se esconde recién cuando terminó de irse, así la salida se ve
+			setTimeout(function () { if (!abierto) panel.hidden = true; }, 260);
+		}
+
+		function alternar() { if (abierto) cerrarCharla(); else abrirCharla(); }
+
+		if (viajero) {
+			viajero.addEventListener('click', alternar);
+			viajero.addEventListener('keydown', function (e) {
+				if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); alternar(); }
+			});
+		}
+		if (botonEsquina) botonEsquina.addEventListener('click', alternar);
+		cerrarBoton.addEventListener('click', cerrarCharla);
+		document.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape' && abierto) cerrarCharla();
+		});
+
+		formul.addEventListener('submit', function (e) {
+			e.preventDefault();
+			var texto = campo.value.trim();
+			if (!texto || ocupado || cerrado) return;
+
+			campo.value = '';
+			charlaDicha.push({ rol: 'yo', texto: texto });
+			globo('yo', texto);
+			guardarCharla();
+
+			ocupado = true;
+			campo.disabled = true;
+			var esperando = globo('bot', PENSANDO);
+			esperando.classList.add('charlita__globo--esperando');
+
+			fetch(CHARLA_URL, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ idioma: 'es', mensajes: charlaDicha, pagina: window.location.pathname })
+			}).then(function (r) {
+				if (!r.ok) throw new Error('HTTP ' + r.status);
+				return r.json();
+			}).then(function (d) {
+				if (!d || !d.ok || !d.respuesta) throw new Error('vacía');
+				esperando.remove();
+				charlaDicha.push({ rol: 'bot', texto: d.respuesta });
+				globo('bot', d.respuesta);
+				guardarCharla();
+
+				/* El modelo pidió una persona. El botón se pone en pantalla en vez de
+				   describirlo: el que ya se decidió no tiene que buscar dónde. */
+				if (d.contacto && !panel.querySelector('.charlita__salto')) {
+					var salto = document.createElement('a');
+					salto.className = 'btn charlita__salto';
+					salto.href = 'https://wa.me/5491168383333?text=' + encodeURIComponent(
+						'Hola Codi. Estuve hablando con el agente de la web y quiero seguir por acá.');
+					salto.target = '_blank';
+					salto.rel = 'noopener';
+					salto.textContent = 'Seguir por WhatsApp';
+					hoja.appendChild(salto);
+					hoja.scrollTop = hoja.scrollHeight;
+				}
+				if (d.cerrado) {
+					/* El servicio llegó a un tope. Nunca dice a cuál: quien lo estaba
+					   probando no se lleva la confirmación, y quien preguntaba en serio
+					   se lleva un camino igual. */
+					cerrado = true;
+					formul.hidden = true;
+				}
+			}).catch(function () {
+				esperando.remove();
+				globo('bot', CAIDO);
+			}).then(function () {
+				ocupado = false;
+				if (!cerrado) {
+					campo.disabled = false;
+					if (abierto) campo.focus();
+				}
+			});
+		});
+	}
+
 
 })();

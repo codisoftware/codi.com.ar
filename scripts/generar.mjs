@@ -72,7 +72,7 @@ ${jsonld || ''}</head>
 	</div>
 	<button type="button" class="charlita__boton" data-charlita-abrir
 	        aria-label="Hablar con el agente de Codi" aria-expanded="false" aria-controls="charlita">
-		<span class="charlita__boton-cara" data-agente="burbuja" data-escala="4" aria-hidden="true"></span>
+		<span class="charlita__boton-cara" data-agente="burbuja" data-escala="2" aria-hidden="true"></span>
 	</button>
 </div>
 

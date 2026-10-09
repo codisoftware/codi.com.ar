@@ -208,9 +208,11 @@ export function formulario(origen) {
 
 			<div class="gracias" data-gracias hidden>
 				<div class="gracias__codi" data-agente="viaja1" data-escala="8" aria-hidden="true"></div>
-				<div>
-					<p class="gracias__titulo">Listo, lo tenemos.</p>
-					<p class="gracias__texto">Te escribimos a <b data-gracias-mail></b>. Si es urgente, WhatsApp al <a href="https://wa.me/5491168383333?text=${texto}" target="_blank" rel="noopener">+54 9 11 6838 3333</a>.</p>
+				<div class="gracias__cuerpo">
+					<p class="gracias__titulo">Nos llegó tu mensaje.</p>
+					<p class="gracias__texto">Te contestamos a <b data-gracias-mail></b>.</p>
+					<p class="gracias__texto">Si querés acortar los tiempos, seguimos por WhatsApp.</p>
+					<a class="btn gracias__wa" href="https://wa.me/5491168383333?text=Hola%20Codi.%20Acabo%20de%20dejar%20mis%20datos%20en%20la%20web%20y%20quiero%20ir%20m%C3%A1s%20r%C3%A1pido.%20%C2%BFLo%20vemos%20por%20ac%C3%A1%3F" target="_blank" rel="noopener">Seguir por WhatsApp</a>
 				</div>
 			</div>`;
 }

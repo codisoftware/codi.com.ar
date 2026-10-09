@@ -888,6 +888,27 @@
 	var CLAVE_ENVIO = '5b366589-b055-42c8-aa10-73db464d729b';   // info@codi.com.ar
 	var URL_ENVIO = 'https://api.web3forms.com/submit';
 
+	/* La red: una copia de cada lead en la planilla «Codi · Leads de la web».
+	   El mail va a una casilla que mira una sola persona, así que si no llega, o
+	   nadie la abre, el lead se pierde sin que nadie se entere. La fila queda
+	   escrita igual. Se publica con docs/planilla-leads.gs y acá va la URL que
+	   termina en /exec. Vacío, no hace nada. */
+	var PLANILLA = 'https://script.google.com/macros/s/AKfycbxaBGtrW5Dv0XYwtkdQ5FAelrMHeOwnCB7Ofp9XzY1HQLKgZnY2s-Mw9Ufx0iKHfXX0/exec';
+
+	/* A ciegas a propósito: no se espera la respuesta ni se mira si falló. Esto no
+	   puede frenar ni demorar el envío de verdad, solo acompañarlo. */
+	function anotar(datos) {
+		if (!PLANILLA) return;
+		try {
+			fetch(PLANILLA, {
+				method: 'POST',
+				mode: 'no-cors',
+				headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+				body: JSON.stringify(datos)
+			});
+		} catch (e) { /* nunca */ }
+	}
+
 	var form = document.querySelector('[data-form]');
 	if (form) {
 		var aviso = form.querySelector('[data-aviso]');
@@ -955,6 +976,8 @@
 			   navegador entra en tres segundos: eso era perder leads de verdad. Ahora
 			   el mensaje sale igual, marcado, y decide una persona. */
 			if ((Date.now() - abierto) < 3000) datos.origen += ' · rápido';
+
+			anotar(datos);
 
 			var cuerpo = (datos.mensaje || '(sin detalles)')
 				+ '\n\nAgente: ' + datos.agente
